@@ -2,15 +2,14 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -20,7 +19,9 @@ public class BombermanGame extends Application {
     
     public static final int WIDTH = 20;
     public static final int HEIGHT = 15;
-    
+
+    public static int limW = Sprite.SCALED_SIZE * WIDTH;
+    public static int limH = Sprite.SCALED_SIZE * HEIGHT;
     private GraphicsContext gc;
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
@@ -46,21 +47,69 @@ public class BombermanGame extends Application {
 
         // Them scene vao stage
         stage.setScene(scene);
-        stage.show();
 
+        LongValue lastNanoTime = new LongValue( System.nanoTime() );
+        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        entities.add(bomberman);
+
+        // listen event of entity bomber
+        scene.setOnKeyPressed(
+                new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent e) {
+                        String code = e.getCode().toString();
+                        if(!bomberman.input.contains(code)) {
+                            bomberman.input.add(code);
+                        }
+                    }
+                }
+        );
+
+        scene.setOnKeyReleased(
+                new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent e) {
+                        String code = e.getCode().toString();
+                        bomberman.input.remove(code);
+                    }
+                }
+        );
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 render();
-                update();
+                double elapsedTime = (l - lastNanoTime.value) / 1000000000.0;
+                lastNanoTime.value = l;
+
+                if(bomberman.input.contains("LEFT"))
+                {
+                    bomberman.addVelocity(-Sprite.step,0);
+                    bomberman.setImage(Sprite.player_left_1.getFxImage());
+                } else
+                if(bomberman.input.contains("RIGHT")) {
+                    bomberman.addVelocity(Sprite.step,0);
+                    bomberman.setImage(Sprite.player_right_1.getFxImage());
+                } else
+                if(bomberman.input.contains("UP")) {
+                    bomberman.addVelocity(0, -Sprite.step);
+                    bomberman.setImage(Sprite.player_up_1.getFxImage());
+                } else
+                if(bomberman.input.contains("DOWN")) {
+                    bomberman.addVelocity(0, Sprite.step);
+                    bomberman.setImage(Sprite.player_down_1.getFxImage());
+                }
+                else {
+                    bomberman.addVelocity(0,0);
+
+                }
+                createMap();
+                update(elapsedTime);
             }
         };
         timer.start();
 
-        createMap();
-
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        entities.add(bomberman);
+        //render();
+        stage.show();
     }
 
     public void createMap() {
@@ -78,8 +127,10 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void update() {
-        entities.forEach(Entity::update);
+    public void update(double time) {
+        for(Entity e :entities) {
+            e.update(time);
+        }
     }
 
     public void render() {

@@ -37,4 +37,12 @@ public class SpriteSheet {
 			System.exit(0);
 		}
 	}
+
+	public double getW() {
+		return this.image.getWidth();
+	}
+
+	public double getH() {
+		return this.image.getHeight();
+	}
 }
