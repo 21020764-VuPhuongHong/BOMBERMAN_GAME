@@ -26,7 +26,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
-
+    static int currentFigure_bomber = 0;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -74,29 +74,59 @@ public class BombermanGame extends Application {
                     }
                 }
         );
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 render();
-                double elapsedTime = (l - lastNanoTime.value) / 1000000000.0;
+                double elapsedTime = (l - lastNanoTime.value) / 10000000000.0;
                 lastNanoTime.value = l;
 
                 if(bomberman.input.contains("LEFT"))
                 {
+                    currentFigure_bomber++;
+                    int numpic = currentFigure_bomber % 2;
+                    currentFigure_bomber = numpic;
+                    numpic += 1;
+
                     bomberman.addVelocity(-Sprite.step,0);
-                    bomberman.setImage(Sprite.player_left_1.getFxImage());
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_left_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_left_2.getFxImage());}
+
                 } else
                 if(bomberman.input.contains("RIGHT")) {
+                    currentFigure_bomber++;
+                    int numpic = currentFigure_bomber % 2;
+                    currentFigure_bomber = numpic;
+                    numpic += 1;
+
                     bomberman.addVelocity(Sprite.step,0);
-                    bomberman.setImage(Sprite.player_right_1.getFxImage());
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_right_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_right_2.getFxImage());}
+
                 } else
                 if(bomberman.input.contains("UP")) {
+
+                    currentFigure_bomber++;
+                    int numpic = currentFigure_bomber % 2;
+                    currentFigure_bomber = numpic;
+                    numpic += 1;
+
                     bomberman.addVelocity(0, -Sprite.step);
-                    bomberman.setImage(Sprite.player_up_1.getFxImage());
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_up_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_up_2.getFxImage());}
+
                 } else
                 if(bomberman.input.contains("DOWN")) {
+
+                    currentFigure_bomber++;
+                    int numpic = currentFigure_bomber % 2;
+                    currentFigure_bomber = numpic;
+                    numpic += 1;
+
                     bomberman.addVelocity(0, Sprite.step);
-                    bomberman.setImage(Sprite.player_down_1.getFxImage());
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_down_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_down_2.getFxImage());}
                 }
                 else {
                     bomberman.addVelocity(0,0);
