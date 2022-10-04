@@ -26,6 +26,13 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
+
+    static int currentFigure_bomber_l = 0;
+    static int currentFigure_bomber_r = 0;
+    static int currentFigure_bomber_u = 0;
+    static int currentFigure_bomber_d = 0;
+
+    static Config levelConfig = new Config();
     static int currentFigure_bomber = 0;
 
     public static void main(String[] args) {
@@ -35,7 +42,8 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        levelConfig.buildConfig();
+        canvas = new Canvas(Sprite.SCALED_SIZE * levelConfig.width, Sprite.SCALED_SIZE * levelConfig.height);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
@@ -79,7 +87,7 @@ public class BombermanGame extends Application {
             @Override
             public void handle(long l) {
                 render();
-                double elapsedTime = (l - lastNanoTime.value) / 10000000000.0;
+                double elapsedTime = 0;//(l - lastNanoTime.value) / 1000000000000.0;
                 lastNanoTime.value = l;
 
                 if(bomberman.input.contains("LEFT"))
@@ -130,8 +138,63 @@ public class BombermanGame extends Application {
                 }
                 else {
                     bomberman.addVelocity(0,0);
-
                 }
+
+                /*
+                if (bomberman.input.contains("LEFT")) {
+                    currentFigure_bomber_l++;
+                    if (currentFigure_bomber_l > 2) {
+                        currentFigure_bomber_l = 1;
+                    }
+
+                    bomberman.addVelocity(-Sprite.step, 0);
+                    bomberman.setImage(
+                            Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, currentFigure_bomber_l, 54).getFxImage()
+                    );
+
+                } else if (bomberman.input.contains("RIGHT")) {
+                    currentFigure_bomber_r++;
+                    if (currentFigure_bomber_r > 2) {
+                        currentFigure_bomber_r = 1;
+                    }
+
+                    bomberman.addVelocity(Sprite.step, 0);
+                    bomberman.setImage(
+                            Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, currentFigure_bomber_r, 54).getFxImage()
+                    );
+
+                } else if (bomberman.input.contains("UP")) {
+
+                    currentFigure_bomber_u++;
+                    if (currentFigure_bomber_u > 2) {
+                        currentFigure_bomber_u = 1;
+                    }
+
+                    bomberman.addVelocity(0, -Sprite.step);
+                    bomberman.setImage(
+                            Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, currentFigure_bomber_u, 54).getFxImage()
+                    );
+
+                } else if (bomberman.input.contains("DOWN")) {
+
+                    currentFigure_bomber_d++;
+                    if (currentFigure_bomber_d > 2) {
+                        currentFigure_bomber_d = 1;
+                    }
+
+                    bomberman.addVelocity(0, Sprite.step);
+                    bomberman.setImage(
+                            Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, currentFigure_bomber_d, 54).getFxImage()
+                    );
+                } else {
+                    bomberman.addVelocity(0, 0);
+
+                    //currentFigure_bomber_l = 0;
+                    //currentFigure_bomber_r = 0;
+                    //currentFigure_bomber_u = 0;
+                   // currentFigure_bomber_d = 0;
+                } */
+
                 createMap();
                 update(elapsedTime);
             }
@@ -143,10 +206,13 @@ public class BombermanGame extends Application {
     }
 
     public void createMap() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
+        for (int i = 0; i < levelConfig.width; i++) {
+            for (int j = 0; j < levelConfig.height; j++) {
                 Entity object;
-                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
+                if (j == 0 || j == levelConfig.height - 1 || i == 0 || i == levelConfig.width - 1) {
+                    object = new Wall(i, j, Sprite.wall.getFxImage());
+                }
+                else if(levelConfig.getConfigChar(j, i) == '#') {
                     object = new Wall(i, j, Sprite.wall.getFxImage());
                 }
                 else {

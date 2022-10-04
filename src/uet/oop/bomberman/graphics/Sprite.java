@@ -216,11 +216,21 @@ public class Sprite {
 			}
 		}
 	}
-	
+
+	/*
+	Trong class Sprite thì có 2 methods để hiển thị chuyển động.
+	Như trong hàm trên là mỗi một lượt chuyển động bao gồm 3 hình ảnh.
+	Mỗi hình ảnh kéo dài trong một khoảng diff. và tổng thời gian cho
+	lượt chuyển động này là time. Animate là một bộ đếm khung hình,
+	mỗi một khung hình trôi qua thì biến animate tăng lên 1 đơn vị.
+	 */
+
 	public static Sprite movingSprite(Sprite normal, Sprite x1, Sprite x2, int animate, int time) {
+
+		/*
 		int calc = animate % time;
 		int diff = time / 3;
-		
+
 		if(calc < diff) {
 			return normal;
 		}
@@ -229,12 +239,17 @@ public class Sprite {
 			return x1;
 		}
 			
+		return x2;*/
+
+		if(animate == 0) return normal;
+		if(animate%2 == 0) return x1;
 		return x2;
 	}
 	
-	public static Sprite movingSprite(Sprite x1, Sprite x2, int animate, int time) {
-		int diff = time / 2;
-		return (animate % time > diff) ? x1 : x2; 
+	public static Sprite movingSprite (Sprite x1, Sprite x2, int animate, int time) {
+		//int diff = time / 2;
+		//return (animate % time > diff) ? x1 : x2;
+		return (animate%2 == 0)? x1: x2;
 	}
 	
 	public int getSize() {

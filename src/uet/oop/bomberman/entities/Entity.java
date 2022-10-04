@@ -28,9 +28,9 @@ public abstract class Entity {
     public ArrayList<String> input = new ArrayList<String>();
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
-    public Entity(int xUnit, int yUnit, Image img) {
-        this.x = xUnit * Sprite.SCALED_SIZE;
-        this.y = yUnit * Sprite.SCALED_SIZE;
+    public Entity(int x, int y, Image img) {
+        this.x = x * Sprite.SCALED_SIZE;
+        this.y = y * Sprite.SCALED_SIZE;
         this.img = img;
     }
 
