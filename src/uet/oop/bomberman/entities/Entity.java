@@ -8,14 +8,15 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
+import javafx.geometry.Rectangle2D;
 
 public abstract class Entity {
 
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+    //public static final int WIDTH = 20;
+    //public static final int HEIGHT = 15;
 
-    public static int limW = Sprite.SCALED_SIZE * WIDTH;
-    public static int limH = Sprite.SCALED_SIZE * HEIGHT;
+    //public static int limW = Sprite.SCALED_SIZE * WIDTH;
+    //public static int limH = Sprite.SCALED_SIZE * HEIGHT;
 
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
@@ -26,6 +27,14 @@ public abstract class Entity {
     protected Image img;
 
     public ArrayList<String> input = new ArrayList<String>();
+
+    protected double limH;
+    protected double limW;
+
+    public void setLim(double limH, double limW) {
+        this.limH = limH;
+        this.limW = limW;
+    }
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity(int x, int y, Image img) {
@@ -69,5 +78,21 @@ public abstract class Entity {
             {
                 this.velocityY += val_y;
             }*/
+    }
+
+    public double getWidth() {
+        return this.img.getWidth();
+    }
+
+    public double getHeight() {
+        return this.img.getHeight();
+    }
+
+    public Rectangle2D getBoundary() {
+        return new Rectangle2D(x, y, this.getWidth(), this.getHeight());
+    }
+
+    public boolean intersectsWith(Entity e) {
+        return e.getBoundary().intersects(this.getBoundary());
     }
 }

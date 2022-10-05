@@ -7,7 +7,7 @@ public class Ballom extends Enemy {
         super(x, y , img);
     }
     public void update() {
-        Move.move(this);
+        Move.move(this, this.limH, this.limW);
     }
 }
 

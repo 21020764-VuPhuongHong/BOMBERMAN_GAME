@@ -19,13 +19,13 @@ public class Bomber extends Entity {
     @Override
     public void update() {
 
-        if((this.x + this.velocityX< limW - Sprite.step)
+        if((this.x + this.velocityX < limW)
                 && (this.x + this.velocityX > 0))
         {
             this.x += velocityX;
         }
 
-        if((this.y + this.velocityY < limH - Sprite.step)
+        if((this.y + this.velocityY < limH)
                 && (this.y + this.velocityY > 0)) {
             this.y += velocityY;
         }

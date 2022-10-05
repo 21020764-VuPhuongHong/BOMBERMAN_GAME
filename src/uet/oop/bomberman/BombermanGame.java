@@ -16,12 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BombermanGame extends Application {
-    
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
 
-    public static int limW = Sprite.SCALED_SIZE * WIDTH;
-    public static int limH = Sprite.SCALED_SIZE * HEIGHT;
     private GraphicsContext gc;
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
@@ -35,6 +30,12 @@ public class BombermanGame extends Application {
     static Config levelConfig = new Config();
     static int currentFigure_bomber = 0;
 
+    public static int WIDTH = 20;
+    public static int HEIGHT = 15;
+
+    public static double limW = Sprite.SCALED_SIZE * WIDTH;
+    public static double limH = Sprite.SCALED_SIZE * HEIGHT;
+
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -43,8 +44,14 @@ public class BombermanGame extends Application {
     public void start(Stage stage) {
         // Tao Canvas
         levelConfig.buildConfig();
-        canvas = new Canvas(Sprite.SCALED_SIZE * levelConfig.width, Sprite.SCALED_SIZE * levelConfig.height);
+        // Canvas(double width, double height)
+        canvas = new Canvas(Sprite.SCALED_SIZE * levelConfig.width*1.0, Sprite.SCALED_SIZE * levelConfig.height*1.0);
         gc = canvas.getGraphicsContext2D();
+
+        WIDTH = levelConfig.width;
+        HEIGHT = levelConfig.height;
+        limH = Sprite.SCALED_SIZE * HEIGHT;
+        limW = Sprite.SCALED_SIZE * WIDTH;
 
         // Tao root container
         Group root = new Group();
@@ -59,9 +66,19 @@ public class BombermanGame extends Application {
         LongValue lastNanoTime = new LongValue( System.nanoTime() );
         Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
+        bomberman.setLim(limH - bomberman.getHeight(), limW - bomberman.getWidth());
 
-        Enemy ballom1 = new Ballom(2, 3, Sprite.balloom_left1.getFxImage());
-        entities.add(ballom1);
+        //Enemy ballom1 = new Ballom(2, 3, Sprite.balloom_left1.getFxImage());
+        //entities.add(ballom1);
+        for (int j = 0; j < levelConfig.width; j++) {
+            for (int i = 0; i < levelConfig.height; i++) {
+                if (levelConfig.getConfigChar(i, j) == '1') {
+                    Enemy e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
+                    e.setLim(limH - e.getHeight(), limW - e.getWidth());
+                    entities.add(e);
+                }
+            }
+        }
 
         // listen event of entity bomber
         scene.setOnKeyPressed(
@@ -209,17 +226,18 @@ public class BombermanGame extends Application {
     }
 
     public void createMap() {
-        for (int i = 0; i < levelConfig.width; i++) {
-            for (int j = 0; j < levelConfig.height; j++) {
+
+        for (int j = 0; j < levelConfig.width; j++) {
+            for (int i = 0; i < levelConfig.height; i++) {
                 Entity object;
-                if (j == 0 || j == levelConfig.height - 1 || i == 0 || i == levelConfig.width - 1) {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
+                if (i == 0 || i == levelConfig.height - 1 || j == 0 || j == levelConfig.width - 1) {
+                    object = new Wall(j, i, Sprite.wall.getFxImage());
                 }
-                else if(levelConfig.getConfigChar(j, i) == '#') {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
+                else if(levelConfig.getConfigChar(i, j) == '#') {
+                    object = new Wall(j, i, Sprite.wall.getFxImage());
                 }
                 else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    object = new Grass(j, i, Sprite.grass.getFxImage());
                 }
                 stillObjects.add(object);
             }

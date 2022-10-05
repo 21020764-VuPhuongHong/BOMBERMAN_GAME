@@ -21,6 +21,8 @@ public class Config {
          this.width = myReader.nextInt();
 
          String ignore = myReader.nextLine();
+         System.out.println(height + " " + width);
+
          for(int i = 0; i < height; ++i)
          {
             String str = myReader.nextLine();
@@ -28,9 +30,8 @@ public class Config {
             {
                config[i][j] = str.charAt(j);
             }
+            System.out.println(str);
          }
-
-         System.out.println(height + " " + width);
       }
 
       catch (FileNotFoundException e) {
