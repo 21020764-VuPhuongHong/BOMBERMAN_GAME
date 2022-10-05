@@ -13,7 +13,7 @@ public class Config {
    {
       try{
          File myfile = new File(
-                 "D:\\WorkSpace\\bomberman-starter\\src\\uet\\oop\\bomberman\\entities\\fileConfig.txt"
+                 "src\\uet\\oop\\bomberman\\entities\\fileConfig.txt"
          );
          Scanner myReader = new Scanner(myfile);
          this.l = myReader.nextInt();
