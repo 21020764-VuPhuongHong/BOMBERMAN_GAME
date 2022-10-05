@@ -43,7 +43,7 @@ public abstract class Entity {
         gc.drawImage(img, x, y);
     }
 
-    public abstract void update(double time);
+    public abstract void update();
 
     protected double velocityX;
     protected double velocityY;

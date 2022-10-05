@@ -196,7 +196,7 @@ public class BombermanGame extends Application {
                 } */
 
                 createMap();
-                update(elapsedTime);
+                update();
             }
         };
         timer.start();
@@ -223,9 +223,9 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void update(double time) {
+    public void update() {
         for(Entity e :entities) {
-            e.update(time);
+            e.update();
         }
     }
 

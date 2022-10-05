@@ -17,7 +17,7 @@ public class Bomber extends Entity {
     }
 
     @Override
-    public void update(double time) {
+    public void update() {
 
         if((this.x + this.velocityX< limW - Sprite.step)
                 && (this.x + this.velocityX > 0))
