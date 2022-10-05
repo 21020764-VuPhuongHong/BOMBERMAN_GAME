@@ -60,6 +60,9 @@ public class BombermanGame extends Application {
         Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
 
+        Enemy ballom1 = new Ballom(2, 3, Sprite.balloom_left1.getFxImage());
+        entities.add(ballom1);
+
         // listen event of entity bomber
         scene.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
