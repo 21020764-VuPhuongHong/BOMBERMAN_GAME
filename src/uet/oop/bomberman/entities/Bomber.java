@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Bomber extends Entity {
 
-    public ArrayList <String> input = new ArrayList<String>();
+    public ArrayList <String> input = new ArrayList<>();
     public Bomber(int x, int y, Image img) {
         super( x, y, img);
     }
@@ -29,6 +29,7 @@ public class Bomber extends Entity {
                 && (this.y + this.velocityY > 0)) {
             this.y += velocityY;
         }
+
 
         /*
         if((this.x + this.velocityX*time < limW - Sprite.SCALED_SIZE)

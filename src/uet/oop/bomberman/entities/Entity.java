@@ -19,10 +19,10 @@ public abstract class Entity {
     //public static int limH = Sprite.SCALED_SIZE * HEIGHT;
 
     //Tọa độ X tính từ góc trái trên trong Canvas
-    protected int x;
+    protected static int x;
 
     //Tọa độ Y tính từ góc trái trên trong Canvas
-    protected int y;
+    protected static int y;
 
     protected Image img;
 
@@ -86,6 +86,22 @@ public abstract class Entity {
 
     public double getHeight() {
         return this.img.getHeight();
+    }
+
+    public static int getX() {
+        return x;
+    }
+
+    public static int getY() {
+        return y;
+    }
+
+    public static void setX(int _x) {
+        x = _x;
+    }
+
+    public static void setY(int _y) {
+        y = _y;
     }
 
     public Rectangle2D getBoundary() {
