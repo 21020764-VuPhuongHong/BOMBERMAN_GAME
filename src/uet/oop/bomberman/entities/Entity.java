@@ -80,6 +80,9 @@ public abstract class Entity {
             }*/
     }
 
+    public double getVelocityX() {return this.x;}
+    public double getVelocityY() {return this.y;}
+
     public double getWidth() {
         return this.img.getWidth();
     }
