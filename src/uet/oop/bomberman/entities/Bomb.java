@@ -136,7 +136,7 @@ public class Bomb extends Entity {
                 }
             }
 
-            explosiveState = 1;
+            explosiveState = 0;
         }
 
     }
@@ -191,6 +191,7 @@ public class Bomb extends Entity {
                 middleHorizontalBombs.clear();
                 is_edge = false;
                 is_middle = false;
+                explosiveState = 1;
             }
         }
     }
