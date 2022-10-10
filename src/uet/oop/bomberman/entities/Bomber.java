@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Bomber extends Entity {
 
@@ -42,5 +43,21 @@ public class Bomber extends Entity {
                 {
                     this.y += velocityY*time;
                 }*/
+    }
+
+    @Override
+    public void handleCollapse(List<Entity> entities) {
+        for(Entity e: entities) {
+
+            if(this.intersectsWith(e)) {
+                if((e instanceof Brick) || (e instanceof Wall)) {
+                    double velocityX = this.getVelocityX();
+                    double velocityY = this.getVelocityY();
+                    System.out.println("bick or wall" + velocityX + " " + velocityY);
+                    this.addVelocity(-velocityX, -velocityY);
+                    this.update();
+                }
+            }
+        }
     }
 }

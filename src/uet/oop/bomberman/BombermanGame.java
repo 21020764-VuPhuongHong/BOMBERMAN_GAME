@@ -223,7 +223,7 @@ public class BombermanGame extends Application {
 
                 createMap();
                 update();
-                handleCollapse(bomberman);
+                bomberman.handleCollapse(entities);
             }
         };
         timer.start();
@@ -261,17 +261,5 @@ public class BombermanGame extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
-    }
-
-    public void handleCollapse(Entity bomber) {
-        for(Entity e: entities) {
-
-            if(bomber.intersectsWith(e)) {
-                if((e instanceof Brick) || (e instanceof Wall)) {
-                    bomber.addVelocity(0, 0);
-                    bomber.update();
-                }
-            }
-        }
     }
 }
