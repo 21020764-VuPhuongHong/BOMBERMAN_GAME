@@ -8,6 +8,8 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import javafx.geometry.Rectangle2D;
 
 public abstract class Entity {
@@ -80,6 +82,9 @@ public abstract class Entity {
             }*/
     }
 
+    public double getVelocityX() {return this.velocityX;}
+    public double getVelocityY() {return this.velocityY;}
+
     public double getWidth() {
         return this.img.getWidth();
     }
@@ -111,4 +116,6 @@ public abstract class Entity {
     public boolean intersectsWith(Entity e) {
         return e.getBoundary().intersects(this.getBoundary());
     }
+
+    public void handleCollapse(List<Entity> entities){};
 }

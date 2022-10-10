@@ -70,6 +70,7 @@ public class BombermanGame extends Application {
 
         //Enemy ballom1 = new Ballom(2, 3, Sprite.balloom_left1.getFxImage());
         //entities.add(ballom1);
+        /** create enemy and brick depend on config file**/
         for (int j = 0; j < levelConfig.width; j++) {
             for (int i = 0; i < levelConfig.height; i++) {
                 if (levelConfig.getConfigChar(i, j) == '1') {
@@ -77,6 +78,11 @@ public class BombermanGame extends Application {
                     e.setLim(limH - e.getHeight(), limW - e.getWidth());
                     entities.add(e);
                 }
+                else if(levelConfig.getConfigChar(i, j) == '*') {
+                    Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
+                    entities.add(brick);
+                }
+
             }
         }
 
@@ -107,8 +113,8 @@ public class BombermanGame extends Application {
             @Override
             public void handle(long l) {
                 render();
-                double elapsedTime = 0;//(l - lastNanoTime.value) / 1000000000000.0;
-                lastNanoTime.value = l;
+                //double elapsedTime = 0;//(l - lastNanoTime.value) / 1000000000000.0;
+                //lastNanoTime.value = l;
 
                 if (bomberman.input.contains("LEFT")) {
                     currentFigure_bomber++;
@@ -227,6 +233,7 @@ public class BombermanGame extends Application {
 
                 createMap();
                 update();
+                bomberman.handleCollapse(entities);
             }
         };
         timer.start();
