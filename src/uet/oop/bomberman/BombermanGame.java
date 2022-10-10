@@ -19,7 +19,7 @@ public class BombermanGame extends Application {
 
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
+    public static List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
 
     static int currentFigure_bomber_l = 0;
@@ -161,11 +161,12 @@ public class BombermanGame extends Application {
                     bomberman.addVelocity(0, Sprite.step);
                     if(numpic == 1) { bomberman.setImage(Sprite.player_down_1.getFxImage()); }
                     else {bomberman.setImage(Sprite.player_down_2.getFxImage());}
-                } else if (bomberman.input.contains("SPACE")) {
-                    Bomb.putBomb(entities, bomberman);
-
                 } else {
                     bomberman.addVelocity(0,0);
+                }
+
+                if (bomberman.input.contains("SPACE")) {
+                    Bomb.putBomb(bomberman);
                 }
 
                 /*
@@ -226,8 +227,6 @@ public class BombermanGame extends Application {
                 createMap();
                 update();
                 bomberman.handleCollapse(entities);
-                Bomb.update(entities);
-
             }
         };
         timer.start();
