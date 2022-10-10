@@ -19,7 +19,7 @@ public class BombermanGame extends Application {
 
     private GraphicsContext gc;
     private Canvas canvas;
-    public static List<Entity> entities = new ArrayList<>();
+    private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
 
     static int currentFigure_bomber_l = 0;
@@ -45,7 +45,7 @@ public class BombermanGame extends Application {
         // Tao Canvas
         levelConfig.buildConfig();
         // Canvas(double width, double height)
-        canvas = new Canvas(Sprite.SCALED_SIZE * levelConfig.width * 1.0, Sprite.SCALED_SIZE * levelConfig.height * 1.0);
+        canvas = new Canvas(Sprite.SCALED_SIZE * levelConfig.width*1.0, Sprite.SCALED_SIZE * levelConfig.height*1.0);
         gc = canvas.getGraphicsContext2D();
 
         WIDTH = levelConfig.width;
@@ -63,7 +63,7 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
 
-        LongValue lastNanoTime = new LongValue(System.nanoTime());
+        LongValue lastNanoTime = new LongValue( System.nanoTime() );
         Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
         bomberman.setLim(limH - bomberman.getHeight(), limW - bomberman.getWidth());
@@ -92,7 +92,7 @@ public class BombermanGame extends Application {
                     @Override
                     public void handle(KeyEvent e) {
                         String code = e.getCode().toString();
-                        if (!bomberman.input.contains(code)) {
+                        if(!bomberman.input.contains(code)) {
                             bomberman.input.add(code);
                         }
                     }
@@ -116,33 +116,30 @@ public class BombermanGame extends Application {
                 //double elapsedTime = 0;//(l - lastNanoTime.value) / 1000000000000.0;
                 //lastNanoTime.value = l;
 
-                if (bomberman.input.contains("LEFT")) {
+                if(bomberman.input.contains("LEFT"))
+                {
                     currentFigure_bomber++;
                     int numpic = currentFigure_bomber % 2;
                     currentFigure_bomber = numpic;
                     numpic += 1;
 
-                    bomberman.addVelocity(-Sprite.step, 0);
-                    if (numpic == 1) {
-                        bomberman.setImage(Sprite.player_left_1.getFxImage());
-                    } else {
-                        bomberman.setImage(Sprite.player_left_2.getFxImage());
-                    }
+                    bomberman.addVelocity(-Sprite.step,0);
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_left_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_left_2.getFxImage());}
 
-                } else if (bomberman.input.contains("RIGHT")) {
+                } else
+                if(bomberman.input.contains("RIGHT")) {
                     currentFigure_bomber++;
                     int numpic = currentFigure_bomber % 2;
                     currentFigure_bomber = numpic;
                     numpic += 1;
 
-                    bomberman.addVelocity(Sprite.step, 0);
-                    if (numpic == 1) {
-                        bomberman.setImage(Sprite.player_right_1.getFxImage());
-                    } else {
-                        bomberman.setImage(Sprite.player_right_2.getFxImage());
-                    }
+                    bomberman.addVelocity(Sprite.step,0);
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_right_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_right_2.getFxImage());}
 
-                } else if (bomberman.input.contains("UP")) {
+                } else
+                if(bomberman.input.contains("UP")) {
 
                     currentFigure_bomber++;
                     int numpic = currentFigure_bomber % 2;
@@ -150,13 +147,11 @@ public class BombermanGame extends Application {
                     numpic += 1;
 
                     bomberman.addVelocity(0, -Sprite.step);
-                    if (numpic == 1) {
-                        bomberman.setImage(Sprite.player_up_1.getFxImage());
-                    } else {
-                        bomberman.setImage(Sprite.player_up_2.getFxImage());
-                    }
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_up_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_up_2.getFxImage());}
 
-                } else if (bomberman.input.contains("DOWN")) {
+                } else
+                if(bomberman.input.contains("DOWN")) {
 
                     currentFigure_bomber++;
                     int numpic = currentFigure_bomber % 2;
@@ -164,16 +159,13 @@ public class BombermanGame extends Application {
                     numpic += 1;
 
                     bomberman.addVelocity(0, Sprite.step);
-                    if (numpic == 1) {
-                        bomberman.setImage(Sprite.player_down_1.getFxImage());
-                    } else {
-                        bomberman.setImage(Sprite.player_down_2.getFxImage());
-                    }
+                    if(numpic == 1) { bomberman.setImage(Sprite.player_down_1.getFxImage()); }
+                    else {bomberman.setImage(Sprite.player_down_2.getFxImage());}
                 } else if (bomberman.input.contains("SPACE")) {
-                        Bomb.putBomb();
+                    Bomb.putBomb(entities, bomberman);
 
                 } else {
-                    bomberman.addVelocity(0, 0);
+                    bomberman.addVelocity(0,0);
                 }
 
                 /*
@@ -234,6 +226,8 @@ public class BombermanGame extends Application {
                 createMap();
                 update();
                 bomberman.handleCollapse(entities);
+                Bomb.update(entities);
+
             }
         };
         timer.start();
@@ -249,9 +243,11 @@ public class BombermanGame extends Application {
                 Entity object;
                 if (i == 0 || i == levelConfig.height - 1 || j == 0 || j == levelConfig.width - 1) {
                     object = new Wall(j, i, Sprite.wall.getFxImage());
-                } else if (levelConfig.getConfigChar(i, j) == '#') {
+                }
+                else if(levelConfig.getConfigChar(i, j) == '#') {
                     object = new Wall(j, i, Sprite.wall.getFxImage());
-                } else {
+                }
+                else {
                     object = new Grass(j, i, Sprite.grass.getFxImage());
                 }
                 stillObjects.add(object);
@@ -260,7 +256,7 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        for (Entity e : entities) {
+        for(Entity e :entities) {
             e.update();
         }
     }

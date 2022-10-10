@@ -21,10 +21,10 @@ public abstract class Entity {
     //public static int limH = Sprite.SCALED_SIZE * HEIGHT;
 
     //Tọa độ X tính từ góc trái trên trong Canvas
-    protected static int x;
+    protected int x;
 
     //Tọa độ Y tính từ góc trái trên trong Canvas
-    protected static int y;
+    protected int y;
 
     protected Image img;
 
@@ -82,6 +82,22 @@ public abstract class Entity {
             }*/
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setX(int _x) {
+        x = _x;
+    }
+
+    public void setY(int _y) {
+        y = _y;
+    }
+
     public double getVelocityX() {return this.velocityX;}
     public double getVelocityY() {return this.velocityY;}
 
@@ -91,22 +107,6 @@ public abstract class Entity {
 
     public double getHeight() {
         return this.img.getHeight();
-    }
-
-    public static int getX() {
-        return x;
-    }
-
-    public static int getY() {
-        return y;
-    }
-
-    public static void setX(int _x) {
-        x = _x;
-    }
-
-    public static void setY(int _y) {
-        y = _y;
     }
 
     public Rectangle2D getBoundary() {

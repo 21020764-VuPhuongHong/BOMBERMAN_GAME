@@ -34,16 +34,15 @@ public class Bomb extends Entity {
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
     }
-
-    public static void putBomb() {      // The function used for the bomber to place the bomb
+    public static void putBomb(List<Entity> entities, Entity bomber) {      // The function used for the bomber to place the bomb
         if (bombStatus == 0 && numOfBombs > 0) {
             bombStatus = 1;
             numOfBombs--;
             timeOfBomb = System.currentTimeMillis();
             timeInterval = timeOfBomb;
-            bomb = new Bomb(Bomber.getX(), Bomber.getY(), Sprite.bomb.getFxImage());
-            BombermanGame.entities.add(bomb);
-            id_objects[Bomber.getX()][Bomber.getY()] = 4;
+            bomb = new Bomb(bomber.getX(), bomber.getY(), Sprite.bomb.getFxImage());
+            entities.add(bomb);
+            id_objects[bomber.getX()][bomber.getY()] = 4;
         }
     }
 
@@ -63,7 +62,7 @@ public class Bomb extends Entity {
         }
     }
 
-    public static void createExplodingEdge() {   // Create an egde to prevent the character's movement as well as the explosion range of the bomb
+    public static void createExplodingEdge(List<Entity> entities) {   // Create an egde to prevent the character's movement as well as the explosion range of the bomb
         int i;
         if (Blocked.block_down_bomb(bomb, 0)) {
             edge_down = new Bomb(bomb.getX(), bomb.getY()+ 1, Sprite.bomb_exploded.getFxImage());
@@ -73,8 +72,8 @@ public class Bomb extends Entity {
                     ++power_bomb_down;
                 }
             }
-            
-            BombermanGame.entities.add(edge_down);
+
+            entities.add(edge_down);
         }
 
         if (Blocked.block_up_bomb(bomb, 0)) {
@@ -86,7 +85,7 @@ public class Bomb extends Entity {
                 }
             }
 
-            BombermanGame.entities.add(edge_up);
+            entities.add(edge_up);
         }
 
         if (Blocked.block_left_bomb(bomb, 0)) {
@@ -98,7 +97,7 @@ public class Bomb extends Entity {
                 }
             }
 
-            BombermanGame.entities.add(edge_left);
+            entities.add(edge_left);
         }
 
         if (Blocked.block_right_bomb(bomb, 0)) {
@@ -110,11 +109,11 @@ public class Bomb extends Entity {
                 }
             }
 
-            BombermanGame.entities.add(edge_right);
+            entities.add(edge_right);
         }
     }
 
-    public static void createMiddle() {     // Adjust the bomb to explode at the center position
+    public static void createMiddle(List<Entity> entities) {     // Adjust the bomb to explode at the center position
         Entity middle;
         int i;
         for (i = 1; i <= power_bomb_down; i++) {
@@ -137,8 +136,8 @@ public class Bomb extends Entity {
             middleHorizontalBombs.add(middle);
         }
 
-        BombermanGame.entities.addAll(middleHorizontalBombs);
-        BombermanGame.entities.addAll(middleVerticalBombs);
+        entities.addAll(middleHorizontalBombs);
+        entities.addAll(middleVerticalBombs);
     }
 
     public static void explosionCenter() {      // Determine the explosion center of the bomb
@@ -218,7 +217,7 @@ public class Bomb extends Entity {
 
     }
 
-    private static void checkActive() {     // Check what stages the bomb has gone through before detonating
+    private static void checkActive(List<Entity> entities) {     // Check what stages the bomb has gone through before detonating
         if (bombStatus == 1) {
             if (System.currentTimeMillis() - timeOfBomb < 2000) {
                 swapBombImg();
@@ -231,16 +230,16 @@ public class Bomb extends Entity {
         }
     }
 
-    private static void checkExplosion() {      // Check the bomb's detonation time after the bomb is activated
+    private static void checkExplosion(List<Entity> entities) {      // Check the bomb's detonation time after the bomb is activated
         if (bombStatus == 2) {
             if (System.currentTimeMillis() - timeOfBomb < 1000) {
                 if (!is_edge) {
-                    createExplodingEdge();
+                    createExplodingEdge(entities);
                     is_edge = true;
                 }
 
                 if (power_bomb > 0 && !is_middle) {
-                    createMiddle();
+                    createMiddle(entities);
                     is_middle = true;
                 }
 
@@ -279,8 +278,8 @@ public class Bomb extends Entity {
                     }
                 }
 
-                BombermanGame.entities.removeAll(middleVerticalBombs);
-                BombermanGame.entities.removeAll(middleHorizontalBombs);
+                entities.removeAll(middleVerticalBombs);
+                entities.removeAll(middleHorizontalBombs);
                 middleVerticalBombs.clear();
                 middleHorizontalBombs.clear();
                 is_edge = false;
@@ -294,8 +293,11 @@ public class Bomb extends Entity {
     }
 
     @Override
-    public void update() {
-        checkActive();
-        checkExplosion();
+    public void update(){};
+
+    public static void update(List<Entity> entities) {
+        checkActive(entities);
+        checkExplosion(entities);
     }
 }
+
