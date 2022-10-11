@@ -27,6 +27,7 @@ public class BombermanGame extends Application {
     static int currentFigure_bomber_r = 0;
     static int currentFigure_bomber_u = 0;
     static int currentFigure_bomber_d = 0;
+    public static Bomber bomberman;
 
     static Config levelConfig = new Config();
     static int currentFigure_bomber = 0;
@@ -65,7 +66,7 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
 
         LongValue lastNanoTime = new LongValue( System.nanoTime() );
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
         bomberman.setLim(limH - bomberman.getHeight(), limW - bomberman.getWidth());
 
@@ -162,12 +163,10 @@ public class BombermanGame extends Application {
                     bomberman.addVelocity(0, Sprite.step);
                     if(numpic == 1) { bomberman.setImage(Sprite.player_down_1.getFxImage()); }
                     else {bomberman.setImage(Sprite.player_down_2.getFxImage());}
+                } else if (bomberman.input.contains("SPACE")) {
+                    Bomb.putBomb(bomberman);
                 } else {
                     bomberman.addVelocity(0,0);
-                }
-
-                if (bomberman.input.contains("SPACE")) {
-                    Bomb.putBomb(bomberman);
                 }
 
                 /*
