@@ -21,6 +21,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
+    public static int[][] killedEntities = new int[31][13];
 
     static int currentFigure_bomber_l = 0;
     static int currentFigure_bomber_r = 0;

@@ -59,10 +59,13 @@ public class Bomb extends Entity {
     public static void createExplodingEdge() {   // Create an egde to prevent the character's movement as well as the explosion range of the bomb
         edge_down = new Bomb(bomb.getX( ) / 32, bomb.getY() / 32 + 1, Sprite.bomb_exploded.getFxImage());
         BombermanGame.entities.add(edge_down);
+
         edge_up = new Bomb(bomb.getX( ) / 32, bomb.getY() / 32 - 1, Sprite.bomb_exploded.getFxImage());
         BombermanGame.entities.add(edge_up);
+
         edge_left = new Bomb(bomb.getX( ) / 32 - 1, bomb.getY() / 32, Sprite.bomb_exploded.getFxImage());
         BombermanGame.entities.add(edge_left);
+
         edge_right = new Bomb(bomb.getX( ) / 32 + 1, bomb.getY() / 32, Sprite.bomb_exploded.getFxImage());
         BombermanGame.entities.add(edge_right);
     }
@@ -89,16 +92,31 @@ public class Bomb extends Entity {
     public static void explosionCenter() {      // Determine the explosion center of the bomb
         if (explosiveState == 1) {
             bomb.setImage(Sprite.bomb_exploded.getFxImage());
+            BombermanGame.killedEntities[bomb.getX() / 32][bomb.getY() / 32] = 1;
+
+            edge_down.setImage(Sprite.explosion_vertical_down_last.getFxImage());
+            BombermanGame.killedEntities[edge_down.getX() / 32][edge_down.getY() / 32] = 1;
+
+            edge_up.setImage(Sprite.explosion_vertical_top_last.getFxImage());
+            BombermanGame.killedEntities[edge_up.getX() / 32][edge_up.getY() / 32] = 1;
+
+            edge_left.setImage(Sprite.explosion_horizontal_left_last.getFxImage());
+            BombermanGame.killedEntities[edge_left.getX() / 32][edge_left.getY() / 32] = 1;
+
+            edge_right.setImage(Sprite.explosion_horizontal_right_last.getFxImage());
+            BombermanGame.killedEntities[edge_right.getX() / 32][edge_right.getY() / 32] = 1;
 
             if (middleVerticalBombs.size() > 0) {
                 for (Entity e : middleVerticalBombs) {
                     e.setImage(Sprite.explosion_vertical.getFxImage());
+                    BombermanGame.killedEntities[e.getX() / 32][e.getY() / 32] = 1;
                 }
             }
 
             if (middleHorizontalBombs.size() > 0) {
                 for (Entity e : middleHorizontalBombs) {
                     e.setImage(Sprite.explosion_horizontal.getFxImage());
+                    BombermanGame.killedEntities[e.getX() / 32][e.getY() / 32] = 1;
                 }
             }
 
@@ -106,13 +124,17 @@ public class Bomb extends Entity {
         } else if (explosiveState == 2) {
             bomb.setImage(Sprite.bomb_exploded1.getFxImage());
             edge_down.setImage(Sprite.explosion_vertical_down_last1.getFxImage());
+
             edge_up.setImage(Sprite.explosion_vertical_top_last1.getFxImage());
+
             edge_left.setImage(Sprite.explosion_horizontal_left_last1.getFxImage());
+
             edge_right.setImage(Sprite.explosion_horizontal_right_last1.getFxImage());
 
             if (is_middle) {
                 for (Entity e : middleVerticalBombs) {
                     e.setImage(Sprite.explosion_vertical1.getFxImage());
+
                 }
                 for (Entity e : middleHorizontalBombs) {
                     e.setImage(Sprite.explosion_horizontal1.getFxImage());
