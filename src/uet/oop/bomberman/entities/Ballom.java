@@ -11,6 +11,7 @@ public class Ballom extends Enemy {
         super(x, y , img);
     }
     public void update() {
+        super.update();
         Move.move(this, this.limH, this.limW);
         handleCollapse();
     }
@@ -30,7 +31,7 @@ public class Ballom extends Enemy {
                 if(e instanceof Brick) {
                     double velocityX = this.getVelocityX();
                     double velocityY = this.getVelocityY();
-                    System.out.println("bick" + velocityX + " " + velocityY);
+                    System.out.println("brick" + velocityX + " " + velocityY);
                     this.addVelocity(-velocityX, -velocityY);
                     Move.update(this, limH, limW);
                 }

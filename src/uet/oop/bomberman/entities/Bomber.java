@@ -42,6 +42,7 @@ public class Bomber extends Entity {
             swapDeathImg = 4;
         } else {
             BombermanGame.entities.remove(bomberman);
+            bomberman.setImage(Sprite.transparent.getFxImage());
             bomberman.setAliveState(false);
         }
     }
@@ -51,6 +52,7 @@ public class Bomber extends Entity {
         if (BombermanGame.killedEntities[bomberman.getX() / 32][bomberman.getY() / 32] == 1) {
             killBomber(bomberman);
         }
+
 
         if((this.x + this.velocityX < limW)
                 && (this.x + this.velocityX > 0))
@@ -93,7 +95,7 @@ public class Bomber extends Entity {
                 if(e instanceof Brick) {
                     double velocityX = this.getVelocityX();
                     double velocityY = this.getVelocityY();
-                    System.out.println("bick" + velocityX + " " + velocityY);
+                    System.out.println("brick" + velocityX + " " + velocityY);
                     this.addVelocity(-velocityX, -velocityY);
                     this.update();
                 }

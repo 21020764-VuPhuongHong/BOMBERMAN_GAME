@@ -16,6 +16,7 @@ public class Brick extends Entity{
                 Brick brick = (Brick) e;
                 if (BombermanGame.killedEntities[brick.getX() / 32][brick.getY() / 32] == 1) {
                     brick.setImage(Sprite.grass.getFxImage());
+                    BombermanGame.entities.remove(brick);
                 }
             }
         }
