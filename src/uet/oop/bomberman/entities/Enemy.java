@@ -7,6 +7,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.Random;
 
 public class Enemy extends Entity {
+    private int swapMoveImg = 1;
     private boolean isAlive = true;
     private int swapDeathImg = 1;
 
@@ -19,19 +20,29 @@ public class Enemy extends Entity {
     private void setAliveState(boolean state) {
         this.isAlive = state;
     }
+    public int getSwapMoveImg() {
+        return swapMoveImg;
+    }
+
+    public void setSwapMoveImg(int x) {
+        swapMoveImg = x;
+    }
 
     private void killEnemy(Enemy enemy) {
         if (swapDeathImg == 1) {
-            enemy.setImage(Sprite.mob_dead1.getFxImage());
+            if (enemy instanceof Ballom) {
+                enemy.setImage(Sprite.balloom_dead.getFxImage());
+            }
             swapDeathImg = 2;
         } else if (swapDeathImg == 2) {
-            enemy.setImage(Sprite.mob_dead2.getFxImage());
+            enemy.setImage(Sprite.mob_dead1.getFxImage());
             swapDeathImg = 3;
         } else if (swapDeathImg == 3) {
-            enemy.setImage(Sprite.mob_dead3.getFxImage());
+            enemy.setImage(Sprite.mob_dead2.getFxImage());
             swapDeathImg = 4;
         } else {
             enemy.setAliveState(false);
+            enemy.setImage(Sprite.mob_dead3.getFxImage());
             BombermanGame.entities.remove(enemy);
             swapDeathImg = 1;
         }

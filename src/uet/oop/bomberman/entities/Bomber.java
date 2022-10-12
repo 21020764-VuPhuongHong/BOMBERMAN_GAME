@@ -40,8 +40,7 @@ public class Bomber extends Entity {
         else if (swapDeathImg == 3) {
             bomberman.setImage(Sprite.player_dead3.getFxImage());
             swapDeathImg = 4;
-        }
-        else {
+        } else {
             BombermanGame.entities.remove(bomberman);
             bomberman.setAliveState(false);
         }
@@ -49,6 +48,9 @@ public class Bomber extends Entity {
 
     @Override
     public void update() {
+        if (BombermanGame.killedEntities[bomberman.getX() / 32][bomberman.getY() / 32] == 1) {
+            killBomber(bomberman);
+        }
 
         if((this.x + this.velocityX < limW)
                 && (this.x + this.velocityX > 0))
@@ -59,10 +61,6 @@ public class Bomber extends Entity {
         if((this.y + this.velocityY < limH)
                 && (this.y + this.velocityY > 0)) {
             this.y += velocityY;
-        }
-
-        if (BombermanGame.killedEntities[bomberman.getX() / 32][bomberman.getY() / 32] == 1) {
-            killBomber(bomberman);
         }
 
 
