@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -80,14 +81,33 @@ public class Bomber extends Entity {
     }
 
     @Override
-    public void handleCollapse(List<Entity> entities) {
-        for(Entity e: entities) {
+    public boolean intersectsWith(Entity e) {
+        //return e.getBoundary().intersects(this.getBoundary());
+        Rectangle2D rec1 = this.getBoundary();
+        Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth()*3/4, rec1.getHeight());
+        return rec2.intersects(e.getBoundary());
+    }
 
+    @Override
+    public void handleCollapse(List<Entity> stillObject) {
+        for(Entity e: BombermanGame.entities) {
             if(this.intersectsWith(e)) {
-                if((e instanceof Brick) || (e instanceof Wall)) {
+                if(e instanceof Brick) {
                     double velocityX = this.getVelocityX();
                     double velocityY = this.getVelocityY();
-                    System.out.println("bick or wall" + velocityX + " " + velocityY);
+                    System.out.println("bick" + velocityX + " " + velocityY);
+                    this.addVelocity(-velocityX, -velocityY);
+                    this.update();
+                }
+            }
+        }
+
+        for(Entity e: stillObject) {
+            if(this.intersectsWith(e)) {
+                if(e instanceof Wall) {
+                    double velocityX = this.getVelocityX();
+                    double velocityY = this.getVelocityY();
+                    System.out.println("wall" + velocityX + " " + velocityY);
                     this.addVelocity(-velocityX, -velocityY);
                     this.update();
                 }

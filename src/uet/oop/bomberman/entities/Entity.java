@@ -115,6 +115,10 @@ public abstract class Entity {
 
     public boolean intersectsWith(Entity e) {
         return e.getBoundary().intersects(this.getBoundary());
+        /*
+        Rectangle2D rec1 = this.getBoundary();
+        Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMaxY(), rec1.getWidth()*3/4, rec1.getHeight());
+        return rec2.intersects(e.getBoundary());*/
     }
 
     public void handleCollapse(List<Entity> entities){};

@@ -68,7 +68,7 @@ public class BombermanGame extends Application {
         LongValue lastNanoTime = new LongValue( System.nanoTime() );
         bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
-        bomberman.setLim(limH - bomberman.getHeight(), limW - bomberman.getWidth());
+        bomberman.setLim(limH - Sprite.wall.getFxImage().getWidth(), limW -Sprite.wall.getFxImage().getWidth());
 
         //Enemy ballom1 = new Ballom(2, 3, Sprite.balloom_left1.getFxImage());
         //entities.add(ballom1);
@@ -226,7 +226,7 @@ public class BombermanGame extends Application {
 
                 createMap();
                 update();
-                bomberman.handleCollapse(entities);
+                bomberman.handleCollapse(stillObjects);
             }
         };
         timer.start();
