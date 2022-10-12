@@ -20,7 +20,7 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
     public static List<Entity> entities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
+    public static List<Entity> stillObjects = new ArrayList<>();
     public static int[][] killedEntities = new int[31][13];
 
     static int currentFigure_bomber_l = 0;
@@ -226,7 +226,7 @@ public class BombermanGame extends Application {
 
                 createMap();
                 update();
-                bomberman.handleCollapse(stillObjects);
+                bomberman.handleCollapse();
             }
         };
         timer.start();

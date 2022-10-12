@@ -89,7 +89,7 @@ public class Bomber extends Entity {
     }
 
     @Override
-    public void handleCollapse(List<Entity> stillObject) {
+    public void handleCollapse() {
         for(Entity e: BombermanGame.entities) {
             if(this.intersectsWith(e)) {
                 if(e instanceof Brick) {
@@ -102,7 +102,7 @@ public class Bomber extends Entity {
             }
         }
 
-        for(Entity e: stillObject) {
+        for(Entity e: BombermanGame.stillObjects) {
             if(this.intersectsWith(e)) {
                 if(e instanceof Wall) {
                     double velocityX = this.getVelocityX();

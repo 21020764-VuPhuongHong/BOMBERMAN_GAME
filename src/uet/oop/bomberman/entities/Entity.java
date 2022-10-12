@@ -121,5 +121,5 @@ public abstract class Entity {
         return rec2.intersects(e.getBoundary());*/
     }
 
-    public void handleCollapse(List<Entity> entities){};
+    public void handleCollapse(){};
 }
