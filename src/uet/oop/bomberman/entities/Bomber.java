@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static uet.oop.bomberman.BombermanGame.bomberman;
+import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 
 public class Bomber extends Entity {
@@ -42,14 +43,14 @@ public class Bomber extends Entity {
             swapDeathImg = 4;
         } else {
             BombermanGame.entities.remove(bomberman);
-            bomberman.setImage(Sprite.transparent.getFxImage());
+            //bomberman.setImage(Sprite.transparent.getFxImage());
             bomberman.setAliveState(false);
         }
     }
 
     @Override
     public void update() {
-        if (BombermanGame.killedEntities[bomberman.getX() / 32][bomberman.getY() / 32] == 1) {
+        if (BombermanGame.killedEntities[bomberman.getX() / SCALED_SIZE][bomberman.getY() / SCALED_SIZE] == 1) {
             killBomber(bomberman);
         }
 
