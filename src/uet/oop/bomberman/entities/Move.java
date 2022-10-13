@@ -20,23 +20,65 @@ public class Move {
         switch (direction) {
             case 0:
                 //moveUp(enemy, limH, limW);
-                enemy.addVelocity(0,-Sprite.step);
+                enemy.addVelocity(0, -Sprite.step);
+                if (enemy instanceof Ballom) {
+                    if (enemy.getSwapMoveImg() == 1) {
+                        enemy.setImage(Sprite.balloom_left1.getFxImage());
+                        enemy.setSwapMoveImg(2);
+                    } else if (enemy.getSwapMoveImg() == 2) {
+                        enemy.setImage(Sprite.balloom_left2.getFxImage());
+                        enemy.setSwapMoveImg(3);
+                    } else if (enemy.getSwapMoveImg() == 3) {
+                        enemy.setImage(Sprite.balloom_left3.getFxImage());
+                        enemy.setSwapMoveImg(1);
+                    }
+                }
                 break;
             case 1:
                 //moveDown(enemy, limH, limW);
-                enemy.addVelocity(0,Sprite.step);
+                enemy.addVelocity(0, Sprite.step);
+                if (enemy.getSwapMoveImg() == 1) {
+                    enemy.setImage(Sprite.balloom_right1.getFxImage());
+                    enemy.setSwapMoveImg(2);
+                } else if (enemy.getSwapMoveImg() == 2) {
+                    enemy.setImage(Sprite.balloom_right2.getFxImage());
+                    enemy.setSwapMoveImg(3);
+                } else if (enemy.getSwapMoveImg() == 3) {
+                    enemy.setImage(Sprite.balloom_right3.getFxImage());
+                    enemy.setSwapMoveImg(1);
+                }
                 break;
             case 2:
                 //moveRight(enemy, limH, limW);
-                enemy.addVelocity(Sprite.step,0);
+                enemy.addVelocity(Sprite.step, 0);
+                if (enemy.getSwapMoveImg() == 1) {
+                    enemy.setImage(Sprite.balloom_right1.getFxImage());
+                    enemy.setSwapMoveImg(2);
+                } else if (enemy.getSwapMoveImg() == 2) {
+                    enemy.setImage(Sprite.balloom_right2.getFxImage());
+                    enemy.setSwapMoveImg(3);
+                } else if (enemy.getSwapMoveImg() == 3) {
+                    enemy.setImage(Sprite.balloom_right3.getFxImage());
+                    enemy.setSwapMoveImg(1);
+                }
                 break;
             case 3:
                 //moveLeft(enemy, limH, limW);
-                enemy.addVelocity(-Sprite.step,0);
+                enemy.addVelocity(-Sprite.step, 0);
+                if (enemy.getSwapMoveImg() == 1) {
+                    enemy.setImage(Sprite.balloom_left1.getFxImage());
+                    enemy.setSwapMoveImg(2);
+                } else if (enemy.getSwapMoveImg() == 2) {
+                    enemy.setImage(Sprite.balloom_left2.getFxImage());
+                    enemy.setSwapMoveImg(3);
+                } else if (enemy.getSwapMoveImg() == 3) {
+                    enemy.setImage(Sprite.balloom_left3.getFxImage());
+                    enemy.setSwapMoveImg(1);
+                }
                 break;
         }
 
-        update(enemy,limH,limW);
+        update(enemy, limH, limW);
     }
     /*
 
@@ -70,13 +112,12 @@ public class Move {
 
     public static void update(Enemy enemy, double limH, double limW) {
 
-        if((enemy.x + enemy.velocityX < limW)
-                && (enemy.x + enemy.velocityX > 0))
-        {
+        if ((enemy.x + enemy.velocityX < limW)
+                && (enemy.x + enemy.velocityX > 0)) {
             enemy.x += enemy.velocityX;
         }
 
-        if((enemy.y + enemy.velocityY < limH)
+        if ((enemy.y + enemy.velocityY < limH)
                 && (enemy.y + enemy.velocityY > 0)) {
             enemy.y += enemy.velocityY;
         }

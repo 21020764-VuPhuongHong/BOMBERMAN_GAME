@@ -12,6 +12,7 @@ public class Ballom extends Enemy {
     public Ballom (int x, int y, Image img) {
         super(x, y , img);
     }
+
     public void update() {
         super.update();
         Move.move(this, this.limH, this.limW);
