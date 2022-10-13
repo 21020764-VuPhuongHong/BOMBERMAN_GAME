@@ -3,8 +3,8 @@ import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
 public class Config {
-   public int width;
-   public int height;
+   public static int width;
+   public static int height;
 
    public char config[][] = new char[100][100];
    public int l;

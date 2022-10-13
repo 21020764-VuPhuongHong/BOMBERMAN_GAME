@@ -3,8 +3,10 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
+import java.util.Spliterator;
 
 public class Ballom extends Enemy {
     public Ballom (int x, int y, Image img) {
@@ -14,6 +16,9 @@ public class Ballom extends Enemy {
         super.update();
         Move.move(this, this.limH, this.limW);
         handleCollapse();
+        if (!isAlive) {
+            this.setImage(Sprite.transparent.getFxImage());
+        }
     }
 
     @Override

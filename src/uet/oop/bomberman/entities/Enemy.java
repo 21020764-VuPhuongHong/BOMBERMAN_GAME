@@ -8,13 +8,13 @@ import java.util.Random;
 
 public class Enemy extends Entity {
     private int swapMoveImg = 1;
-    private boolean isAlive = true;
+    protected boolean isAlive = true;
     private int swapDeathImg = 1;
 
     public Enemy(int x, int y, Image img) {
         super(x, y, img);
-        this.velocityX = 30;
-        this.velocityY = 30;
+        this.velocityX = 32;
+        this.velocityY = 32;
     }
 
     private void setAliveState(boolean state) {
@@ -40,9 +40,12 @@ public class Enemy extends Entity {
         } else if (swapDeathImg == 3) {
             enemy.setImage(Sprite.mob_dead2.getFxImage());
             swapDeathImg = 4;
+        } else if (swapDeathImg == 4) {
+            enemy.setImage(Sprite.mob_dead3.getFxImage());
+            swapDeathImg = 5;
         } else {
             enemy.setAliveState(false);
-            enemy.setImage(Sprite.mob_dead3.getFxImage());
+            enemy.setImage(Sprite.transparent.getFxImage());
             BombermanGame.entities.remove(enemy);
             swapDeathImg = 1;
         }

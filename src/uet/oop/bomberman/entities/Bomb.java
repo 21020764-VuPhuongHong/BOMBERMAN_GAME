@@ -17,23 +17,19 @@ public class Bomb extends Entity {
     private static Entity bomb;
     private static int bombImgStatus = 1;
     private static int explosiveState = 1;
-    private static final List<Entity> middleHorizontalBombs = new ArrayList<>();
-    private static final List<Entity> middleVerticalBombs = new ArrayList<>();
+    private static List<Entity> middleHorizontalBombs = new ArrayList<>();
+    private static List<Entity> middleVerticalBombs = new ArrayList<>();
     private static Entity downEdge = null;
     private static Entity upEdge = null;
     private static Entity leftEdge = null;
     private static Entity rightEdge = null;
     private static boolean isEdge = false;
     private static boolean isMiddle = false;
-    public static int bombStatus = 0;
-    private static int explodingLength = 1;
+    private static int bombStatus = 0;
+    public static int explodingLength = 1;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
-    }
-
-    public void setExplodingLength(int length) {
-        explodingLength = length;
     }
 
     public static void putBomb(Entity bomber) {
@@ -64,75 +60,85 @@ public class Bomb extends Entity {
     }
 
     public static void createExplodingEdge() {
-        downEdge = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE + explodingLength, Sprite.transparent.getFxImage());
-        BombermanGame.entities.add(downEdge);
+        if (bomb.getY() / SCALED_SIZE + explodingLength < Config.height) {
+            downEdge = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE + explodingLength, Sprite.transparent.getFxImage());
+            BombermanGame.entities.add(downEdge);
+        }
 
-        upEdge = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE - explodingLength, Sprite.transparent.getFxImage());
-        BombermanGame.entities.add(upEdge);
+        if (bomb.getY() / SCALED_SIZE - explodingLength >= 0) {
+            upEdge = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE - explodingLength, Sprite.transparent.getFxImage());
+            BombermanGame.entities.add(upEdge);
+        }
 
+        if (bomb.getX() / SCALED_SIZE - explodingLength >= 0) {
+            leftEdge = new Bomb(bomb.getX() / SCALED_SIZE - explodingLength, bomb.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
+            BombermanGame.entities.add(leftEdge);
+        }
 
-        leftEdge = new Bomb(bomb.getX() / SCALED_SIZE - explodingLength, bomb.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
-        BombermanGame.entities.add(leftEdge);
-
-
-        rightEdge = new Bomb(bomb.getX() / SCALED_SIZE + explodingLength, bomb.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
-        BombermanGame.entities.add(rightEdge);
+        if (bomb.getX() / SCALED_SIZE + explodingLength < Config.width) {
+            rightEdge = new Bomb(bomb.getX() / SCALED_SIZE + explodingLength, bomb.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
+            BombermanGame.entities.add(rightEdge);
+        }
     }
 
-    /*
-    public static void createMiddle() {     // Adjust the bomb to explode at the center position
+    public static void createMiddle() {
         Entity middle;
 
-      
-            middle = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE + 1, Sprite.bomb_exploded.getFxImage());
+        if (BombermanGame.checkWall[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE + 1] != 1) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE + 1, Sprite.transparent.getFxImage());
             middleVerticalBombs.add(middle);
+        }
 
-
-       
-            middle = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE - 1, Sprite.bomb_exploded.getFxImage());
+        if (BombermanGame.checkWall[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE - 1] != 1) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE, bomb.getY() / SCALED_SIZE - 1, Sprite.transparent.getFxImage());
             middleVerticalBombs.add(middle);
+        }
 
-
-       
-            middle = new Bomb(bomb.getX() / SCALED_SIZE - 1, bomb.getY() / SCALED_SIZE, Sprite.bomb_exploded.getFxImage());
+        if (BombermanGame.checkWall[bomb.getX() / SCALED_SIZE - 1][bomb.getY() / SCALED_SIZE] != 1) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE - 1, bomb.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
             middleHorizontalBombs.add(middle);
+        }
 
-            middle = new Bomb(bomb.getX() / SCALED_SIZE + 1, bomb.getY() / SCALED_SIZE, Sprite.bomb_exploded.getFxImage());
+        if (BombermanGame.checkWall[bomb.getX() / SCALED_SIZE + 1][bomb.getY() / SCALED_SIZE] != 1) {
+            middle = new Bomb(bomb.getX() / SCALED_SIZE + 1, bomb.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
             middleHorizontalBombs.add(middle);
+        }
 
 
         BombermanGame.entities.addAll(middleHorizontalBombs);
         BombermanGame.entities.addAll(middleVerticalBombs);
     }
 
-     */
 
-    public static void explosion() {      // Determine the explosion center of the bomb
+    public static void explosion() {
         if (explosiveState == 1) {
             bomb.setImage(Sprite.bomb_exploded.getFxImage());
             BombermanGame.killedEntities[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = 1;
 
-            if (BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] != 1) {
+            if (downEdge != null && BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE - 1] != 1
+                    && BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] != 1) {
                 downEdge.setImage(Sprite.explosion_vertical_down_last.getFxImage());
                 BombermanGame.killedEntities[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] = 1;
             }
 
-            if (BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] != 1) {
+            if (upEdge != null && BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE + 1] != 1
+                    && BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] != 1) {
                 upEdge.setImage(Sprite.explosion_vertical_top_last.getFxImage());
                 BombermanGame.killedEntities[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] = 1;
             }
 
-            if (BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] != 1) {
+            if (leftEdge != null && BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE + 1][leftEdge.getY() / SCALED_SIZE] != 1
+                    && BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] != 1) {
                 leftEdge.setImage(Sprite.explosion_horizontal_left_last.getFxImage());
                 BombermanGame.killedEntities[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] = 1;
             }
 
-            if (BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] != 1) {
+            if (rightEdge != null && BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE - 1][rightEdge.getY() / SCALED_SIZE] != 1
+                    && BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] != 1) {
                 rightEdge.setImage(Sprite.explosion_horizontal_right_last.getFxImage());
                 BombermanGame.killedEntities[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] = 1;
             }
 
-            /*
             if (middleVerticalBombs.size() > 0) {
                 for (Entity e : middleVerticalBombs) {
                     e.setImage(Sprite.explosion_vertical.getFxImage());
@@ -146,78 +152,88 @@ public class Bomb extends Entity {
                     BombermanGame.killedEntities[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 1;
                 }
             }
-
-             */
-
             explosiveState = 2;
         } else if (explosiveState == 2) {
             bomb.setImage(Sprite.bomb_exploded1.getFxImage());
 
-            if (BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] != 1) {
+            if (downEdge != null && BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE - 1] != 1&& BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE - 1] != 1
+                    && BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] != 1) {
                 downEdge.setImage(Sprite.explosion_vertical_down_last1.getFxImage());
             }
 
-            if (BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] != 1) {
+
+            if (upEdge != null && BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE + 1] != 1
+                    && BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] != 1) {
                 upEdge.setImage(Sprite.explosion_vertical_top_last1.getFxImage());
             }
 
-            if (BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] != 1) {
+
+            if (leftEdge != null && BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE + 1][leftEdge.getY() / SCALED_SIZE] != 1
+                    && BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] != 1) {
                 leftEdge.setImage(Sprite.explosion_horizontal_left_last1.getFxImage());
             }
 
-            if (BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] != 1) {
+
+            if (rightEdge != null && BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE - 1][rightEdge.getY() / SCALED_SIZE] != 1
+                    && BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] != 1) {
                 rightEdge.setImage(Sprite.explosion_horizontal_right_last1.getFxImage());
             }
 
-            /*
-            if (isMiddle) {
+            if (middleVerticalBombs.size() > 0) {
                 for (Entity e : middleVerticalBombs) {
                     e.setImage(Sprite.explosion_vertical1.getFxImage());
-
                 }
+            }
+
+            if (middleHorizontalBombs.size() > 0) {
                 for (Entity e : middleHorizontalBombs) {
                     e.setImage(Sprite.explosion_horizontal1.getFxImage());
                 }
             }
-
-             */
-
+            
             explosiveState = 3;
         } else if (explosiveState == 3) {
             bomb.setImage(Sprite.bomb_exploded2.getFxImage());
 
-            if (BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] != 1) {
+            if (downEdge != null && BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE - 1] != 1
+                    && BombermanGame.checkWall[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] != 1) {
                 downEdge.setImage(Sprite.explosion_vertical_down_last2.getFxImage());
             }
 
-            if (BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] != 1) {
+            if (upEdge != null && BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE + 1] != 1
+                    && BombermanGame.checkWall[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] != 1) {
                 upEdge.setImage(Sprite.explosion_vertical_top_last2.getFxImage());
             }
-            if (BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] != 1) {
+
+            if (leftEdge != null && BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE + 1][leftEdge.getY() / SCALED_SIZE] != 1
+                    && BombermanGame.checkWall[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] != 1) {
                 leftEdge.setImage(Sprite.explosion_horizontal_left_last2.getFxImage());
             }
-            if (BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] != 1) {
+
+
+            if (rightEdge != null && BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE - 1][rightEdge.getY() / SCALED_SIZE] != 1
+                    && BombermanGame.checkWall[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] != 1) {
                 rightEdge.setImage(Sprite.explosion_horizontal_right_last2.getFxImage());
             }
 
-            /*
-            if (isMiddle) {
+            if (middleVerticalBombs.size() > 0) {
                 for (Entity e : middleVerticalBombs) {
                     e.setImage(Sprite.explosion_vertical2.getFxImage());
                 }
+            }
+
+            if (middleHorizontalBombs.size() > 0) {
                 for (Entity e : middleHorizontalBombs) {
                     e.setImage(Sprite.explosion_horizontal2.getFxImage());
                 }
             }
-
-             */
-
+           
             explosiveState = 0;
         }
 
     }
 
-    private static void checkActive() {  
+    private static void checkActive() {
         if (bombStatus == 1) {
             if (System.currentTimeMillis() - timeOfBomb < 2000) {
                 swapBombImg();
@@ -233,18 +249,16 @@ public class Bomb extends Entity {
     private static void checkExplosion() {
         if (bombStatus == 2) {
             if (System.currentTimeMillis() - timeOfBomb < 1000) {
-                if (!isEdge) {
-                    createExplodingEdge();
-                    isEdge = true;
-                }
 
-                /*
-                if (!isMiddle) {
+                if (explodingLength >= 2 && !isMiddle) {
                     createMiddle();
                     isMiddle = true;
                 }
 
-                 */
+                if (!isEdge) {
+                    createExplodingEdge();
+                    isEdge = true;
+                }
 
                 explosion();
                 timeInterval += 100;
@@ -252,46 +266,49 @@ public class Bomb extends Entity {
                 bombStatus = 0;
 
                 bomb.setImage(Sprite.transparent.getFxImage());
-
-                downEdge.setImage(Sprite.transparent.getFxImage());
-
-
-                upEdge.setImage(Sprite.transparent.getFxImage());
-
-
-                leftEdge.setImage(Sprite.transparent.getFxImage());
-
-
-                rightEdge.setImage(Sprite.transparent.getFxImage());
-
                 BombermanGame.killedEntities[bomb.getX() / SCALED_SIZE][bomb.getY() / SCALED_SIZE] = 0;
 
-                BombermanGame.killedEntities[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] = 0;
+                if (downEdge != null) {
+                    downEdge.setImage(Sprite.transparent.getFxImage());
+                    BombermanGame.killedEntities[downEdge.getX() / SCALED_SIZE][downEdge.getY() / SCALED_SIZE] = 0;
+                    BombermanGame.entities.remove(downEdge);
+                }
 
-                BombermanGame.killedEntities[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] = 0;
+                if (upEdge != null) {
+                    upEdge.setImage(Sprite.transparent.getFxImage());
+                    BombermanGame.killedEntities[upEdge.getX() / SCALED_SIZE][upEdge.getY() / SCALED_SIZE] = 0;
+                    BombermanGame.entities.remove(upEdge);
+                }
 
-                BombermanGame.killedEntities[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] = 0;
+                if (leftEdge != null) {
+                    leftEdge.setImage(Sprite.transparent.getFxImage());
+                    BombermanGame.killedEntities[leftEdge.getX() / SCALED_SIZE][leftEdge.getY() / SCALED_SIZE] = 0;
+                    BombermanGame.entities.remove(leftEdge);
+                }
 
-                BombermanGame.killedEntities[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] = 0;
+                if (rightEdge != null) {
+                    rightEdge.setImage(Sprite.transparent.getFxImage());
+                    BombermanGame.killedEntities[rightEdge.getX() / SCALED_SIZE][rightEdge.getY() / SCALED_SIZE] = 0;
+                    BombermanGame.entities.remove(rightEdge);
+                }
 
-                /*
-                if (isMiddle) {
+                if (middleVerticalBombs.size() > 0) {
                     for (Entity e : middleVerticalBombs) {
                         BombermanGame.killedEntities[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 0;
                     }
+                    BombermanGame.entities.removeAll(middleVerticalBombs);
+                }
+                if (middleHorizontalBombs.size() > 0) {
                     for (Entity e : middleHorizontalBombs) {
                         BombermanGame.killedEntities[e.getX() / SCALED_SIZE][e.getY() / SCALED_SIZE] = 0;
                     }
+                    BombermanGame.entities.removeAll(middleHorizontalBombs);
                 }
 
-                 */
-
-                BombermanGame.entities.removeAll(middleVerticalBombs);
-                BombermanGame.entities.removeAll(middleHorizontalBombs);
                 middleVerticalBombs.clear();
                 middleHorizontalBombs.clear();
                 isEdge = false;
-                //isMiddle = false;
+                isMiddle = false;
                 explosiveState = 1;
             }
         }
