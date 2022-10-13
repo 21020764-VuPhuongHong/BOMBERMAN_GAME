@@ -38,6 +38,7 @@ public class BombermanGame extends Application {
 
     public static double limW = Sprite.SCALED_SIZE * WIDTH;
     public static double limH = Sprite.SCALED_SIZE * HEIGHT;
+    public static double step = Sprite.SCALED_SIZE;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -80,11 +81,20 @@ public class BombermanGame extends Application {
                     Enemy e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
                     e.setLim(limH - e.getHeight(), limW - e.getWidth());
                     entities.add(e);
+                } else if (levelConfig.getConfigChar(i, j) == 'f') {
+                    FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
+                    entities.add(flameItem);
+                    Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
+                    entities.add(brick);
+                } else if (levelConfig.getConfigChar(i, j) == 's') {
+                    SpeedItem speedItem = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
+                    entities.add(speedItem);
+                    Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
+                    entities.add(brick);
                 } else if (levelConfig.getConfigChar(i, j) == '*') {
                     Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
                     entities.add(brick);
                 }
-
             }
         }
 
@@ -125,7 +135,7 @@ public class BombermanGame extends Application {
                     currentFigure_bomber = numpic;
                     numpic += 1;
 
-                    bomberman.addVelocity(-Sprite.step * 2, 0);
+                    bomberman.addVelocity(-step, 0);
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_left_1.getFxImage());
                     } else {
@@ -138,7 +148,7 @@ public class BombermanGame extends Application {
                     currentFigure_bomber = numpic;
                     numpic += 1;
 
-                    bomberman.addVelocity(Sprite.step * 2, 0);
+                    bomberman.addVelocity(step, 0);
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_right_1.getFxImage());
                     } else {
@@ -152,7 +162,7 @@ public class BombermanGame extends Application {
                     currentFigure_bomber = numpic;
                     numpic += 1;
 
-                    bomberman.addVelocity(0, -Sprite.step * 2);
+                    bomberman.addVelocity(0, -step);
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_up_1.getFxImage());
                     } else {
@@ -165,7 +175,7 @@ public class BombermanGame extends Application {
                     currentFigure_bomber = numpic;
                     numpic += 1;
 
-                    bomberman.addVelocity(0, Sprite.step * 2);
+                    bomberman.addVelocity(0, step);
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_down_1.getFxImage());
                     } else {
