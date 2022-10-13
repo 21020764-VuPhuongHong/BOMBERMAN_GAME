@@ -9,7 +9,6 @@ import java.nio.IntBuffer;
  * Lưu trữ thông tin các pixel của 1 sprite (hình ảnh game)
  */
 public class Sprite {
-	public static Sprite transparent = new Sprite(16, 15, 15, SpriteSheet.tiles, 16, 16);
 	public static final int DEFAULT_SIZE = 16;
 	public static final int SCALED_SIZE = DEFAULT_SIZE * 2;
     private static final int TRANSPARENT_COLOR = 0xffff00ff;
@@ -25,6 +24,7 @@ public class Sprite {
 	| Board sprites
 	|--------------------------------------------------------------------------
 	 */
+	public static Sprite transparent = new Sprite(16, 15, 15, SpriteSheet.tiles, 16, 16);
 	public static Sprite grass = new Sprite(DEFAULT_SIZE, 6, 0, SpriteSheet.tiles, 16, 16);
 	public static Sprite brick = new Sprite(DEFAULT_SIZE, 7, 0, SpriteSheet.tiles, 16, 16);
 	public static Sprite wall = new Sprite(DEFAULT_SIZE, 5, 0, SpriteSheet.tiles, 16, 16);

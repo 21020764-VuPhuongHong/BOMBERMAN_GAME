@@ -37,7 +37,7 @@ public class Ballom extends Enemy {
                 if(e instanceof Brick) {
                     double velocityX = this.getVelocityX();
                     double velocityY = this.getVelocityY();
-                    System.out.println("brick" + velocityX + " " + velocityY);
+                    //System.out.println("brick" + velocityX + " " + velocityY);
                     this.addVelocity(-velocityX, -velocityY);
                     Move.update(this, limH, limW);
                 }
@@ -49,7 +49,7 @@ public class Ballom extends Enemy {
                 if(e instanceof Wall) {
                     double velocityX = this.getVelocityX();
                     double velocityY = this.getVelocityY();
-                    System.out.println("wall" + velocityX + " " + velocityY);
+                    //System.out.println("wall" + velocityX + " " + velocityY);
                     this.addVelocity(-velocityX, -velocityY);
                     Move.update(this, limH, limW);
                 }

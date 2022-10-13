@@ -15,6 +15,8 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
+
 public class BombermanGame extends Application {
 
     private GraphicsContext gc;
@@ -38,7 +40,7 @@ public class BombermanGame extends Application {
 
     public static double limW = Sprite.SCALED_SIZE * WIDTH;
     public static double limH = Sprite.SCALED_SIZE * HEIGHT;
-    public static double step = Sprite.SCALED_SIZE;
+    public static double step = Sprite.step;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -67,7 +69,7 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
 
-        LongValue lastNanoTime = new LongValue(System.nanoTime());
+        //LongValue lastNanoTime = new LongValue(System.nanoTime());
         bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
         bomberman.setLim(limH - Sprite.wall.getFxImage().getWidth(), limW - Sprite.wall.getFxImage().getWidth());
@@ -89,6 +91,11 @@ public class BombermanGame extends Application {
                 } else if (levelConfig.getConfigChar(i, j) == 's') {
                     SpeedItem speedItem = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
                     entities.add(speedItem);
+                    Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
+                    entities.add(brick);
+                } else if (levelConfig.getConfigChar(i, j) == 'b') {
+                    BombItem bombItem = new BombItem(j, i, Sprite.powerup_bombs.getFxImage());
+                    entities.add(bombItem);
                     Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
                     entities.add(brick);
                 } else if (levelConfig.getConfigChar(i, j) == '*') {
@@ -128,7 +135,23 @@ public class BombermanGame extends Application {
                 //double elapsedTime = 0;//(l - lastNanoTime.value) / 1000000000000.0;
                 //lastNanoTime.value = l;
                 if (bomberman.input.contains("SPACE")) {
-                    Bomb.putBomb(bomberman);
+                    System.out.println(Bomb.timeRemainBomb);
+                    if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeRemainBomb >= Bomb.timeBetween2Bombs) {
+                        System.out.println("Space");
+                        Bomb bomb = new Bomb(bomberman.getX() / SCALED_SIZE, bomberman.getY() / SCALED_SIZE, Sprite.bomb.getFxImage());
+                        bomb.putBomb();
+                        entities.add(bomb);
+                        if (BombItem.hasBombItem) {
+                            if (BombItem.numBomsPut < 2 && Bomb.timeRemainBomb < Bomb.timeBetween2Bombs) {
+                                BombItem.numBomsPut++;
+                                System.out.println("Y");
+                            } else {
+                                BombItem.numBomsPut = 1;
+                                System.out.println("N");
+                            }
+                            System.out.println(BombItem.numBomsPut);
+                        }
+                    }
                 } else if (bomberman.input.contains("LEFT")) {
                     currentFigure_bomber++;
                     int numpic = currentFigure_bomber % 2;
