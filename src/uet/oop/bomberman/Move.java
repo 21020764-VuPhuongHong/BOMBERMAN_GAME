@@ -1,4 +1,4 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman;
 
 import uet.oop.bomberman.entities.Enemies.Ballom;
 import uet.oop.bomberman.entities.Enemies.Enemy;

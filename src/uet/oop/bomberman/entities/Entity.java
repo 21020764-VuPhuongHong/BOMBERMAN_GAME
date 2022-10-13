@@ -17,10 +17,10 @@ public abstract class Entity {
     //public static int limH = Sprite.SCALED_SIZE * HEIGHT;
 
     //Tọa độ X tính từ góc trái trên trong Canvas
-    protected int x;
+    public int x;
 
     //Tọa độ Y tính từ góc trái trên trong Canvas
-    protected int y;
+    public int y;
 
     protected Image img;
 
@@ -52,8 +52,8 @@ public abstract class Entity {
 
     public abstract void update();
 
-    protected double velocityX;
-    protected double velocityY;
+    public double velocityX;
+    public double velocityY;
 
     public void setVelocity(double velocityX, double velocityY) {
         this.velocityX = velocityX;
