@@ -1,10 +1,9 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
-
-import java.util.Random;
 
 public class Enemy extends Entity {
     private int swapMoveImg = 1;
@@ -20,6 +19,7 @@ public class Enemy extends Entity {
     private void setAliveState(boolean state) {
         this.isAlive = state;
     }
+
     public int getSwapMoveImg() {
         return swapMoveImg;
     }

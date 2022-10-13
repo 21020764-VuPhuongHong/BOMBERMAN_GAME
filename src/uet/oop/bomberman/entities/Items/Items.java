@@ -1,8 +1,8 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Items;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.entities.Entity;
 
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
@@ -10,6 +10,7 @@ public abstract class Items extends Entity {
     public Items(int x, int y, Image img) {
         super(x, y, img);
     }
+
     private boolean isCovered = true;
     private boolean isReceived = false;
 

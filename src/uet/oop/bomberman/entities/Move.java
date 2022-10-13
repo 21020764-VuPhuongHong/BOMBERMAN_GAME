@@ -1,11 +1,10 @@
 package uet.oop.bomberman.entities;
 
-import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Enemies.Ballom;
+import uet.oop.bomberman.entities.Enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
-
-import static uet.oop.bomberman.BombermanGame.bomberman;
 
 public class Move {
     private static Random seed = new Random();

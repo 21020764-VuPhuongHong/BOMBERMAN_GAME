@@ -10,6 +10,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.Block.Brick;
+import uet.oop.bomberman.entities.Block.Grass;
+import uet.oop.bomberman.entities.Block.Wall;
+import uet.oop.bomberman.entities.Enemies.Ballom;
+import uet.oop.bomberman.entities.Enemies.Enemy;
+import uet.oop.bomberman.entities.Items.BombItem;
+import uet.oop.bomberman.entities.Items.FlameItem;
+import uet.oop.bomberman.entities.Items.SpeedItem;
+import uet.oop.bomberman.graphics.Config;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;

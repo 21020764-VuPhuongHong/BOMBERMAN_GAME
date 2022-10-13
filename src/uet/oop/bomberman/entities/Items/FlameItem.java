@@ -1,10 +1,9 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.Items;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.entities.Bomb;
 
-import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
 
 public class FlameItem extends Items {
     public FlameItem(int x, int y, Image img) {

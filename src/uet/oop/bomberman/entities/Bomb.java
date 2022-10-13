@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.graphics.Config;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
@@ -39,8 +40,6 @@ public class Bomb extends Entity {
             numOfBombs--;
             timeOfBomb = System.currentTimeMillis();
             timePutBomb = System.currentTimeMillis();
-            //bomb = new Bomb(bomber.getX() / SCALED_SIZE, bomber.getY() / SCALED_SIZE, Sprite.bomb.getFxImage());
-            //BombermanGame.entities.add(bomb);
         }
     }
 
