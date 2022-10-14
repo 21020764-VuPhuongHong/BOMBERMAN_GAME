@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Move;
+import uet.oop.bomberman.entities.Enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -42,7 +43,14 @@ public class Bomber extends Entity {
     @Override
     public void update() {
         if (BombermanGame.killedEntities[this.getX() / Sprite.SCALED_SIZE][this.getY() / Sprite.SCALED_SIZE] == 1) {
-            killBomber();
+            this.killBomber();
+        }
+        for (Entity e : BombermanGame.entities) {
+            if (e instanceof Enemy) {
+                if (Move.intersects(this, e)) {
+                    this.killBomber();
+                }
+            }
         }
     }
 }

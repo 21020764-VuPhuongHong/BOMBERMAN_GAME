@@ -41,6 +41,12 @@ public class Move {
         return rec2.intersects(rec);
     }
 
+    public static boolean intersects(Entity e1, Entity e2) {
+        Rectangle2D rec1 = getBoundary(e1);
+        Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
+        return rec2.intersects(getBoundary(e2));
+    }
+
     public static boolean checkCollision(int x, int y) {
         Rectangle2D rec = new Rectangle2D(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         for (Entity other : BombermanGame.entities) {
