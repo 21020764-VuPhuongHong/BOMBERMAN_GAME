@@ -14,7 +14,6 @@ import uet.oop.bomberman.entities.Block.Brick;
 import uet.oop.bomberman.entities.Block.Grass;
 import uet.oop.bomberman.entities.Block.Wall;
 import uet.oop.bomberman.entities.Enemies.Ballom;
-import uet.oop.bomberman.entities.Enemies.Enemy;
 import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.entities.Items.FlameItem;
 import uet.oop.bomberman.entities.Items.SpeedItem;
@@ -24,10 +23,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
-import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
-
 public class BombermanGame extends Application {
-
     private GraphicsContext gc;
     private Canvas canvas;
     public static List<Entity> entities = new ArrayList<>();
@@ -35,10 +31,6 @@ public class BombermanGame extends Application {
     public static int[][] killedEntities = new int[31][13];
     public static int[][] checkWall = new int[31][13];
 
-    static int currentFigure_bomber_l = 0;
-    static int currentFigure_bomber_r = 0;
-    static int currentFigure_bomber_u = 0;
-    static int currentFigure_bomber_d = 0;
     public static Bomber bomberman;
 
     static Config levelConfig = new Config();
@@ -47,9 +39,7 @@ public class BombermanGame extends Application {
     public static int WIDTH = 20;
     public static int HEIGHT = 15;
 
-    public static double limW = Sprite.SCALED_SIZE * WIDTH;
-    public static double limH = Sprite.SCALED_SIZE * HEIGHT;
-    public static double step = Sprite.step;
+    public static int step = Sprite.DEFAULT_SIZE;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -65,8 +55,6 @@ public class BombermanGame extends Application {
 
         WIDTH = levelConfig.width;
         HEIGHT = levelConfig.height;
-        limH = Sprite.SCALED_SIZE * HEIGHT;
-        limW = Sprite.SCALED_SIZE * WIDTH;
 
         // Tao root container
         Group root = new Group();
@@ -78,19 +66,15 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
 
-        //LongValue lastNanoTime = new LongValue(System.nanoTime());
         bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         entities.add(bomberman);
-        bomberman.setLim(limH - Sprite.wall.getFxImage().getWidth(), limW - Sprite.wall.getFxImage().getWidth());
+        bomberman.setVelocity(step, step);
 
-        //Enemy ballom1 = new Ballom(2, 3, Sprite.balloom_left1.getFxImage());
-        //entities.add(ballom1);
         /** create enemy and brick depend on config file**/
         for (int j = 0; j < levelConfig.width; j++) {
             for (int i = 0; i < levelConfig.height; i++) {
                 if (levelConfig.getConfigChar(i, j) == '1') {
-                    Enemy e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
-                    e.setLim(limH - e.getHeight(), limW - e.getWidth());
+                    Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
                     entities.add(e);
                 } else if (levelConfig.getConfigChar(i, j) == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
@@ -147,7 +131,7 @@ public class BombermanGame extends Application {
                     System.out.println(Bomb.timeRemainBomb);
                     if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeRemainBomb >= Bomb.timeBetween2Bombs) {
                         System.out.println("Space");
-                        Bomb bomb = new Bomb(bomberman.getX() / SCALED_SIZE, bomberman.getY() / SCALED_SIZE, Sprite.bomb.getFxImage());
+                        Bomb bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE, bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
                         bomb.putBomb();
                         entities.add(bomb);
                         if (BombItem.hasBombItem) {
@@ -163,24 +147,23 @@ public class BombermanGame extends Application {
                     }
                 } else if (bomberman.input.contains("LEFT")) {
                     currentFigure_bomber++;
-                    int numpic = currentFigure_bomber % 2;
-                    currentFigure_bomber = numpic;
-                    numpic += 1;
+                    currentFigure_bomber %= 2;
+                    int numpic = currentFigure_bomber + 1;
 
-                    bomberman.addVelocity(-step, 0);
+                    Move.moveLeft(bomberman);
+
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_left_1.getFxImage());
                     } else {
                         bomberman.setImage(Sprite.player_left_2.getFxImage());
                     }
-
                 } else if (bomberman.input.contains("RIGHT")) {
                     currentFigure_bomber++;
-                    int numpic = currentFigure_bomber % 2;
-                    currentFigure_bomber = numpic;
-                    numpic += 1;
+                    currentFigure_bomber %= 2;
+                    int numpic = currentFigure_bomber + 1;
 
-                    bomberman.addVelocity(step, 0);
+                    Move.moveRight(bomberman);
+
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_right_1.getFxImage());
                     } else {
@@ -188,93 +171,33 @@ public class BombermanGame extends Application {
                     }
 
                 } else if (bomberman.input.contains("UP")) {
-
                     currentFigure_bomber++;
-                    int numpic = currentFigure_bomber % 2;
-                    currentFigure_bomber = numpic;
-                    numpic += 1;
+                    currentFigure_bomber %= 2;
+                    int numpic = currentFigure_bomber + 1;
 
-                    bomberman.addVelocity(0, -step);
+                    Move.moveUp(bomberman);
+
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_up_1.getFxImage());
                     } else {
                         bomberman.setImage(Sprite.player_up_2.getFxImage());
                     }
-
                 } else if (bomberman.input.contains("DOWN")) {
                     currentFigure_bomber++;
-                    int numpic = currentFigure_bomber % 2;
-                    currentFigure_bomber = numpic;
-                    numpic += 1;
+                    currentFigure_bomber %= 2;
+                    int numpic = currentFigure_bomber + 1;
 
-                    bomberman.addVelocity(0, step);
+                    Move.moveDown(bomberman);
+
                     if (numpic == 1) {
                         bomberman.setImage(Sprite.player_down_1.getFxImage());
                     } else {
                         bomberman.setImage(Sprite.player_down_2.getFxImage());
                     }
-                } else {
-                    bomberman.addVelocity(0, 0);
                 }
-
-                /*
-                if (bomberman.input.contains("LEFT")) {
-                    currentFigure_bomber_l++;
-                    if (currentFigure_bomber_l > 2) {
-                        currentFigure_bomber_l = 1;
-                    }
-
-                    bomberman.addVelocity(-Sprite.step, 0);
-                    bomberman.setImage(
-                            Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, currentFigure_bomber_l, 54).getFxImage()
-                    );
-
-                } else if (bomberman.input.contains("RIGHT")) {
-                    currentFigure_bomber_r++;
-                    if (currentFigure_bomber_r > 2) {
-                        currentFigure_bomber_r = 1;
-                    }
-
-                    bomberman.addVelocity(Sprite.step, 0);
-                    bomberman.setImage(
-                            Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, currentFigure_bomber_r, 54).getFxImage()
-                    );
-
-                } else if (bomberman.input.contains("UP")) {
-
-                    currentFigure_bomber_u++;
-                    if (currentFigure_bomber_u > 2) {
-                        currentFigure_bomber_u = 1;
-                    }
-
-                    bomberman.addVelocity(0, -Sprite.step);
-                    bomberman.setImage(
-                            Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, currentFigure_bomber_u, 54).getFxImage()
-                    );
-
-                } else if (bomberman.input.contains("DOWN")) {
-
-                    currentFigure_bomber_d++;
-                    if (currentFigure_bomber_d > 2) {
-                        currentFigure_bomber_d = 1;
-                    }
-
-                    bomberman.addVelocity(0, Sprite.step);
-                    bomberman.setImage(
-                            Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, currentFigure_bomber_d, 54).getFxImage()
-                    );
-                } else {
-                    bomberman.addVelocity(0, 0);
-
-                    //currentFigure_bomber_l = 0;
-                    //currentFigure_bomber_r = 0;
-                    //currentFigure_bomber_u = 0;
-                   // currentFigure_bomber_d = 0;
-                } */
 
                 createMap();
                 update();
-                bomberman.handleCollapse();
             }
         };
         timer.start();
@@ -302,15 +225,15 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void update() {
-        for (Entity e : entities) {
-            e.update();
-        }
-    }
-
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+    }
+
+    public void update() {
+        for (Entity e : entities) {
+            e.update();
+        }
     }
 }

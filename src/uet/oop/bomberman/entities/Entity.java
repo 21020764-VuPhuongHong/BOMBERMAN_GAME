@@ -4,35 +4,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.ArrayList;
-
 import javafx.geometry.Rectangle2D;
 
 public abstract class Entity {
-
-    //public static final int WIDTH = 20;
-    //public static final int HEIGHT = 15;
-
-    //public static int limW = Sprite.SCALED_SIZE * WIDTH;
-    //public static int limH = Sprite.SCALED_SIZE * HEIGHT;
-
     //Tọa độ X tính từ góc trái trên trong Canvas
-    public int x;
-
+    private int x;
     //Tọa độ Y tính từ góc trái trên trong Canvas
-    public int y;
-
-    protected Image img;
-
-    public ArrayList<String> input = new ArrayList<String>();
-
-    protected double limH;
-    protected double limW;
-
-    public void setLim(double limH, double limW) {
-        this.limH = limH;
-        this.limW = limW;
-    }
+    private int y;
+    private Image img;
+    private int velocityX;
+    private int velocityY;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity(int x, int y, Image img) {
@@ -41,61 +22,38 @@ public abstract class Entity {
         this.img = img;
     }
 
-    public void setImage(Image img)
-    {
+    public void setImage(Image img) {
         this.img = img;
     }
 
-    public void render(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
-    }
-
-    public abstract void update();
-
-    public double velocityX;
-    public double velocityY;
-
-    public void setVelocity(double velocityX, double velocityY) {
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
-    }
-
-    public void addVelocity(double val_x, double val_y) {
+    public void setVelocity(int val_x, int val_y) {
         this.velocityX = val_x;
         this.velocityY = val_y;
-
-        /*
-        if((this.velocityX + val_x < limW - Sprite.SCALED_SIZE)
-            && (this.velocityX + val_x > 0))
-            {
-                this.velocityX += val_x;
-            }
-
-        if((this.velocityY + val_y < limH - Sprite.SCALED_SIZE)
-            && (this.velocityY + val_y > 0))
-            {
-                this.velocityY += val_y;
-            }*/
     }
 
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     public void setX(int _x) {
-        x = _x;
+        this.x = _x;
     }
 
     public void setY(int _y) {
-        y = _y;
+        this.y = _y;
     }
 
-    public double getVelocityX() {return this.velocityX;}
-    public double getVelocityY() {return this.velocityY;}
+    public int getVelocityX() {
+        return this.velocityX;
+    }
+
+    public int getVelocityY() {
+        return this.velocityY;
+    }
 
     public double getWidth() {
         return this.img.getWidth();
@@ -105,17 +63,9 @@ public abstract class Entity {
         return this.img.getHeight();
     }
 
-    public Rectangle2D getBoundary() {
-        return new Rectangle2D(x, y, this.getWidth(), this.getHeight());
+    public void render(GraphicsContext gc) {
+        gc.drawImage(img, x, y);
     }
 
-    public boolean intersectsWith(Entity e) {
-        return e.getBoundary().intersects(this.getBoundary());
-        /*
-        Rectangle2D rec1 = this.getBoundary();
-        Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMaxY(), rec1.getWidth()*3/4, rec1.getHeight());
-        return rec2.intersects(e.getBoundary());*/
-    }
-
-    public void handleCollapse(){};
+    public abstract void update();
 }

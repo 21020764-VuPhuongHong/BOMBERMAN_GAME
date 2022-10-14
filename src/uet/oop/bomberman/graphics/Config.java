@@ -8,16 +8,14 @@ public class Config {
     public static int width;
     public static int height;
 
-    public char config[][] = new char[100][100];
-    public int l;
+    public char[][] config = new char[100][100];
+    public int level;
 
     public void buildConfig() {
         try {
-            File myfile = new File(
-                    "res\\levels\\Level1.txt"
-            );
+            File myfile = new File("res\\levels\\Level1.txt");
             Scanner myReader = new Scanner(myfile);
-            this.l = myReader.nextInt();
+            this.level = myReader.nextInt();
             this.height = myReader.nextInt();
             this.width = myReader.nextInt();
 

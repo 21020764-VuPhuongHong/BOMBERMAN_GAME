@@ -54,8 +54,6 @@ public class Sprite {
     public static Sprite player_dead2 = new Sprite(DEFAULT_SIZE, 5, 2, SpriteSheet.tiles, 13, 15);
     public static Sprite player_dead3 = new Sprite(DEFAULT_SIZE, 6, 2, SpriteSheet.tiles, 16, 16);
 
-    public static double step = wall._realWidth;
-
     /*
     |--------------------------------------------------------------------------
     | Character
@@ -298,7 +296,6 @@ public class Sprite {
                 }
             }
         }
-
         return output;
     }
 }

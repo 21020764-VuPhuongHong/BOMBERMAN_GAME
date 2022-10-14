@@ -5,15 +5,13 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Enemy extends Entity {
+public abstract class Enemy extends Entity {
     private int swapMoveImg = 1;
     protected boolean isAlive = true;
     private int swapDeathImg = 1;
 
     public Enemy(int x, int y, Image img) {
         super(x, y, img);
-        this.velocityX = 32;
-        this.velocityY = 32;
     }
 
     private void setAliveState(boolean state) {

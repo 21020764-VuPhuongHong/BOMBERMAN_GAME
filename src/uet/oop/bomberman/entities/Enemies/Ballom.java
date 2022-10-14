@@ -1,61 +1,79 @@
 package uet.oop.bomberman.entities.Enemies;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Block.Brick;
-import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.Move;
-import uet.oop.bomberman.entities.Block.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.Random;
 
 public class Ballom extends Enemy {
     public Ballom(int x, int y, Image img) {
         super(x, y, img);
     }
 
+    public void move() {
+        Random seed = new Random();
+        int direction = seed.nextInt(4);
+        this.setVelocity(Sprite.DEFAULT_SIZE, Sprite.DEFAULT_SIZE);
+        switch (direction) {
+            case 0:
+                Move.moveUp(this);
+                if (this.getSwapMoveImg() == 1) {
+                    this.setImage(Sprite.balloom_left1.getFxImage());
+                    this.setSwapMoveImg(2);
+                } else if (this.getSwapMoveImg() == 2) {
+                    this.setImage(Sprite.balloom_left2.getFxImage());
+                    this.setSwapMoveImg(3);
+                } else if (this.getSwapMoveImg() == 3) {
+                    this.setImage(Sprite.balloom_left3.getFxImage());
+                    this.setSwapMoveImg(1);
+                }
+                break;
+            case 1:
+                Move.moveDown(this);
+                if (this.getSwapMoveImg() == 1) {
+                    this.setImage(Sprite.balloom_right1.getFxImage());
+                    this.setSwapMoveImg(2);
+                } else if (this.getSwapMoveImg() == 2) {
+                    this.setImage(Sprite.balloom_right2.getFxImage());
+                    this.setSwapMoveImg(3);
+                } else if (this.getSwapMoveImg() == 3) {
+                    this.setImage(Sprite.balloom_right3.getFxImage());
+                    this.setSwapMoveImg(1);
+                }
+                break;
+            case 2:
+                Move.moveRight(this);
+                if (this.getSwapMoveImg() == 1) {
+                    this.setImage(Sprite.balloom_right1.getFxImage());
+                    this.setSwapMoveImg(2);
+                } else if (this.getSwapMoveImg() == 2) {
+                    this.setImage(Sprite.balloom_right2.getFxImage());
+                    this.setSwapMoveImg(3);
+                } else if (this.getSwapMoveImg() == 3) {
+                    this.setImage(Sprite.balloom_right3.getFxImage());
+                    this.setSwapMoveImg(1);
+                }
+                break;
+            case 3:
+                Move.moveLeft(this);
+                if (this.getSwapMoveImg() == 1) {
+                    this.setImage(Sprite.balloom_left1.getFxImage());
+                    this.setSwapMoveImg(2);
+                } else if (this.getSwapMoveImg() == 2) {
+                    this.setImage(Sprite.balloom_left2.getFxImage());
+                    this.setSwapMoveImg(3);
+                } else if (this.getSwapMoveImg() == 3) {
+                    this.setImage(Sprite.balloom_left3.getFxImage());
+                    this.setSwapMoveImg(1);
+                }
+                break;
+        }
+    }
+
     public void update() {
         super.update();
-        Move.move(this, this.limH, this.limW);
-        handleCollapse();
-        if (!isAlive) {
-            this.setImage(Sprite.transparent.getFxImage());
-        }
-    }
-
-    @Override
-    public boolean intersectsWith(Entity e) {
-        //return e.getBoundary().intersects(this.getBoundary());
-        Rectangle2D rec1 = this.getBoundary();
-        Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth(), rec1.getHeight());
-        return rec2.intersects(e.getBoundary());
-    }
-
-    @Override
-    public void handleCollapse() {
-        for (Entity e : BombermanGame.entities) {
-            if (this.intersectsWith(e)) {
-                if (e instanceof Brick) {
-                    double velocityX = this.getVelocityX();
-                    double velocityY = this.getVelocityY();
-                    //System.out.println("brick" + velocityX + " " + velocityY);
-                    this.addVelocity(-velocityX, -velocityY);
-                    Move.update(this, limH, limW);
-                }
-            }
-        }
-
-        for (Entity e : BombermanGame.stillObjects) {
-            if (this.intersectsWith(e)) {
-                if (e instanceof Wall) {
-                    double velocityX = this.getVelocityX();
-                    double velocityY = this.getVelocityY();
-                    //System.out.println("wall" + velocityX + " " + velocityY);
-                    this.addVelocity(-velocityX, -velocityY);
-                    Move.update(this, limH, limW);
-                }
-            }
-        }
+        this.move();
     }
 }
 
