@@ -13,7 +13,7 @@ public class Ballom extends Enemy {
         super(x, y, img);
     }
 
-    private void move() {
+    private void moveBallom() {
         this.setVelocity(Sprite.DEFAULT_SIZE / 4, Sprite.DEFAULT_SIZE / 4);
         Random seed = new Random();
         if (this.getX() % Sprite.SCALED_SIZE == 0 && this.getY() % Sprite.SCALED_SIZE == 0) {
@@ -97,7 +97,7 @@ public class Ballom extends Enemy {
         if (!isAlive) {
             this.killBallom();
         } else {
-            this.move();
+            this.moveBallom();
         }
     }
 }

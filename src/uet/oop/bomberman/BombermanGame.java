@@ -14,6 +14,7 @@ import uet.oop.bomberman.entities.Block.Brick;
 import uet.oop.bomberman.entities.Block.Grass;
 import uet.oop.bomberman.entities.Block.Wall;
 import uet.oop.bomberman.entities.Enemies.Ballom;
+import uet.oop.bomberman.entities.Enemies.Oneal;
 import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.entities.Items.FlameItem;
 import uet.oop.bomberman.entities.Items.SpeedItem;
@@ -74,6 +75,9 @@ public class BombermanGame extends Application {
             for (int i = 0; i < levelConfig.height; i++) {
                 if (levelConfig.getConfigChar(i, j) == '1') {
                     Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
+                    entities.add(e);
+                } else if (levelConfig.getConfigChar(i, j) == '2') {
+                    Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
                     entities.add(e);
                 } else if (levelConfig.getConfigChar(i, j) == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
