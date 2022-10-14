@@ -7,14 +7,17 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.Random;
 
 public class Ballom extends Enemy {
+    private int direction = 0;
     public Ballom(int x, int y, Image img) {
         super(x, y, img);
     }
 
     public void move() {
+        this.setVelocity(Sprite.DEFAULT_SIZE / 4, Sprite.DEFAULT_SIZE / 4);
         Random seed = new Random();
-        int direction = seed.nextInt(4);
-        this.setVelocity(Sprite.DEFAULT_SIZE, Sprite.DEFAULT_SIZE);
+        if (this.getX() % Sprite.SCALED_SIZE == 0 && this.getY() % Sprite.SCALED_SIZE == 0) {
+            direction = seed.nextInt(4);
+        }
         switch (direction) {
             case 0:
                 Move.moveUp(this);

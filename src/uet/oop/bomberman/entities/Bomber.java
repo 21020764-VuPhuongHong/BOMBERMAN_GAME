@@ -2,18 +2,14 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.CollisionHandle;
 import uet.oop.bomberman.Move;
 import uet.oop.bomberman.entities.Enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.ArrayList;
-
 public class Bomber extends Entity {
-
-    public ArrayList<String> input = new ArrayList<>();
     private boolean isAlive = true;
     private int swapDeathImg = 1;
-    private static int currentFigure_bomber = 0;
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
@@ -47,7 +43,7 @@ public class Bomber extends Entity {
         }
         for (Entity e : BombermanGame.entities) {
             if (e instanceof Enemy) {
-                if (Move.intersects(this, e)) {
+                if (CollisionHandle.intersects(this, e)) {
                     this.killBomber();
                 }
             }

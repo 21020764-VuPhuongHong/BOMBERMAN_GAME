@@ -31,26 +31,10 @@ public class Move {
         }
     }
 
-    private static Rectangle2D getBoundary(Entity e) {
-        return new Rectangle2D(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-    }
-
-    public static boolean intersects(Entity e, Rectangle2D rec) {
-        Rectangle2D rec1 = getBoundary(e);
-        Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
-        return rec2.intersects(rec);
-    }
-
-    public static boolean intersects(Entity e1, Entity e2) {
-        Rectangle2D rec1 = getBoundary(e1);
-        Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
-        return rec2.intersects(getBoundary(e2));
-    }
-
     public static boolean checkCollision(int x, int y) {
         Rectangle2D rec = new Rectangle2D(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         for (Entity other : BombermanGame.entities) {
-            if (intersects(other, rec)) {
+            if (CollisionHandle.intersects(other, rec)) {
                 if (other instanceof Brick) {
                     return true;
                 }
@@ -58,7 +42,7 @@ public class Move {
         }
 
         for (Entity other : BombermanGame.stillObjects) {
-            if (intersects(other, rec)) {
+            if (CollisionHandle.intersects(other, rec)) {
                 if (other instanceof Wall) {
                     return true;
                 }
