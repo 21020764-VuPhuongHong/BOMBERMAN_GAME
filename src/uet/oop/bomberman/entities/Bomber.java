@@ -15,7 +15,7 @@ public class Bomber extends Entity {
         super(x, y, img);
     }
 
-    private void setAliveState(boolean state) {
+    public void setAliveState(boolean state) {
         this.isAlive = state;
     }
 
@@ -30,22 +30,18 @@ public class Bomber extends Entity {
             this.setImage(Sprite.player_dead3.getFxImage());
             swapDeathImg = 4;
         } else {
-            this.setAliveState(false);
-            this.setImage(Sprite.transparent.getFxImage());
             BombermanGame.entities.remove(this);
         }
     }
 
     @Override
     public void update() {
-        if (BombermanGame.killedEntities[this.getX() / Sprite.SCALED_SIZE][this.getY() / Sprite.SCALED_SIZE] == 1) {
+        if (!isAlive) {
             this.killBomber();
         }
         for (Entity e : BombermanGame.entities) {
-            if (e instanceof Enemy) {
-                if (CollisionHandle.intersects(this, e)) {
-                    this.killBomber();
-                }
+            if (e instanceof Enemy && CollisionHandle.intersects(this, e)) {
+                this.setAliveState(false);
             }
         }
     }

@@ -12,12 +12,8 @@ public class BombItem extends Items {
     }
 
     public void update() {
-        if (getCoveredState()) {
-            changeCoveredState();
-        }
-
-        if (!getReceivedState() && changeReceivedState()) {
-            hasBombItem = getReceivedState();
+        if (!isReceived && changeReceivedState()) {
+            hasBombItem = isReceived;
             BombermanGame.entities.remove(this);
         }
     }

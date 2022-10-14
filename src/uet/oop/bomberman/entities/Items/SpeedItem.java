@@ -9,11 +9,7 @@ public class SpeedItem extends Items {
     }
 
     public void update() {
-        if (getCoveredState()) {
-            changeCoveredState();
-        }
-
-        if (!getReceivedState() && changeReceivedState()) {
+        if (!isReceived && changeReceivedState()) {
             BombermanGame.step *= 2;
             BombermanGame.entities.remove(this);
         }

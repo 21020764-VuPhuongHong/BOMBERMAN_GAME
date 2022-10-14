@@ -26,10 +26,9 @@ import java.util.List;
 public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
+
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
-    public static int[][] killedEntities = new int[31][13];
-    public static int[][] checkWall = new int[31][13];
 
     public static Bomber bomberman;
 
@@ -106,20 +105,16 @@ public class BombermanGame extends Application {
                         String code = e.getCode().toString();
                         if (code.equals("SPACE")) {
                             System.out.println(Bomb.timeRemainBomb);
-                            if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeRemainBomb >= Bomb.timeBetween2Bombs) {
-                                System.out.println("Space");
+                            if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeRemainBomb >= Bomb.TIME_BETWEEN_2_BOMBS) {
                                 Bomb bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE, bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
                                 bomb.putBomb();
                                 entities.add(bomb);
                                 if (BombItem.hasBombItem) {
-                                    if (BombItem.numBomsPut < 2 && Bomb.timeRemainBomb < Bomb.timeBetween2Bombs) {
+                                    if (BombItem.numBomsPut < 2 && Bomb.timeRemainBomb < Bomb.TIME_BETWEEN_2_BOMBS) {
                                         BombItem.numBomsPut++;
-                                        System.out.println("Y");
                                     } else {
                                         BombItem.numBomsPut = 1;
-                                        System.out.println("N");
                                     }
-                                    System.out.println(BombItem.numBomsPut);
                                 }
                             }
                         } else if (code.equals("LEFT")) {
@@ -197,10 +192,8 @@ public class BombermanGame extends Application {
                 Entity object;
                 if (i == 0 || i == levelConfig.height - 1 || j == 0 || j == levelConfig.width - 1) {
                     object = new Wall(j, i, Sprite.wall.getFxImage());
-                    checkWall[j][i] = 1;
                 } else if (levelConfig.getConfigChar(i, j) == '#') {
                     object = new Wall(j, i, Sprite.wall.getFxImage());
-                    checkWall[j][i] = 1;
                 } else {
                     object = new Grass(j, i, Sprite.grass.getFxImage());
                 }
@@ -219,5 +212,6 @@ public class BombermanGame extends Application {
         for (Entity e : entities) {
             e.update();
         }
+        Bomb.timeRemainBomb = System.currentTimeMillis() - Bomb.timePutBomb;
     }
 }

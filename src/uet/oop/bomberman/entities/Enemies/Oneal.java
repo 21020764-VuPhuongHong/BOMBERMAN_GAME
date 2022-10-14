@@ -15,6 +15,6 @@ public class Oneal extends Enemy {
     }
 
     public void update() {
-        super.update();
+
     }
 }

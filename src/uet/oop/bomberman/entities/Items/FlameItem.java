@@ -11,11 +11,7 @@ public class FlameItem extends Items {
     }
 
     public void update() {
-        if (getCoveredState()) {
-            changeCoveredState();
-        }
-
-        if (!getReceivedState() && changeReceivedState()) {
+        if (!isReceived && changeReceivedState()) {
             Bomb.explodingLength = 2;
             BombermanGame.entities.remove(this);
         }
