@@ -2,12 +2,13 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.CollisionHandle;
-import uet.oop.bomberman.Move;
+import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
+    private static final int MAX_NUM_FRAMES = 20;
+    private int countFrame = 0;
     private boolean isAlive = true;
     private int swapDeathImg = 1;
 
@@ -19,16 +20,33 @@ public class Bomber extends Entity {
         this.isAlive = state;
     }
 
+    public boolean getAliveState() {
+        return isAlive;
+    }
+
     private void killBomber() {
+        if (countFrame > MAX_NUM_FRAMES) {
+            countFrame = 1;
+        }
+
         if (swapDeathImg == 1) {
             this.setImage(Sprite.player_dead1.getFxImage());
-            swapDeathImg = 2;
+            countFrame++;
+            if (countFrame == MAX_NUM_FRAMES) {
+                swapDeathImg = 2;
+            }
         } else if (swapDeathImg == 2) {
             this.setImage(Sprite.player_dead2.getFxImage());
-            swapDeathImg = 3;
+            countFrame++;
+            if (countFrame == MAX_NUM_FRAMES) {
+                swapDeathImg = 3;
+            }
         } else if (swapDeathImg == 3) {
             this.setImage(Sprite.player_dead3.getFxImage());
-            swapDeathImg = 4;
+            countFrame++;
+            if (countFrame == MAX_NUM_FRAMES) {
+                swapDeathImg = 4;
+            }
         } else {
             BombermanGame.entities.remove(this);
         }
@@ -38,10 +56,11 @@ public class Bomber extends Entity {
     public void update() {
         if (!isAlive) {
             this.killBomber();
-        }
-        for (Entity e : BombermanGame.entities) {
-            if (e instanceof Enemy && CollisionHandle.intersects(this, e)) {
-                this.setAliveState(false);
+        } else {
+            for (Entity e : BombermanGame.entities) {
+                if (e instanceof Enemy && CollisionHandle.intersects(this, e)) {
+                    this.setAliveState(false);
+                }
             }
         }
     }

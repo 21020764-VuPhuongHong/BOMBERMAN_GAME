@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.control;
 
 import javafx.geometry.Rectangle2D;
 import uet.oop.bomberman.entities.Entity;

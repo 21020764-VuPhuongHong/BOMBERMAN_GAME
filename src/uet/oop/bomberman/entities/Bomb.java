@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.CollisionHandle;
+import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Block.Brick;
 import uet.oop.bomberman.entities.Block.Wall;
 import uet.oop.bomberman.entities.Enemies.Enemy;
-import uet.oop.bomberman.graphics.Config;
+import uet.oop.bomberman.graphics.ConfigLevel;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
@@ -20,6 +20,8 @@ public class Bomb extends Entity {
     public static int numOfBombs = 25;
     private long timeOfBomb;
     private int bombImgStatus = 1;
+    private int countFrame = 0;
+    private static final int MAX_NUM_FRAMES = 6;
     private int explosiveState = 1;
     private List<Entity> middleHorizontalBombs = new ArrayList<>();
     private List<Entity> middleVerticalBombs = new ArrayList<>();
@@ -33,9 +35,9 @@ public class Bomb extends Entity {
     public static int explodingLength = 1;
     public static final long TIME_BETWEEN_2_BOMBS = 3000;
     public static long timePutBomb;
-    public static long timeRemainBomb = TIME_BETWEEN_2_BOMBS;
+    public static long timeWaitForPutting2ndBomb = TIME_BETWEEN_2_BOMBS;
     public int timeBeforeExploding = 2000;
-    private static final int TIME_EXPLODING = 1200;
+    private static final int TIME_EXPLODING = 500;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
@@ -51,23 +53,33 @@ public class Bomb extends Entity {
     }
 
     public void swapBombImg() {
+        if (countFrame > MAX_NUM_FRAMES) {
+            countFrame = 1;
+        }
+
         if (bombImgStatus == 1) {
             this.setImage(Sprite.bomb.getFxImage());
-            bombImgStatus = 2;
+            countFrame++;
+            if (countFrame == MAX_NUM_FRAMES) {
+                bombImgStatus = 2;
+            }
         } else if (bombImgStatus == 2) {
             this.setImage(Sprite.bomb_1.getFxImage());
-            bombImgStatus = 3;
+            countFrame++;
+            if (countFrame == MAX_NUM_FRAMES) {
+                bombImgStatus = 3;
+            }
         } else if (bombImgStatus == 3) {
             this.setImage(Sprite.bomb_2.getFxImage());
-            bombImgStatus = 4;
-        } else {
-            this.setImage(Sprite.bomb_1.getFxImage());
-            bombImgStatus = 1;
+            countFrame++;
+            if (countFrame == MAX_NUM_FRAMES) {
+                bombImgStatus = 1;
+            }
         }
     }
 
     public void createExplodingEdge() {
-        if (this.getY() / SCALED_SIZE + explodingLength < Config.height && !checkWallCollision(this.getX(), this.getY() + explodingLength * SCALED_SIZE)
+        if (this.getY() / SCALED_SIZE + explodingLength < ConfigLevel.height && !checkWallCollision(this.getX(), this.getY() + explodingLength * SCALED_SIZE)
                 && !checkBrickCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)
                 && !checkWallCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)) {
             downEdge = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE + explodingLength, Sprite.transparent.getFxImage());
@@ -88,7 +100,7 @@ public class Bomb extends Entity {
             BombermanGame.entities.add(leftEdge);
         }
 
-        if (this.getX() / SCALED_SIZE + explodingLength < Config.width && !checkWallCollision(this.getX() + explodingLength * SCALED_SIZE, this.getY())
+        if (this.getX() / SCALED_SIZE + explodingLength < ConfigLevel.width && !checkWallCollision(this.getX() + explodingLength * SCALED_SIZE, this.getY())
                 && !checkBrickCollision(this.getX() + (explodingLength - 1) * SCALED_SIZE, this.getY())
                 && !checkWallCollision(this.getX() + (explodingLength - 1) * SCALED_SIZE, this.getY())) {
             rightEdge = new Bomb(this.getX() / SCALED_SIZE + explodingLength, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());

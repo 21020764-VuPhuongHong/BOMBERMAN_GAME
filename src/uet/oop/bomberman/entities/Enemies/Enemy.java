@@ -7,6 +7,8 @@ public abstract class Enemy extends Entity {
     protected int swapMoveImg = 1;
     protected boolean isAlive = true;
     protected int swapDeathImg = 1;
+    public static final int MAX_NUM_FRAMES = 20;
+    protected int countFrame = 0;
 
     public Enemy(int x, int y, Image img) {
         super(x, y, img);

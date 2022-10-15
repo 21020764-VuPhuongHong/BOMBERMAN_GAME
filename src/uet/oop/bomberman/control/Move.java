@@ -1,6 +1,7 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.control;
 
 import javafx.geometry.Rectangle2D;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Block.Brick;
 import uet.oop.bomberman.entities.Block.Wall;
 import uet.oop.bomberman.entities.Bomb;
@@ -10,25 +11,25 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Move {
     public static void moveLeft(Entity e) {
-        if (!checkCollision(e, e.getX() - e.getVelocityX(), e.getY())) {
+        if (canMoveLeft(e)) {
             e.setX(e.getX() - e.getVelocityX());
         }
     }
 
     public static void moveRight(Entity e) {
-        if (!checkCollision(e, e.getX() + e.getVelocityX(), e.getY())) {
+        if (canMoveRight(e)) {
             e.setX(e.getX() + e.getVelocityX());
         }
     }
 
     public static void moveUp(Entity e) {
-        if (!checkCollision(e, e.getX(), e.getY() - e.getVelocityY())) {
+        if (canMoveUp(e)) {
             e.setY(e.getY() - e.getVelocityY());
         }
     }
 
     public static void moveDown(Entity e) {
-        if (!checkCollision(e, e.getX(), e.getY() + e.getVelocityY())) {
+        if (canMoveDown(e)) {
             e.setY(e.getY() + e.getVelocityY());
         }
     }
@@ -54,5 +55,33 @@ public class Move {
             }
         }
         return false;
+    }
+
+    public static boolean canMoveLeft(Entity e) {
+        if (checkCollision(e, e.getX() - e.getVelocityX(), e.getY())) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean canMoveRight(Entity e) {
+        if (checkCollision(e, e.getX() + e.getVelocityX(), e.getY())) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean canMoveUp(Entity e) {
+        if (checkCollision(e, e.getX(), e.getY() - e.getVelocityY())) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean canMoveDown(Entity e) {
+        if (checkCollision(e, e.getX(), e.getY() + e.getVelocityY())) {
+            return false;
+        }
+        return true;
     }
 }
