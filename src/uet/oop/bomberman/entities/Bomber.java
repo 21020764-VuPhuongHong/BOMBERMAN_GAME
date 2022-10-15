@@ -57,6 +57,8 @@ public class Bomber extends Entity {
     public void update() {
         if (!isAlive) {
             this.killBomber();
+            System.out.println("be smarter and come back! you suck!");
+            System.exit(1);
         } else {
             for (Entity e : BombermanGame.entities) {
                 javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
