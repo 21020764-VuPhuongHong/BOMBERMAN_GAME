@@ -71,20 +71,19 @@ public class Menu {
     public static void handleInsSubmenu() {
         Image submenu = new Image("textures/instruction_submenu.png");
         ImageView submenuView = new ImageView(submenu);
-        Image returnButton = new Image("textures/return_button1.png");
-        ImageView returnButtonView = new ImageView(returnButton);
-
         submenuView.setX(180);
         submenuView.setY(40);
         submenuView.setScaleX(1.3);
         submenuView.setScaleY(1.3);
-        BombermanGame.root.getChildren().add(submenuView);
 
+        Image returnButton = new Image("textures/return_button1.png");
+        ImageView returnButtonView = new ImageView(returnButton);
         returnButtonView.setX(265);
         returnButtonView.setY(270);
         returnButtonView.setScaleX(0.3);
         returnButtonView.setScaleY(0.3);
-        BombermanGame.root.getChildren().add(returnButtonView);
+
+        BombermanGame.root.getChildren().addAll(submenuView, returnButtonView);
 
         returnButtonView.setOnMouseEntered(mouseEvent1 -> {
             returnButtonView.setImage(new Image("textures/return_button2.png"));
@@ -93,8 +92,7 @@ public class Menu {
             returnButtonView.setImage(new Image("textures/return_button1.png"));
         });
         returnButtonView.setOnMouseClicked(mouseEvent1 -> {
-            BombermanGame.root.getChildren().remove(returnButtonView);
-            BombermanGame.root.getChildren().remove(submenuView);
+            BombermanGame.root.getChildren().removeAll(returnButtonView, submenuView);
         });
     }
 
@@ -109,11 +107,8 @@ public class Menu {
                 Level1 level1 = new Level1();
                 level1.build();
 
-                BombermanGame.root.getChildren().remove(menuBgView);
-                BombermanGame.root.getChildren().remove(nameView);
-                BombermanGame.root.getChildren().remove(playButtonView);
-                BombermanGame.root.getChildren().remove(exitButtonView);
-                BombermanGame.root.getChildren().remove(instructionButtonView);
+                BombermanGame.root.getChildren().removeAll(menuBgView, nameView, playButtonView, exitButtonView, instructionButtonView);
+                InfoLevel.createLevelInfo();
         });
 
         exitButtonView.setOnMouseEntered(mouseEvent -> {

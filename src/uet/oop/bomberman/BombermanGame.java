@@ -14,6 +14,7 @@ import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.ui.InfoLevel;
 import uet.oop.bomberman.ui.Menu;
 
 import java.util.ArrayList;
@@ -28,10 +29,14 @@ public class BombermanGame extends Application {
 
     public static Bomber bomberman;
     public static int currentFigure_bomber = 0;
-    public static int WIDTH = 31;
-    public static int HEIGHT = 13;
+    public static final int WIDTH = 31;
+    public static final int HEIGHT = 13;
     public static int bomberStep = 8;
     public static Group root;
+    public static final int TIME_FOR_LEVEL = 300;
+    public static int timeLeft = TIME_FOR_LEVEL;
+    public static long currentTime;
+    public static int level;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -42,7 +47,7 @@ public class BombermanGame extends Application {
         // Tao Canvas
         // Canvas(double width, double height)
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH * 1.0, Sprite.SCALED_SIZE * HEIGHT * 1.0);
-        canvas.setTranslateY(32);
+        canvas.setTranslateY(Sprite.SCALED_SIZE);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
@@ -162,9 +167,22 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+        countTimeLeft();
         for (Entity e : entities) {
             e.update();
         }
         Bomb.timeWaitForPutting2ndBomb = System.currentTimeMillis() - Bomb.timePutBomb;
+        InfoLevel.updateLevelInfo();
+    }
+
+    public void countTimeLeft() {
+        if (System.currentTimeMillis() - currentTime >= 1000) {
+            timeLeft--;
+            currentTime = System.currentTimeMillis();
+        }
+
+        if (timeLeft <= 0) {
+            bomberman.setAliveState(false);
+        }
     }
 }

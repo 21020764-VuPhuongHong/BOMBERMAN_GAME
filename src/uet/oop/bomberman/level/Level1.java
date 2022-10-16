@@ -10,6 +10,8 @@ public class Level1 {
         BombermanGame.entities.clear();
         BombermanGame.stillObjects.clear();
         Bomb.numOfBombs = 25;
+        BombermanGame.timeLeft = BombermanGame.TIME_FOR_LEVEL;
+        BombermanGame.level = 1;
         
         level1.buildConfig("res\\levels\\Level1.txt");
     }
@@ -17,5 +19,6 @@ public class Level1 {
     public void build() {
         level1.createMap();
         level1.createEntities();
+        BombermanGame.currentTime = System.currentTimeMillis();
     }
 }
