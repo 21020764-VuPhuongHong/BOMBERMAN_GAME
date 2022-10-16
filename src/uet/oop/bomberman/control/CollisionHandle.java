@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import uet.oop.bomberman.entities.Entity;
 
 public class CollisionHandle {
-    private static Rectangle2D getBoundary(Entity e) {
+    public static Rectangle2D getBoundary(Entity e) {
         return new Rectangle2D(e.getX(), e.getY(), e.getWidth(), e.getHeight());
     }
 

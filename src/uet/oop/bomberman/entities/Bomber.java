@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.ui.GameOver;
@@ -59,9 +60,13 @@ public class Bomber extends Entity {
     public void update() {
         if (!isAlive) {
             this.killBomber();
+            System.out.println("be smarter and come back! you suck!");
+            System.exit(1);
         } else {
             for (Entity e : BombermanGame.entities) {
-                if (e instanceof Enemy && CollisionHandle.intersects(this, e)) {
+                javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
+                javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth()*3/4, rec1.getHeight());
+                if (e instanceof Enemy && CollisionHandle.intersects(e, new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth()*3/4, rec1.getHeight()))) {
                     this.setAliveState(false);
                 }
             }

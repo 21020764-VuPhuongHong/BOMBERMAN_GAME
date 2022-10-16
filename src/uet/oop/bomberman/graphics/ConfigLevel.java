@@ -10,6 +10,7 @@ import uet.oop.bomberman.entities.Enemies.Oneal;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.entities.Items.FlameItem;
+import uet.oop.bomberman.entities.Items.Portal;
 import uet.oop.bomberman.entities.Items.SpeedItem;
 
 import java.io.File;  // Import the File class
@@ -75,7 +76,7 @@ public class ConfigLevel {
                     Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == '2') {
-                    Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                   Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
@@ -93,6 +94,12 @@ public class ConfigLevel {
                     Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
                     BombermanGame.entities.add(brick);
                 } else if (config[i][j] == '*') {
+                    Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
+                    BombermanGame.entities.add(brick);
+                }
+                else if(config[i][j] == 'x') {
+                    Portal portal= new Portal(j, i, Sprite.portal.getFxImage());
+                    BombermanGame.entities.add(portal);
                     Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
                     BombermanGame.entities.add(brick);
                 }
