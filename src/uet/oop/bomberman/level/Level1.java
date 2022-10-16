@@ -1,6 +1,7 @@
 package uet.oop.bomberman.level;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.graphics.ConfigLevel;
 
 public class Level1 {
@@ -8,6 +9,7 @@ public class Level1 {
     public Level1() {
         BombermanGame.entities.clear();
         BombermanGame.stillObjects.clear();
+        Bomb.numOfBombs = 25;
         
         level1.buildConfig("res\\levels\\Level1.txt");
     }

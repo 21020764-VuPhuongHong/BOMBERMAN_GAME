@@ -7,13 +7,14 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.level.Level1;
+import uet.oop.bomberman.ui.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class BombermanGame extends Application {
     public static int WIDTH = 31;
     public static int HEIGHT = 13;
     public static int bomberStep = 8;
+    public static Group root;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -40,93 +42,100 @@ public class BombermanGame extends Application {
         // Tao Canvas
         // Canvas(double width, double height)
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH * 1.0, Sprite.SCALED_SIZE * HEIGHT * 1.0);
+        canvas.setTranslateY(32);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
-        Group root = new Group();
+        root = new Group();
         root.getChildren().add(canvas);
+
+        Menu.createMenu();
+        Menu.handleMenuButtons(stage);
 
         // Tao scene
         Scene scene = new Scene(root);
 
         // Them scene vao stage
         stage.setScene(scene);
-
-        Level1 level1 = new Level1();
-        level1.build();
+        stage.setTitle("BOMBERMAN");
+        Image logo = new Image("textures/icon.png");
+        stage.getIcons().add(logo);
+        stage.setResizable(false);
 
         // listen event of entity bomber
         scene.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
                     @Override
                     public void handle(KeyEvent e) {
-                        String code = e.getCode().toString();
-                        if (code.equals("SPACE")) {
-                            System.out.println(Bomb.timeWaitForPutting2ndBomb);
-                            if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeWaitForPutting2ndBomb >= Bomb.TIME_BETWEEN_2_BOMBS) {
-                                Bomb bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE, bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
-                                bomb.putBomb();
-                                entities.add(bomb);
-                                if (BombItem.hasBombItem) {
-                                    if (BombItem.numBomsPut < 2 && Bomb.timeWaitForPutting2ndBomb < Bomb.TIME_BETWEEN_2_BOMBS) {
-                                        BombItem.numBomsPut++;
-                                    } else {
-                                        BombItem.numBomsPut = 1;
+                        if (bomberman.getAliveState()) {
+                            String code = e.getCode().toString();
+                            if (code.equals("SPACE")) {
+                                System.out.println(Bomb.timeWaitForPutting2ndBomb);
+                                if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeWaitForPutting2ndBomb >= Bomb.TIME_BETWEEN_2_BOMBS) {
+                                    Bomb bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE, bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+                                    bomb.putBomb();
+                                    entities.add(bomb);
+                                    if (BombItem.hasBombItem) {
+                                        if (BombItem.numBomsPut < 2 && Bomb.timeWaitForPutting2ndBomb < Bomb.TIME_BETWEEN_2_BOMBS) {
+                                            BombItem.numBomsPut++;
+                                        } else {
+                                            BombItem.numBomsPut = 1;
+                                        }
                                     }
                                 }
-                            }
-                        } else if (code.equals("LEFT")) {
-                            currentFigure_bomber++;
-                            currentFigure_bomber %= 3;
+                            } else if (code.equals("LEFT")) {
+                                currentFigure_bomber++;
+                                currentFigure_bomber %= 3;
 
-                            Move.moveLeft(bomberman);
+                                Move.moveLeft(bomberman);
 
-                            if (currentFigure_bomber == 0) {
-                                bomberman.setImage(Sprite.player_left.getFxImage());
-                            } else if (currentFigure_bomber == 1) {
-                                bomberman.setImage(Sprite.player_left_1.getFxImage());
-                            } else {
-                                bomberman.setImage(Sprite.player_left_2.getFxImage());
-                            }
-                        } else if (code.equals("RIGHT")) {
-                            currentFigure_bomber++;
-                            currentFigure_bomber %= 3;
+                                if (currentFigure_bomber == 0) {
+                                    bomberman.setImage(Sprite.player_left.getFxImage());
+                                } else if (currentFigure_bomber == 1) {
+                                    bomberman.setImage(Sprite.player_left_1.getFxImage());
+                                } else {
+                                    bomberman.setImage(Sprite.player_left_2.getFxImage());
+                                }
+                            } else if (code.equals("RIGHT")) {
+                                currentFigure_bomber++;
+                                currentFigure_bomber %= 3;
 
-                            Move.moveRight(bomberman);
+                                Move.moveRight(bomberman);
 
-                            if (currentFigure_bomber == 0) {
-                                bomberman.setImage(Sprite.player_right.getFxImage());
-                            } else if (currentFigure_bomber == 1) {
-                                bomberman.setImage(Sprite.player_right_1.getFxImage());
-                            } else {
-                                bomberman.setImage(Sprite.player_right_2.getFxImage());
-                            }
+                                if (currentFigure_bomber == 0) {
+                                    bomberman.setImage(Sprite.player_right.getFxImage());
+                                } else if (currentFigure_bomber == 1) {
+                                    bomberman.setImage(Sprite.player_right_1.getFxImage());
+                                } else {
+                                    bomberman.setImage(Sprite.player_right_2.getFxImage());
+                                }
 
-                        } else if (code.equals("UP")) {
-                            currentFigure_bomber++;
-                            currentFigure_bomber %= 3;
+                            } else if (code.equals("UP")) {
+                                currentFigure_bomber++;
+                                currentFigure_bomber %= 3;
 
-                            Move.moveUp(bomberman);
+                                Move.moveUp(bomberman);
 
-                            if (currentFigure_bomber == 0) {
-                                bomberman.setImage(Sprite.player_up.getFxImage());
-                            } else if (currentFigure_bomber == 1) {
-                                bomberman.setImage(Sprite.player_up_1.getFxImage());
-                            } else {
-                                bomberman.setImage(Sprite.player_up_2.getFxImage());
-                            }
-                        } else if (code.equals("DOWN")) {
-                            currentFigure_bomber++;
-                            currentFigure_bomber %= 3;
+                                if (currentFigure_bomber == 0) {
+                                    bomberman.setImage(Sprite.player_up.getFxImage());
+                                } else if (currentFigure_bomber == 1) {
+                                    bomberman.setImage(Sprite.player_up_1.getFxImage());
+                                } else {
+                                    bomberman.setImage(Sprite.player_up_2.getFxImage());
+                                }
+                            } else if (code.equals("DOWN")) {
+                                currentFigure_bomber++;
+                                currentFigure_bomber %= 3;
 
-                            Move.moveDown(bomberman);
+                                Move.moveDown(bomberman);
 
-                            if (currentFigure_bomber == 0) {
-                                bomberman.setImage(Sprite.player_down.getFxImage());
-                            } else if (currentFigure_bomber == 1) {
-                                bomberman.setImage(Sprite.player_down_1.getFxImage());
-                            } else {
-                                bomberman.setImage(Sprite.player_down_2.getFxImage());
+                                if (currentFigure_bomber == 0) {
+                                    bomberman.setImage(Sprite.player_down.getFxImage());
+                                } else if (currentFigure_bomber == 1) {
+                                    bomberman.setImage(Sprite.player_down_1.getFxImage());
+                                } else {
+                                    bomberman.setImage(Sprite.player_down_2.getFxImage());
+                                }
                             }
                         }
                     }

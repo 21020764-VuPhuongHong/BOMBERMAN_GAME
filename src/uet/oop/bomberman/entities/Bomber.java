@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.ui.GameOver;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
@@ -49,6 +50,8 @@ public class Bomber extends Entity {
             }
         } else {
             BombermanGame.entities.remove(this);
+
+            GameOver.createGameOver();
         }
     }
 

@@ -4,8 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
-import javafx.geometry.Rectangle2D;
-
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     private int x;

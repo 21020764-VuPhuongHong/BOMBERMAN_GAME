@@ -248,7 +248,7 @@ public class Bomb extends Entity {
         }
     }
 
-    private void checkActive() {
+    private void handleBombExplosion() {
         if (bombStatus == 1) {
             if (System.currentTimeMillis() - timeOfBomb < timeBeforeExploding) {
                 swapBombImg();
@@ -256,11 +256,7 @@ public class Bomb extends Entity {
                 bombStatus = 2;
                 timeOfBomb = System.currentTimeMillis();
             }
-        }
-    }
-
-    private void checkExplosion() {
-        if (bombStatus == 2) {
+        } else if (bombStatus == 2) {
             if (System.currentTimeMillis() - timeOfBomb < TIME_EXPLODING) {
                 if (explodingLength >= 2 && !isMiddle) {
                     createMiddle();
@@ -364,8 +360,7 @@ public class Bomb extends Entity {
     }
 
     public void update() {
-        checkActive();
-        checkExplosion();
+        handleBombExplosion();
     }
 }
 
