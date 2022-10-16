@@ -47,7 +47,7 @@ public class ConfigLevel {
             e.printStackTrace();
         }
     }
-    
+
     public void createMap() {
         for (int j = 0; j < width; j++) {
             for (int i = 0; i < height; i++) {
@@ -63,7 +63,7 @@ public class ConfigLevel {
             }
         }
     }
-    
+
     public void createEntities() {
         BombermanGame.bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
         BombermanGame.entities.add(BombermanGame.bomberman);
@@ -76,7 +76,7 @@ public class ConfigLevel {
                     Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == '2') {
-                   Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                    Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
@@ -96,9 +96,8 @@ public class ConfigLevel {
                 } else if (config[i][j] == '*') {
                     Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
                     BombermanGame.entities.add(brick);
-                }
-                else if(config[i][j] == 'x') {
-                    Portal portal= new Portal(j, i, Sprite.portal.getFxImage());
+                } else if (config[i][j] == 'x') {
+                    Portal portal = new Portal(j, i, Sprite.portal.getFxImage());
                     BombermanGame.entities.add(portal);
                     Brick brick = new Brick(j, i, Sprite.brick.getFxImage());
                     BombermanGame.entities.add(brick);

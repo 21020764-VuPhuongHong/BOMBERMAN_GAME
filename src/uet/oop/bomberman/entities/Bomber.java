@@ -60,13 +60,11 @@ public class Bomber extends Entity {
     public void update() {
         if (!isAlive) {
             this.killBomber();
-            System.out.println("be smarter and come back! you suck!");
-            System.exit(1);
         } else {
             for (Entity e : BombermanGame.entities) {
                 javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
-                javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth()*3/4, rec1.getHeight());
-                if (e instanceof Enemy && CollisionHandle.intersects(e, new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth()*3/4, rec1.getHeight()))) {
+                javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
+                if (e instanceof Enemy && CollisionHandle.intersects(e, rec2)) {
                     this.setAliveState(false);
                 }
             }
