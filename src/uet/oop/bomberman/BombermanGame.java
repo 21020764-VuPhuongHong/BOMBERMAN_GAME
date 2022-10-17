@@ -9,6 +9,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.entities.*;
@@ -17,6 +20,11 @@ import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.ui.InfoLevel;
 import uet.oop.bomberman.ui.Menu;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +46,7 @@ public class BombermanGame extends Application {
     public static long currentTime;
     public static int level;
 
+    public static Sound soundControl;
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -66,6 +75,9 @@ public class BombermanGame extends Application {
         Image logo = new Image("textures/icon.png");
         stage.getIcons().add(logo);
         stage.setResizable(false);
+        soundControl = new Sound();
+        soundControl.build();
+        Sound.isSoundGame = true;
 
         // listen event of entity bomber
         scene.setOnKeyPressed(
@@ -154,7 +166,26 @@ public class BombermanGame extends Application {
                 update();
             }
         };
+        /*
+
+        try {
+            //String path = "D:\\WorkSpace\\bomberman-starter\\res\\Sounds\\SoundGame.wav";
+            String path = "Sounds/SoundGame.wav";
+            URL url = this.getClass().getClassLoader().getResource(path);
+
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+            //clip.loop(10);
+        }
+        catch (Exception e) {
+            System.out.println("lỗi" + e.getMessage());
+        } */
+        soundControl.update();
         timer.start();
+        //Sound.build();
+        //Sound.update();
 
         //render();
         stage.show();

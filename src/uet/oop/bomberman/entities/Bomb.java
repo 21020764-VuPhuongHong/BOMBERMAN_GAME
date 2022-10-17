@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Block.Brick;
 import uet.oop.bomberman.entities.Block.Wall;
@@ -79,6 +80,9 @@ public class Bomb extends Entity {
     }
 
     public void createExplodingEdge() {
+        BombermanGame.soundControl.playSoundBomb();
+        Sound.isSoundGame = false;
+
         if (this.getY() / SCALED_SIZE + explodingLength < ConfigLevel.height && !checkWallCollision(this.getX(), this.getY() + explodingLength * SCALED_SIZE)
                 && !checkBrickCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)
                 && !checkWallCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)) {
@@ -300,6 +304,7 @@ public class Bomb extends Entity {
                 BombermanGame.entities.remove(this);
             }
         }
+        Sound.isSoundGame = true;
     }
 
     public void handleEnemyCollision(Entity e, Entity other) {

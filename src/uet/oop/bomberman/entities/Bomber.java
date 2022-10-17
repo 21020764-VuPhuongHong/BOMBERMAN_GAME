@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.ui.GameOver;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Enemies.Enemy;
@@ -60,6 +61,8 @@ public class Bomber extends Entity {
     public void update() {
         if (!isAlive) {
             this.killBomber();
+            BombermanGame.soundControl.playSoundDie();
+            Sound.isSoundGame = false;
         } else {
             for (Entity e : BombermanGame.entities) {
                 javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
