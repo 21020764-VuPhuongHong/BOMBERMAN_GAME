@@ -63,6 +63,10 @@ public class BombermanGame extends Application {
         root = new Group();
         root.getChildren().add(canvas);
 
+        soundControl = new Sound();
+        soundControl.build();
+        Sound.isSoundGame = true;
+
         Menu.createMenu();
         Menu.handleMenuButtons(stage);
 
@@ -75,9 +79,6 @@ public class BombermanGame extends Application {
         Image logo = new Image("textures/icon.png");
         stage.getIcons().add(logo);
         stage.setResizable(false);
-        soundControl = new Sound();
-        soundControl.build();
-        Sound.isSoundGame = true;
 
         // listen event of entity bomber
         scene.setOnKeyPressed(

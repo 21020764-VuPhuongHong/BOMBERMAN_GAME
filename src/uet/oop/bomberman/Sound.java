@@ -72,7 +72,7 @@ public class Sound {
 
     public void playSoundClick() {
         try {
-            String path_SB = "Sounds/sound_buttonClick.mp3";
+            String path_SB = "Sounds/sound_buttonClick.wav";
             URL url_SB = this.getClass().getClassLoader().getResource(path_SB);
 
             AudioInputStream audioIn_SB = AudioSystem.getAudioInputStream(url_SB);
