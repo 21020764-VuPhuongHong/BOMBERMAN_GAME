@@ -16,6 +16,7 @@ public class Sound {
     public static Clip soundBomb;
     public static Clip soundDie;
     public static Clip soundClick;
+    public static Clip soundMoveInItem;
 
     public void build() {
         isSoundGame = false;
@@ -83,6 +84,21 @@ public class Sound {
         }
 
         soundBomb.start();
+    }
+
+    public void playMoveItem() {
+        try {
+            String path_MI = "Sounds/moveInItem.wav";
+            URL url_MI = this.getClass().getClassLoader().getResource(path_MI);
+
+            AudioInputStream audioIn_MI = AudioSystem.getAudioInputStream(url_MI);
+            soundMoveInItem = AudioSystem.getClip();
+            soundMoveInItem.open(audioIn_MI);
+        } catch (Exception e) {
+            System.out.println("loi 5" + e.getMessage());
+        }
+
+        soundMoveInItem.start();
     }
 
     public void update() {
