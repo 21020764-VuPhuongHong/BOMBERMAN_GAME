@@ -12,6 +12,7 @@ public class SpeedItem extends Items {
     public void update() {
         if (!isReceived && changeReceivedState()) {
             BombermanGame.bomberStep *= 2;
+            BombermanGame.soundControl.playMoveItem();
             BombermanGame.bomberman.setX(BombermanGame.bomberman.getX() - BombermanGame.bomberman.getX() % Sprite.SCALED_SIZE);
             BombermanGame.bomberman.setY(BombermanGame.bomberman.getY() - BombermanGame.bomberman.getY() % Sprite.SCALED_SIZE);
             BombermanGame.bomberman.setVelocity(BombermanGame.bomberStep, BombermanGame.bomberStep);
