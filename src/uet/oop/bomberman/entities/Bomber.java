@@ -73,7 +73,9 @@ public class Bomber extends Entity {
             BombermanGame.soundControl.playSoundDie();
             Sound.isSoundGame = false;
         } else {
-            for (Entity e : BombermanGame.entities) {
+            int length = BombermanGame.entities.size();
+            for (int i = length - 1; i >= 0; --i) {
+                Entity e = BombermanGame.entities.get(i);
                 javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
                 javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
                 if (e instanceof Enemy && CollisionHandle.intersects(e, rec2)) {
@@ -89,6 +91,10 @@ public class Bomber extends Entity {
                     {
                         this.setAliveState(false);
                     }
+                    else {
+                        BombermanGame.entities.remove(i);
+                    }
+
                     //this.setAliveState(false);
                 }
             }
