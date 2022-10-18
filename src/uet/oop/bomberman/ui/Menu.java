@@ -96,7 +96,7 @@ public class Menu {
         });
     }
 
-    public static void handleMenuButtons(Stage stage) {
+    public static void handleMenuButtons() {
         playButtonView.setOnMouseEntered(mouseEvent -> {
             BombermanGame.soundControl.playSoundClick();
             playButtonView.setImage(new Image("textures/play_button2.png"));
@@ -106,12 +106,16 @@ public class Menu {
             playButtonView.setImage(new Image("textures/play_button1.png"));
         });
         playButtonView.setOnMouseClicked(mouseEvent -> {
-            BombermanGame.soundControl.playSoundClick();
-                Level1 level1 = new Level1();
-                level1.build();
 
-                BombermanGame.root.getChildren().removeAll(menuBgView, nameView, playButtonView, exitButtonView, instructionButtonView);
-                InfoLevel.createLevelInfo();
+            BombermanGame.root.getChildren().removeAll(menuBgView, nameView, playButtonView, exitButtonView, instructionButtonView);
+
+            BombermanGame.soundControl.playSoundClick();
+
+
+            Level1 level1 = new Level1();
+            level1.build();
+            InfoLevel.createLevelInfo();
+            NextLevel.createLevelImage();
         });
 
         exitButtonView.setOnMouseEntered(mouseEvent -> {
@@ -121,7 +125,7 @@ public class Menu {
             exitButtonView.setImage(new Image("textures/exit_button1.png"));
         });
         exitButtonView.setOnMouseClicked(mouseEvent -> {
-            stage.close();
+            BombermanGame.thisStage.close();
         });
 
         instructionButtonView.setOnMouseEntered(mouseEvent -> {

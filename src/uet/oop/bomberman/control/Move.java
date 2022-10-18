@@ -50,13 +50,10 @@ public class Move {
         return false;
     }
 
-    public static boolean checkBomb(Entity e, int x, int y) {
+    public static boolean checkBomb(int x, int y) {
         Rectangle2D rec = new Rectangle2D(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         for (Entity other : BombermanGame.entities) {
             if (other instanceof Bomb && CollisionHandle.intersects(other, rec)) {
-                if (e instanceof Bomber && (x != other.getX() || y != other.getY())) {
-                    return false;
-                }
                 return true;
             }
         }
@@ -64,32 +61,64 @@ public class Move {
     }
 
     public static boolean canMoveLeft(Entity e) {
-        if (checkBrickAndWall(e.getX() - e.getVelocityX(), e.getY())
-                || checkBomb(e, e.getX() - e.getVelocityX(), e.getY())) {
+        if (checkBrickAndWall(e.getX() - e.getVelocityX(), e.getY())) {
+            return false;
+        }
+        if (checkBomb(e.getX() - e.getVelocityX(), e.getY())) {
+            if (e instanceof Bomber && Bomb.bomberFirstGoLeftThroughBomb) {
+                Bomb.bomberFirstGoRightThroughBomb = false;
+                Bomb.bomberFirstGoUpThroughBomb = false;
+                Bomb.bomberFirstGoDownThroughBomb = false;
+                return true;
+            }
             return false;
         }
         return true;
     }
 
     public static boolean canMoveRight(Entity e) {
-        if (checkBrickAndWall(e.getX() + e.getVelocityX(), e.getY())
-                || checkBomb(e, e.getX() + e.getVelocityX(), e.getY())) {
+        if (checkBrickAndWall(e.getX() + e.getVelocityX(), e.getY())) {
+            return false;
+        }
+        if (checkBomb(e.getX() + e.getVelocityX(), e.getY())) {
+            if (e instanceof Bomber && Bomb.bomberFirstGoRightThroughBomb) {
+                Bomb.bomberFirstGoLeftThroughBomb = false;
+                Bomb.bomberFirstGoUpThroughBomb = false;
+                Bomb.bomberFirstGoDownThroughBomb = false;
+                return true;
+            }
             return false;
         }
         return true;
     }
 
     public static boolean canMoveUp(Entity e) {
-        if (checkBrickAndWall(e.getX(), e.getY() - e.getVelocityY())
-                || checkBomb(e, e.getX(), e.getY() - e.getVelocityY())) {
+        if (checkBrickAndWall(e.getX(), e.getY() - e.getVelocityY())) {
+            return false;
+        }
+        if (checkBomb(e.getX(), e.getY() - e.getVelocityY())) {
+            if (e instanceof Bomber && Bomb.bomberFirstGoUpThroughBomb) {
+                Bomb.bomberFirstGoLeftThroughBomb = false;
+                Bomb.bomberFirstGoRightThroughBomb = false;
+                Bomb.bomberFirstGoDownThroughBomb = false;
+                return true;
+            }
             return false;
         }
         return true;
     }
 
     public static boolean canMoveDown(Entity e) {
-        if (checkBrickAndWall(e.getX(), e.getY() + e.getVelocityY())
-                || checkBomb(e, e.getX(), e.getY() + e.getVelocityY())) {
+        if (checkBrickAndWall(e.getX(), e.getY() + e.getVelocityY())) {
+            return false;
+        }
+        if (checkBomb(e.getX(), e.getY() + e.getVelocityY())) {
+            if (e instanceof Bomber && Bomb.bomberFirstGoDownThroughBomb) {
+                Bomb.bomberFirstGoLeftThroughBomb = false;
+                Bomb.bomberFirstGoRightThroughBomb = false;
+                Bomb.bomberFirstGoUpThroughBomb = false;
+                return true;
+            }
             return false;
         }
         return true;

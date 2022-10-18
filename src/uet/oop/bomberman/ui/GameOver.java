@@ -30,11 +30,16 @@ public class GameOver {
             replayButtonView.setImage(new Image("textures/replay_button1.png"));
         });
         replayButtonView.setOnMouseClicked(mouseEvent -> {
+
             BombermanGame.soundControl.playSoundClick();
-            Level1 level1 = new Level1();
-            level1.build();
+
             BombermanGame.root.getChildren().remove(gameOverView);
             BombermanGame.root.getChildren().remove(replayButtonView);
+
+            Level1 level1 = new Level1();
+            level1.build();
+
+            NextLevel.createLevelImage();
         });
     }
 }
