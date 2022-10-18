@@ -21,7 +21,7 @@ public class Bomb extends Entity {
     private long timeOfBomb;
     private int bombImgStatus = 1;
     private int countFrame = 0;
-    private static final int MAX_NUM_FRAMES = 6;
+    private static final int MAX_NUM_FRAMES = 9;
     private int explosiveState = 1;
     private List<Entity> middleHorizontalBombs = new ArrayList<>();
     private List<Entity> middleVerticalBombs = new ArrayList<>();
@@ -37,7 +37,11 @@ public class Bomb extends Entity {
     public static long timePutBomb;
     public static long timeWaitForPutting2ndBomb = TIME_BETWEEN_2_BOMBS;
     public int timeBeforeExploding = 2000;
-    private static final int TIME_EXPLODING = 500;
+    private static final int TIME_EXPLODING = 700;
+    public static boolean bomberFirstGoRightThroughBomb = true;
+    public static boolean bomberFirstGoLeftThroughBomb = true;
+    public static boolean bomberFirstGoUpThroughBomb = true;
+    public static boolean bomberFirstGoDownThroughBomb = true;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
@@ -49,6 +53,10 @@ public class Bomb extends Entity {
             numOfBombs--;
             timeOfBomb = System.currentTimeMillis();
             timePutBomb = System.currentTimeMillis();
+            bomberFirstGoRightThroughBomb = true;
+            bomberFirstGoLeftThroughBomb = true;
+            bomberFirstGoUpThroughBomb = true;
+            bomberFirstGoDownThroughBomb = true;
         }
     }
 
@@ -138,7 +146,13 @@ public class Bomb extends Entity {
 
 
     public void explosion() {
+        if (countFrame > MAX_NUM_FRAMES) {
+            countFrame = 1;
+        }
+
         if (explosiveState == 1) {
+            countFrame++;
+
             this.setImage(Sprite.bomb_exploded.getFxImage());
             handleCollision(this);
 
@@ -176,8 +190,12 @@ public class Bomb extends Entity {
                 handleCollision(rightEdge);
             }
 
-            explosiveState = 2;
+            if (countFrame == MAX_NUM_FRAMES) {
+                explosiveState = 2;
+            }
         } else if (explosiveState == 2) {
+            countFrame++;
+
             this.setImage(Sprite.bomb_exploded1.getFxImage());
 
             if (downEdge != null) {
@@ -211,8 +229,12 @@ public class Bomb extends Entity {
                 }
             }
 
-            explosiveState = 3;
+            if (countFrame == MAX_NUM_FRAMES) {
+                explosiveState = 3;
+            }
         } else if (explosiveState == 3) {
+            countFrame++;
+
             this.setImage(Sprite.bomb_exploded2.getFxImage());
 
             if (middleVerticalBombs.size() > 0) {
@@ -239,12 +261,49 @@ public class Bomb extends Entity {
                 leftEdge.setImage(Sprite.explosion_horizontal_left_last2.getFxImage());
             }
 
-
             if (rightEdge != null) {
                 rightEdge.setImage(Sprite.explosion_horizontal_right_last2.getFxImage());
             }
 
-            explosiveState = 0;
+            if (countFrame == MAX_NUM_FRAMES) {
+                explosiveState = 4;
+            }
+        } else if (explosiveState == 4) {
+            countFrame++;
+
+            this.setImage(Sprite.bomb_exploded.getFxImage());
+
+            if (middleVerticalBombs.size() > 0) {
+                for (Entity e : middleVerticalBombs) {
+                    e.setImage(Sprite.explosion_vertical.getFxImage());
+                }
+            }
+
+            if (middleHorizontalBombs.size() > 0) {
+                for (Entity e : middleHorizontalBombs) {
+                    e.setImage(Sprite.explosion_horizontal.getFxImage());
+                }
+            }
+
+            if (downEdge != null) {
+                downEdge.setImage(Sprite.explosion_vertical_down_last.getFxImage());
+            }
+
+            if (upEdge != null) {
+                upEdge.setImage(Sprite.explosion_vertical_top_last.getFxImage());
+            }
+
+            if (leftEdge != null) {
+                leftEdge.setImage(Sprite.explosion_horizontal_left_last.getFxImage());
+            }
+
+            if (rightEdge != null) {
+                rightEdge.setImage(Sprite.explosion_horizontal_right_last.getFxImage());
+            }
+
+            if (countFrame == MAX_NUM_FRAMES) {
+                explosiveState = 0;
+            }
         }
     }
 

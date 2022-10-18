@@ -16,6 +16,7 @@ import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.ui.InfoLevel;
 import uet.oop.bomberman.ui.Menu;
+import uet.oop.bomberman.ui.NextLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,13 @@ public class BombermanGame extends Application {
     public static final int HEIGHT = 13;
     public static int bomberStep = 8;
     public static Group root;
+    public static Scene scene;
+    public static Stage thisStage;
     public static final int TIME_FOR_LEVEL = 300;
     public static int timeLeft = TIME_FOR_LEVEL;
     public static long currentTime;
     public static int level;
+    public static boolean isStart = false;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -44,6 +48,8 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
+        thisStage = stage;
+
         // Tao Canvas
         // Canvas(double width, double height)
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH * 1.0, Sprite.SCALED_SIZE * HEIGHT * 1.0);
@@ -55,29 +61,37 @@ public class BombermanGame extends Application {
         root.getChildren().add(canvas);
 
         Menu.createMenu();
-        Menu.handleMenuButtons(stage);
+        Menu.handleMenuButtons();
 
         // Tao scene
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
 
         // Them scene vao stage
-        stage.setScene(scene);
-        stage.setTitle("BOMBERMAN");
+        thisStage.setScene(scene);
+        thisStage.setTitle("BOMBERMAN");
         Image logo = new Image("textures/icon.png");
-        stage.getIcons().add(logo);
-        stage.setResizable(false);
+        thisStage.getIcons().add(logo);
+        thisStage.setResizable(false);
+
 
         // listen event of entity bomber
+
         scene.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
                     @Override
                     public void handle(KeyEvent e) {
-                        if (bomberman.getAliveState()) {
+                        if (!isStart) {
+                            e.consume();
+                            System.out.println("e cosumed");
+                            if (System.currentTimeMillis() - NextLevel.startLevelImgScene >= NextLevel.TIME_SHOW_LEVEL_IMG) {
+                                isStart = true;
+                            }
+                        } else if (bomberman.getAliveState() && !e.isConsumed()) {
                             String code = e.getCode().toString();
                             if (code.equals("SPACE")) {
                                 System.out.println(Bomb.timeWaitForPutting2ndBomb);
                                 if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeWaitForPutting2ndBomb >= Bomb.TIME_BETWEEN_2_BOMBS) {
-                                    Bomb bomb = new Bomb(bomberman.getX() / Sprite.SCALED_SIZE, bomberman.getY() / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+                                    Bomb bomb = new Bomb((bomberman.getX() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, (bomberman.getY() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
                                     bomb.putBomb();
                                     entities.add(bomb);
                                     if (BombItem.hasBombItem) {
@@ -157,7 +171,7 @@ public class BombermanGame extends Application {
         timer.start();
 
         //render();
-        stage.show();
+        thisStage.show();
     }
 
     public void render() {
