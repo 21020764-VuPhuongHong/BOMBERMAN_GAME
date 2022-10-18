@@ -59,31 +59,31 @@ public class Sound {
 
     public void playSoundDie() {
         try {
-            String path_click = "Sounds/SoundDie.wav";
-            URL url_click = this.getClass().getClassLoader().getResource(path_click);
+            String path_die = "Sounds/SoundDie.wav";
+            URL url_die = this.getClass().getClassLoader().getResource(path_die);
 
-            AudioInputStream audioIn_click = AudioSystem.getAudioInputStream(url_click);
-            soundClick = AudioSystem.getClip();
-            soundClick.open(audioIn_click);
+            AudioInputStream audioIn_click = AudioSystem.getAudioInputStream(url_die);
+            soundDie = AudioSystem.getClip();
+            soundDie.open(audioIn_click);
         } catch (Exception e) {
             System.out.println("loi 3" + e.getMessage());
         }
-        soundClick.start();
+        soundDie.start();
     }
 
     public void playSoundClick() {
         try {
-            String path_SB = "Sounds/sound_buttonClick.wav";
-            URL url_SB = this.getClass().getClassLoader().getResource(path_SB);
+            String path_click = "Sounds/sound_buttonClick.wav";
+            URL url_click = this.getClass().getClassLoader().getResource(path_click);
 
-            AudioInputStream audioIn_SB = AudioSystem.getAudioInputStream(url_SB);
-            soundBomb = AudioSystem.getClip();
-            soundBomb.open(audioIn_SB);
+            AudioInputStream audioIn_SB = AudioSystem.getAudioInputStream(url_click);
+            soundClick = AudioSystem.getClip();
+            soundClick.open(audioIn_SB);
         } catch (Exception e) {
             System.out.println("loi 4" + e.getMessage());
         }
 
-        soundBomb.start();
+        soundClick.start();
     }
 
     public void playMoveItem() {

@@ -91,14 +91,7 @@ public class Bomber extends Entity {
                 javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
                 javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
                 if (e instanceof Enemy && CollisionHandle.intersects(e, rec2)) {
-                    /*int remain_heart = this.getHeart();
-                    System.out.println(remain_heart);
 
-                    this.setX(Sprite.SCALED_SIZE);
-                    this.setY(Sprite.SCALED_SIZE);
-
-                    remain_heart--;
-                    this.setHeart(remain_heart);*/
                     BombermanGame.bomberman.loseHeart();
                     if(BombermanGame.bomberman.getHeart() == 0)
                     {

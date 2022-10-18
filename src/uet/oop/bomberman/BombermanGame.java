@@ -181,22 +181,7 @@ public class BombermanGame extends Application {
                 update();
             }
         };
-        /*
 
-        try {
-            //String path = "D:\\WorkSpace\\bomberman-starter\\res\\Sounds\\SoundGame.wav";
-            String path = "Sounds/SoundGame.wav";
-            URL url = this.getClass().getClassLoader().getResource(path);
-
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-            //clip.loop(10);
-        }
-        catch (Exception e) {
-            System.out.println("lỗi" + e.getMessage());
-        } */
         soundControl.update();
         timer.start();
         //Sound.build();
