@@ -15,6 +15,15 @@ public class Bomber extends Entity {
     private boolean isAlive = true;
     private int swapDeathImg = 1;
 
+    private int heart = 1;
+    public void setHeart(int heart) {
+        this.heart = heart;
+    }
+
+    public int getHeart() {
+        return this.heart;
+    }
+
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
     }

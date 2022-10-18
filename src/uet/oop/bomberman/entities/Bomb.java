@@ -317,7 +317,14 @@ public class Bomb extends Entity {
     public void handleBomberCollision(Entity e, Entity other) {
         if (other instanceof Bomber && CollisionHandle.intersects(e, other)) {
             Bomber bomber = (Bomber) other;
-            bomber.setAliveState(false);
+
+            int remain_heart = bomber.getHeart();
+            remain_heart--;
+            bomber.setHeart(remain_heart);
+            if(remain_heart == 0)
+            {
+                bomber.setAliveState(false);
+            }
         }
     }
 
