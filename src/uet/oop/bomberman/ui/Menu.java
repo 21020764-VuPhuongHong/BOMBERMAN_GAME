@@ -98,13 +98,19 @@ public class Menu {
 
     public static void handleMenuButtons() {
         playButtonView.setOnMouseEntered(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             playButtonView.setImage(new Image("textures/play_button2.png"));
         });
         playButtonView.setOnMouseExited(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             playButtonView.setImage(new Image("textures/play_button1.png"));
         });
         playButtonView.setOnMouseClicked(mouseEvent -> {
+
             BombermanGame.root.getChildren().removeAll(menuBgView, nameView, playButtonView, exitButtonView, instructionButtonView);
+
+            BombermanGame.soundControl.playSoundClick();
+
 
             Level1 level1 = new Level1();
             level1.build();

@@ -12,15 +12,28 @@ import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class InfoLevel {
-    private static ImageView bombImgView;
-    private static Text levelText, numBombsText, timeLeftText;
+    private static ImageView bombImgView, heartImgView;
+    private static Text levelText, numBombsText, timeLeftText, numHeartsText;
 
     public static void createLevelInfo() {
         levelText = new Text("Level: 1");
         levelText.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 28));
         levelText.setFill(Color.WHITE);
-        levelText.setX(450);
+        levelText.setX(200);
         levelText.setY(26);
+
+        Image heartImg = new Image("textures/RedHeart.jpg");
+        heartImgView = new ImageView(heartImg);
+        heartImgView.setX(265);
+        heartImgView.setY(-165);
+        heartImgView.setScaleX(0.075);
+        heartImgView.setScaleY(0.075);
+
+        numHeartsText = new Text(": " + BombermanGame.bomberman.getHeart());
+        numHeartsText.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 28));
+        numHeartsText.setFill(Color.WHITE);
+        numHeartsText.setX(475);
+        numHeartsText.setY(26);
 
         Image bombImg = new Image("textures/bomb_infoLevel.png");
         bombImgView = new ImageView(bombImg);
@@ -45,7 +58,7 @@ public class InfoLevel {
         pane.setMinSize(BombermanGame.WIDTH * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         pane.setMaxSize(BombermanGame.WIDTH * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         pane.setStyle("-fx-background-color: #000033");
-        pane.getChildren().addAll(levelText, bombImgView, numBombsText, timeLeftText);
+        pane.getChildren().addAll(levelText, bombImgView, numBombsText, timeLeftText, heartImgView,numHeartsText);
 
         BombermanGame.root.getChildren().add(pane);
     }
@@ -55,6 +68,7 @@ public class InfoLevel {
             levelText.setText("Level: " + BombermanGame.level);
             numBombsText.setText(": " + Bomb.numOfBombs);
             timeLeftText.setText("Time: " + BombermanGame.timeLeft);
+            numHeartsText.setText(": " + BombermanGame.bomberman.getHeart());
         }
     }
 }

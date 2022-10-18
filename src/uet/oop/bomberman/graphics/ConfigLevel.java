@@ -70,14 +70,17 @@ public class ConfigLevel {
         BombermanGame.bomberman.setVelocity(BombermanGame.bomberStep, BombermanGame.bomberStep);
         BombermanGame.currentFigure_bomber = 0;
 
+        int default_heart = 3;
+        BombermanGame.bomberman.setHeart(default_heart);
+
         for (int j = 0; j < width; j++) {
             for (int i = 0; i < height; i++) {
                 if (config[i][j] == '1') {
-                    Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
-                    BombermanGame.entities.add(e);
+                   Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
+                   BombermanGame.entities.add(e);
                 } else if (config[i][j] == '2') {
-                    Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
-                    BombermanGame.entities.add(e);
+                   Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                   BombermanGame.entities.add(e);
                 } else if (config[i][j] == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
                     BombermanGame.entities.add(flameItem);

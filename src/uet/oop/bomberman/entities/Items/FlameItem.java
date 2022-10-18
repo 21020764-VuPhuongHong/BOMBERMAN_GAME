@@ -13,6 +13,7 @@ public class FlameItem extends Items {
     public void update() {
         if (!isReceived && changeReceivedState()) {
             Bomb.explodingLength = 2;
+            BombermanGame.soundControl.playMoveItem();
             BombermanGame.entities.remove(this);
         }
     }

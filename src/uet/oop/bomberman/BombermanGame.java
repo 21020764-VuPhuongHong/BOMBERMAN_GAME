@@ -9,6 +9,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.entities.*;
@@ -18,6 +21,11 @@ import uet.oop.bomberman.ui.InfoLevel;
 import uet.oop.bomberman.ui.Menu;
 import uet.oop.bomberman.ui.NextLevel;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +50,7 @@ public class BombermanGame extends Application {
     public static int level;
     public static boolean isStart = false;
 
+    public static Sound soundControl;
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -59,6 +68,10 @@ public class BombermanGame extends Application {
         // Tao root container
         root = new Group();
         root.getChildren().add(canvas);
+
+        soundControl = new Sound();
+        soundControl.build();
+        Sound.isSoundGame = true;
 
         Menu.createMenu();
         Menu.handleMenuButtons();
@@ -168,7 +181,26 @@ public class BombermanGame extends Application {
                 update();
             }
         };
+        /*
+
+        try {
+            //String path = "D:\\WorkSpace\\bomberman-starter\\res\\Sounds\\SoundGame.wav";
+            String path = "Sounds/SoundGame.wav";
+            URL url = this.getClass().getClassLoader().getResource(path);
+
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+            //clip.loop(10);
+        }
+        catch (Exception e) {
+            System.out.println("lỗi" + e.getMessage());
+        } */
+        soundControl.update();
         timer.start();
+        //Sound.build();
+        //Sound.update();
 
         //render();
         thisStage.show();
@@ -196,7 +228,18 @@ public class BombermanGame extends Application {
         }
 
         if (timeLeft <= 0) {
-            bomberman.setAliveState(false);
+            /*int remain_heart = bomberman.getHeart();
+            System.out.println(remain_heart);
+            bomberman.setX(Sprite.SCALED_SIZE);
+            bomberman.setY(Sprite.SCALED_SIZE);
+            remain_heart--;
+            bomberman.setHeart(remain_heart);*/
+            bomberman.loseHeart();
+            if(bomberman.getHeart() == 0)
+            {
+                bomberman.setAliveState(false);
+            }
+            //bomberman.setAliveState(false);
         }
     }
 }

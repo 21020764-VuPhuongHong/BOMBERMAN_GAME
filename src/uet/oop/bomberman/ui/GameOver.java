@@ -30,6 +30,9 @@ public class GameOver {
             replayButtonView.setImage(new Image("textures/replay_button1.png"));
         });
         replayButtonView.setOnMouseClicked(mouseEvent -> {
+
+            BombermanGame.soundControl.playSoundClick();
+
             BombermanGame.root.getChildren().remove(gameOverView);
             BombermanGame.root.getChildren().remove(replayButtonView);
 

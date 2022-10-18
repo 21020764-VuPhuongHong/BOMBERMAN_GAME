@@ -15,6 +15,7 @@ public class Portal extends Items {
         if (!isReceived && changeReceivedState()) {
             BombermanGame.bomberman.setX(BombermanGame.bomberman.getX() - BombermanGame.bomberman.getX() % Sprite.SCALED_SIZE);
             BombermanGame.bomberman.setY(BombermanGame.bomberman.getY() - BombermanGame.bomberman.getY() % Sprite.SCALED_SIZE);
+            BombermanGame.soundControl.playMoveItem();
             System.out.println("next level");
             System.exit(1);
         }

@@ -14,6 +14,7 @@ public class BombItem extends Items {
     public void update() {
         if (!isReceived && changeReceivedState()) {
             hasBombItem = isReceived;
+            BombermanGame.soundControl.playMoveItem();
             BombermanGame.entities.remove(this);
         }
     }

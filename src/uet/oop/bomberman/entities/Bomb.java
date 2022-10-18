@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Block.Brick;
 import uet.oop.bomberman.entities.Block.Wall;
@@ -87,6 +88,9 @@ public class Bomb extends Entity {
     }
 
     public void createExplodingEdge() {
+        BombermanGame.soundControl.playSoundBomb();
+        Sound.isSoundGame = false;
+
         if (this.getY() / SCALED_SIZE + explodingLength < ConfigLevel.height && !checkWallCollision(this.getX(), this.getY() + explodingLength * SCALED_SIZE)
                 && !checkBrickCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)
                 && !checkWallCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)) {
@@ -359,6 +363,7 @@ public class Bomb extends Entity {
                 BombermanGame.entities.remove(this);
             }
         }
+        Sound.isSoundGame = true;
     }
 
     public void handleEnemyCollision(Entity e, Entity other) {
@@ -371,7 +376,18 @@ public class Bomb extends Entity {
     public void handleBomberCollision(Entity e, Entity other) {
         if (other instanceof Bomber && CollisionHandle.intersects(e, other)) {
             Bomber bomber = (Bomber) other;
-            bomber.setAliveState(false);
+
+            /*int remain_heart = bomber.getHeart();
+            System.out.println(remain_heart);
+            bomber.setX(Sprite.SCALED_SIZE);
+            bomber.setY(Sprite.SCALED_SIZE);
+            remain_heart--;
+            bomber.setHeart(remain_heart);*/
+            bomber.loseHeart();
+            if(bomber.getHeart() == 0)
+            {
+                bomber.setAliveState(false);
+            }
         }
     }
 

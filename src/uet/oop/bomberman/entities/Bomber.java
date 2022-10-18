@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.ui.GameOver;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Enemies.Enemy;
@@ -13,6 +14,26 @@ public class Bomber extends Entity {
     private int countFrame = 0;
     private boolean isAlive = true;
     private int swapDeathImg = 1;
+
+    private int heart = 1;
+    public void setHeart(int heart) {
+        this.heart = heart;
+    }
+
+    public int getHeart() {
+        return this.heart;
+    }
+
+    public void loseHeart() {
+        int remain_heart = this.getHeart();
+        System.out.println(remain_heart);
+
+        this.setX(Sprite.SCALED_SIZE);
+        this.setY(Sprite.SCALED_SIZE);
+
+        remain_heart--;
+        this.setHeart(remain_heart);
+    }
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
@@ -56,16 +77,38 @@ public class Bomber extends Entity {
         }
     }
 
+
     @Override
     public void update() {
         if (!isAlive) {
             this.killBomber();
+            BombermanGame.soundControl.playSoundDie();
+            Sound.isSoundGame = false;
         } else {
-            for (Entity e : BombermanGame.entities) {
+            int length = BombermanGame.entities.size();
+            for (int i = length - 1; i >= 0; --i) {
+                Entity e = BombermanGame.entities.get(i);
                 javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
                 javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
                 if (e instanceof Enemy && CollisionHandle.intersects(e, rec2)) {
-                    this.setAliveState(false);
+                    /*int remain_heart = this.getHeart();
+                    System.out.println(remain_heart);
+
+                    this.setX(Sprite.SCALED_SIZE);
+                    this.setY(Sprite.SCALED_SIZE);
+
+                    remain_heart--;
+                    this.setHeart(remain_heart);*/
+                    BombermanGame.bomberman.loseHeart();
+                    if(BombermanGame.bomberman.getHeart() == 0)
+                    {
+                        this.setAliveState(false);
+                    }
+                    else {
+                        BombermanGame.entities.remove(i);
+                    }
+
+                    //this.setAliveState(false);
                 }
             }
         }
