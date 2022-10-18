@@ -214,7 +214,17 @@ public class BombermanGame extends Application {
         }
 
         if (timeLeft <= 0) {
-            bomberman.setAliveState(false);
+            int remain_heart = bomberman.getHeart();
+            System.out.println(remain_heart);
+            bomberman.setX(Sprite.SCALED_SIZE);
+            bomberman.setY(Sprite.SCALED_SIZE);
+            remain_heart--;
+            bomberman.setHeart(remain_heart);
+            if(remain_heart == 0)
+            {
+                bomberman.setAliveState(false);
+            }
+            //bomberman.setAliveState(false);
         }
     }
 }

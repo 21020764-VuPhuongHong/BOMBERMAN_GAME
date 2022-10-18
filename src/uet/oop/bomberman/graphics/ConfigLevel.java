@@ -70,6 +70,9 @@ public class ConfigLevel {
         BombermanGame.bomberman.setVelocity(BombermanGame.bomberStep, BombermanGame.bomberStep);
         BombermanGame.currentFigure_bomber = 0;
 
+        int default_heart = 3;
+        BombermanGame.bomberman.setHeart(default_heart);
+
         for (int j = 0; j < width; j++) {
             for (int i = 0; i < height; i++) {
                 if (config[i][j] == '1') {
