@@ -68,7 +68,9 @@ public class InfoLevel {
                 && timeLeftText != null && numHeartsText != null) {
             levelText.setText("Level: " + BombermanGame.level);
             numBombsText.setText(": " + Bomb.numOfBombs);
-            timeLeftText.setText("Time: " + BombermanGame.timeLeft);
+            if (BombermanGame.timeLeft >= 0) {
+                timeLeftText.setText("Time: " + BombermanGame.timeLeft);
+            }
             if (BombermanGame.bomberman.getHeart() >= 0) {
                 numHeartsText.setText(": " + BombermanGame.bomberman.getHeart());
             }

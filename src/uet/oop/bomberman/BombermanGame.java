@@ -95,15 +95,17 @@ public class BombermanGame extends Application {
                             String code = e.getCode().toString();
                             if (code.equals("SPACE")) {
                                 System.out.println(Bomb.timeWaitForPutting2ndBomb);
-                                if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeWaitForPutting2ndBomb >= Bomb.TIME_BETWEEN_2_BOMBS) {
-                                    Bomb bomb = new Bomb((bomberman.getX() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, (bomberman.getY() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
-                                    bomb.putBomb();
-                                    entities.add(bomb);
-                                    if (BombItem.hasBombItem) {
-                                        if (BombItem.numBomsPut < 2 && Bomb.timeWaitForPutting2ndBomb < Bomb.TIME_BETWEEN_2_BOMBS) {
-                                            BombItem.numBomsPut++;
-                                        } else {
-                                            BombItem.numBomsPut = 1;
+                                if (Bomb.numOfBombs > 0) {
+                                    if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeWaitForPutting2ndBomb >= Bomb.TIME_BETWEEN_2_BOMBS) {
+                                        Bomb bomb = new Bomb((bomberman.getX() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, (bomberman.getY() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+                                        bomb.putBomb();
+                                        entities.add(bomb);
+                                        if (BombItem.hasBombItem) {
+                                            if (BombItem.numBomsPut < 2 && Bomb.timeWaitForPutting2ndBomb < Bomb.TIME_BETWEEN_2_BOMBS) {
+                                                BombItem.numBomsPut++;
+                                            } else {
+                                                BombItem.numBomsPut = 1;
+                                            }
                                         }
                                     }
                                 }

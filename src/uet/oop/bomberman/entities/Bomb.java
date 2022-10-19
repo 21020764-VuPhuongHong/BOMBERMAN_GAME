@@ -48,7 +48,7 @@ public class Bomb extends Entity {
     }
 
     public void putBomb() {
-        if (bombStatus == 0 && numOfBombs > 0) {
+        if (bombStatus == 0) {
             BombermanGame.soundControl.playSoundPutBomb();
             bombStatus = 1;
             numOfBombs--;
