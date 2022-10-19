@@ -116,6 +116,7 @@ public class Oneal extends Enemy {
         }
 
         if (swapDeathImg == 1) {
+            BombermanGame.soundControl.playSoundEnemyDie();
             this.setImage(Sprite.oneal_dead.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {

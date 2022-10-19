@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class Ballom extends Enemy {
     private int direction = 0;
+
     public Ballom(int x, int y, Image img) {
         super(x, y, img);
     }
@@ -122,6 +123,7 @@ public class Ballom extends Enemy {
         }
 
         if (swapDeathImg == 1) {
+            BombermanGame.soundControl.playSoundEnemyDie();
             this.setImage(Sprite.balloom_dead.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {

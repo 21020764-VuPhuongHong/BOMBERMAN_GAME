@@ -3,19 +3,18 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.Sound;
 import uet.oop.bomberman.ui.GameOver;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.Enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
-    private static final int MAX_NUM_FRAMES = 20;
+    private static final int MAX_NUM_FRAMES = 25;
     private int countFrame = 0;
     private boolean isAlive = true;
     private int swapDeathImg = 1;
-
     private int heart = 1;
+
     public void setHeart(int heart) {
         this.heart = heart;
     }
@@ -25,14 +24,15 @@ public class Bomber extends Entity {
     }
 
     public void loseHeart() {
-        int remain_heart = this.getHeart();
-        System.out.println(remain_heart);
+        System.out.println(heart);
+        --heart;
 
-        this.setX(Sprite.SCALED_SIZE);
-        this.setY(Sprite.SCALED_SIZE);
-
-        remain_heart--;
-        this.setHeart(remain_heart);
+        if (heart > 0) {
+            BombermanGame.soundControl.playSoundLoseHeart();
+            this.setX(Sprite.SCALED_SIZE);
+            this.setY(Sprite.SCALED_SIZE);
+            this.setImage(Sprite.player_right.getFxImage());
+        }
     }
 
     public Bomber(int x, int y, Image img) {
@@ -53,6 +53,7 @@ public class Bomber extends Entity {
         }
 
         if (swapDeathImg == 1) {
+            BombermanGame.soundControl.playSoundBomberDie();
             this.setImage(Sprite.player_dead1.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {
@@ -72,7 +73,7 @@ public class Bomber extends Entity {
             }
         } else {
             BombermanGame.entities.remove(this);
-
+            BombermanGame.soundControl.playSoundGameOver();
             GameOver.createGameOver();
         }
     }
@@ -82,35 +83,19 @@ public class Bomber extends Entity {
     public void update() {
         if (!isAlive) {
             this.killBomber();
-            BombermanGame.soundControl.playSoundDie();
-            Sound.isSoundGame = false;
         } else {
-            int length = BombermanGame.entities.size();
-            for (int i = length - 1; i >= 0; --i) {
+            if (this.getHeart() <= 0) {
+                this.setAliveState(false);
+            }
+            for (int i = BombermanGame.entities.size() - 1; i >= 0; --i) {
                 Entity e = BombermanGame.entities.get(i);
                 javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
-                javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 3 / 4, rec1.getHeight());
+                javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 5 / 6, rec1.getHeight());
                 if (e instanceof Enemy && CollisionHandle.intersects(e, rec2)) {
-                    /*int remain_heart = this.getHeart();
-                    System.out.println(remain_heart);
-
-                    this.setX(Sprite.SCALED_SIZE);
-                    this.setY(Sprite.SCALED_SIZE);
-
-                    remain_heart--;
-                    this.setHeart(remain_heart);*/
-                    BombermanGame.bomberman.loseHeart();
-                    if(BombermanGame.bomberman.getHeart() == 0)
-                    {
-                        this.setAliveState(false);
-                    }
-                    else {
-                        BombermanGame.entities.remove(i);
-                    }
-
-                    //this.setAliveState(false);
+                    this.loseHeart();
                 }
             }
         }
     }
 }
+

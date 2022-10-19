@@ -10,7 +10,7 @@ import uet.oop.bomberman.entities.Enemies.Oneal;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.entities.Items.FlameItem;
-import uet.oop.bomberman.entities.Items.Portal;
+import uet.oop.bomberman.entities.Portal;
 import uet.oop.bomberman.entities.Items.SpeedItem;
 
 import java.io.File;  // Import the File class
@@ -22,18 +22,17 @@ public class ConfigLevel {
     public static int height;
 
     public char[][] config = new char[100][100];
-    public int level;
 
     public void buildConfig(String levelPath) {
         try {
             File myfile = new File(levelPath);
             Scanner myReader = new Scanner(myfile);
-            this.level = myReader.nextInt();
+            BombermanGame.level = myReader.nextInt();
             this.height = myReader.nextInt();
             this.width = myReader.nextInt();
 
             String ignore = myReader.nextLine();
-            System.out.println(level + " " + height + " " + width);
+            System.out.println(BombermanGame.level + " " + height + " " + width);
 
             for (int i = 0; i < height; ++i) {
                 String str = myReader.nextLine();
@@ -65,22 +64,14 @@ public class ConfigLevel {
     }
 
     public void createEntities() {
-        BombermanGame.bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        BombermanGame.entities.add(BombermanGame.bomberman);
-        BombermanGame.bomberman.setVelocity(BombermanGame.bomberStep, BombermanGame.bomberStep);
-        BombermanGame.currentFigure_bomber = 0;
-
-        int default_heart = 3;
-        BombermanGame.bomberman.setHeart(default_heart);
-
         for (int j = 0; j < width; j++) {
             for (int i = 0; i < height; i++) {
                 if (config[i][j] == '1') {
-                   Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
-                   BombermanGame.entities.add(e);
+                    Ballom e = new Ballom(j, i, Sprite.balloom_left1.getFxImage());
+                    BombermanGame.entities.add(e);
                 } else if (config[i][j] == '2') {
-                   Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
-                   BombermanGame.entities.add(e);
+                    Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                    BombermanGame.entities.add(e);
                 } else if (config[i][j] == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
                     BombermanGame.entities.add(flameItem);
@@ -107,5 +98,13 @@ public class ConfigLevel {
                 }
             }
         }
+
+        BombermanGame.bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+        BombermanGame.entities.add(BombermanGame.bomberman);
+        BombermanGame.bomberman.setVelocity(BombermanGame.bomberStep, BombermanGame.bomberStep);
+        BombermanGame.currentFigure_bomber = 0;
+
+        int default_heart = 3;
+        BombermanGame.bomberman.setHeart(default_heart);
     }
 }

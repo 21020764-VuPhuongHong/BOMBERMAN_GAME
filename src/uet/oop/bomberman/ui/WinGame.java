@@ -5,41 +5,42 @@ import javafx.scene.image.ImageView;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.level.Level1;
 
-public class GameOver {
-    public static void createGameOver() {
-        Image gameOver = new Image("textures/game_over.png");
-        ImageView gameOverView = new ImageView(gameOver);
-        gameOverView.setX(96);
-        gameOverView.setY(0);
-        gameOverView.setScaleX(1.24);
+public class WinGame {
 
-        Image replay = new Image("textures/replay_button1.png");
-        ImageView replayButtonView = new ImageView(replay);
-        replayButtonView.setX(88);
-        replayButtonView.setY(270);
+    public static void createWinGameView() {
+        Image winGameImg = new Image("textures/winning.png");
+        ImageView winGameImgView = new ImageView(winGameImg);
+        winGameImgView.setX(-464.5);
+        winGameImgView.setY(-375);
+        winGameImgView.setScaleX(0.517);
+        winGameImgView.setScaleY(0.3728);
+        BombermanGame.root.getChildren().add(winGameImgView);
+
+        Image replayButton = new Image("textures/replay_button1.png");
+        ImageView replayButtonView = new ImageView(replayButton);
+        replayButtonView.setX(83);
+        replayButtonView.setY(260);
         replayButtonView.setScaleX(0.4);
         replayButtonView.setScaleY(0.4);
 
-        BombermanGame.root.getChildren().add(gameOverView);
         BombermanGame.root.getChildren().add(replayButtonView);
 
         replayButtonView.setOnMouseEntered(mouseEvent -> {
             BombermanGame.soundControl.playSoundClick();
             replayButtonView.setImage(new Image("textures/replay_button2.png"));
         });
+
         replayButtonView.setOnMouseExited(mouseEvent -> {
             BombermanGame.soundControl.playSoundClick();
             replayButtonView.setImage(new Image("textures/replay_button1.png"));
         });
+
         replayButtonView.setOnMouseClicked(mouseEvent -> {
             BombermanGame.soundControl.playSoundClick();
-
-            BombermanGame.root.getChildren().remove(gameOverView);
+            BombermanGame.root.getChildren().remove(winGameImgView);
             BombermanGame.root.getChildren().remove(replayButtonView);
-
             Level1 level1 = new Level1();
             level1.build();
-
             NextLevel.createLevelImage();
         });
     }

@@ -19,13 +19,13 @@ public class InfoLevel {
         levelText = new Text("Level: 1");
         levelText.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 28));
         levelText.setFill(Color.WHITE);
-        levelText.setX(200);
+        levelText.setX(260);
         levelText.setY(26);
 
-        Image heartImg = new Image("textures/RedHeart.jpg");
+        Image heartImg = new Image("textures/heart.png");
         heartImgView = new ImageView(heartImg);
         heartImgView.setX(265);
-        heartImgView.setY(-165);
+        heartImgView.setY(-162);
         heartImgView.setScaleX(0.075);
         heartImgView.setScaleY(0.075);
 
@@ -37,7 +37,7 @@ public class InfoLevel {
 
         Image bombImg = new Image("textures/bomb_infoLevel.png");
         bombImgView = new ImageView(bombImg);
-        bombImgView.setX(635);
+        bombImgView.setX(630);
         bombImgView.setY(-2);
         bombImgView.setScaleX(0.7);
         bombImgView.setScaleY(0.7);
@@ -45,7 +45,7 @@ public class InfoLevel {
         numBombsText = new Text(": " + Bomb.numOfBombs);
         numBombsText.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 28));
         numBombsText.setFill(Color.WHITE);
-        numBombsText.setX(660);
+        numBombsText.setX(655);
         numBombsText.setY(26);
 
         timeLeftText = new Text("Time: " + BombermanGame.TIME_FOR_LEVEL);
@@ -58,17 +58,20 @@ public class InfoLevel {
         pane.setMinSize(BombermanGame.WIDTH * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         pane.setMaxSize(BombermanGame.WIDTH * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         pane.setStyle("-fx-background-color: #000033");
-        pane.getChildren().addAll(levelText, bombImgView, numBombsText, timeLeftText, heartImgView,numHeartsText);
+        pane.getChildren().addAll(levelText, bombImgView, numBombsText, timeLeftText, heartImgView, numHeartsText);
 
         BombermanGame.root.getChildren().add(pane);
     }
 
     public static void updateLevelInfo() {
-        if (levelText != null && numBombsText != null && timeLeftText != null) {
+        if (levelText != null && numBombsText != null
+                && timeLeftText != null && numHeartsText != null) {
             levelText.setText("Level: " + BombermanGame.level);
             numBombsText.setText(": " + Bomb.numOfBombs);
             timeLeftText.setText("Time: " + BombermanGame.timeLeft);
-            numHeartsText.setText(": " + BombermanGame.bomberman.getHeart());
+            if (BombermanGame.bomberman.getHeart() >= 0) {
+                numHeartsText.setText(": " + BombermanGame.bomberman.getHeart());
+            }
         }
     }
 }

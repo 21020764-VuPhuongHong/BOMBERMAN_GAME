@@ -2,7 +2,6 @@ package uet.oop.bomberman.ui;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.level.Level1;
 
@@ -86,12 +85,15 @@ public class Menu {
         BombermanGame.root.getChildren().addAll(submenuView, returnButtonView);
 
         returnButtonView.setOnMouseEntered(mouseEvent1 -> {
+            BombermanGame.soundControl.playSoundClick();
             returnButtonView.setImage(new Image("textures/return_button2.png"));
         });
         returnButtonView.setOnMouseExited(mouseEvent1 -> {
+            BombermanGame.soundControl.playSoundClick();
             returnButtonView.setImage(new Image("textures/return_button1.png"));
         });
         returnButtonView.setOnMouseClicked(mouseEvent1 -> {
+            BombermanGame.soundControl.playSoundClick();
             BombermanGame.root.getChildren().removeAll(returnButtonView, submenuView);
         });
     }
@@ -106,11 +108,9 @@ public class Menu {
             playButtonView.setImage(new Image("textures/play_button1.png"));
         });
         playButtonView.setOnMouseClicked(mouseEvent -> {
-
-            BombermanGame.root.getChildren().removeAll(menuBgView, nameView, playButtonView, exitButtonView, instructionButtonView);
-
             BombermanGame.soundControl.playSoundClick();
 
+            BombermanGame.root.getChildren().removeAll(menuBgView, nameView, playButtonView, exitButtonView, instructionButtonView);
 
             Level1 level1 = new Level1();
             level1.build();
@@ -119,22 +119,28 @@ public class Menu {
         });
 
         exitButtonView.setOnMouseEntered(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             exitButtonView.setImage(new Image("textures/exit_button2.png"));
         });
         exitButtonView.setOnMouseExited(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             exitButtonView.setImage(new Image("textures/exit_button1.png"));
         });
         exitButtonView.setOnMouseClicked(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             BombermanGame.thisStage.close();
         });
 
         instructionButtonView.setOnMouseEntered(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             instructionButtonView.setImage(new Image("textures/instruction2.png"));
         });
         instructionButtonView.setOnMouseExited(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             instructionButtonView.setImage(new Image("textures/instruction1.png"));
         });
         instructionButtonView.setOnMouseClicked(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
             handleInsSubmenu();
         });
     }
