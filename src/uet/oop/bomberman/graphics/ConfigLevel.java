@@ -7,6 +7,7 @@ import uet.oop.bomberman.entities.Block.Wall;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Enemies.Ballom;
 import uet.oop.bomberman.entities.Enemies.Oneal;
+import uet.oop.bomberman.entities.Enemies.Doll;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Items.BombItem;
 import uet.oop.bomberman.entities.Items.FlameItem;
@@ -71,6 +72,9 @@ public class ConfigLevel {
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == '2') {
                     Oneal e = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                    BombermanGame.entities.add(e);
+                } else if (config[i][j] == '3') {
+                    Doll e = new Doll(j, i, Sprite.doll_left1.getFxImage());
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
