@@ -7,9 +7,9 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
 
-public class doll extends Enemy{
+public class Doll extends Enemy{
     private int direction = 0;
-    public doll(int x, int y, Image img) {
+    public Doll(int x, int y, Image img) {
         super(x, y, img);
     }
 
@@ -122,25 +122,26 @@ public class doll extends Enemy{
         }
 
         if (swapDeathImg == 1) {
+            BombermanGame.soundControl.playSoundEnemyDie();
             this.setImage(Sprite.doll_dead.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {
                 swapDeathImg = 2;
             }
         } else if (swapDeathImg == 2) {
-            this.setImage(Sprite.doll_dead.getFxImage());
+            this.setImage(Sprite.mob_dead1.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {
                 swapDeathImg = 3;
             }
         } else if (swapDeathImg == 3) {
-            this.setImage(Sprite.doll_dead.getFxImage());
+            this.setImage(Sprite.mob_dead2.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {
                 swapDeathImg = 4;
             }
         } else if (swapDeathImg == 4) {
-            this.setImage(Sprite.doll_dead.getFxImage());
+            this.setImage(Sprite.mob_dead3.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {
                 swapDeathImg = 5;
