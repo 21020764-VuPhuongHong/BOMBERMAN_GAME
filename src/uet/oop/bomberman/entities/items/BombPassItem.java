@@ -1,19 +1,18 @@
-package uet.oop.bomberman.entities.Items;
+package uet.oop.bomberman.entities.items;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 
-public class BombItem extends Items {
-    public static int numBomsPut = 1;
-    public static boolean hasBombItem = false;
+public class BombPassItem extends Items {
+    public static boolean canPassBomb = false;
 
-    public BombItem(int x, int y, Image img) {
+    public BombPassItem(int x, int y, Image img) {
         super(x, y, img);
     }
 
     public void update() {
         if (!isReceived && changeReceivedState()) {
-            hasBombItem = isReceived;
+            canPassBomb = isReceived;
             BombermanGame.soundControl.playMoveItem();
             BombermanGame.entities.remove(this);
         }

@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.ui.GameOver;
 import uet.oop.bomberman.control.CollisionHandle;
-import uet.oop.bomberman.entities.Enemies.Enemy;
+import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
@@ -13,14 +13,14 @@ public class Bomber extends Entity {
     private int countFrame = 0;
     private boolean isAlive = true;
     private int swapDeathImg = 1;
-    private int heart = 1;
+    private static int heart = 1;
 
-    public void setHeart(int heart) {
-        this.heart = heart;
+    public static void setHeart(int numHearts) {
+        heart = numHearts;
     }
 
     public int getHeart() {
-        return this.heart;
+        return heart;
     }
 
     public void loseHeart() {
@@ -86,13 +86,13 @@ public class Bomber extends Entity {
         } else {
             if (this.getHeart() <= 0) {
                 this.setAliveState(false);
-            }
-            for (int i = BombermanGame.entities.size() - 1; i >= 0; --i) {
-                Entity e = BombermanGame.entities.get(i);
-                javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
-                javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 5 / 6, rec1.getHeight());
-                if (e instanceof Enemy && CollisionHandle.intersects(e, rec2)) {
-                    this.loseHeart();
+            } else {
+                for (Enemy e : BombermanGame.listEnemies) {
+                    javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
+                    javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 5 / 6, rec1.getHeight());
+                    if (CollisionHandle.intersects(e, rec2)) {
+                        this.loseHeart();
+                    }
                 }
             }
         }

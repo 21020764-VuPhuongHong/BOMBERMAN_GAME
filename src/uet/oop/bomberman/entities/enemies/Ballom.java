@@ -1,4 +1,4 @@
-package uet.oop.bomberman.entities.Enemies;
+package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
@@ -148,7 +148,7 @@ public class Ballom extends Enemy {
                 swapDeathImg = 5;
             }
         } else {
-            BombermanGame.entities.remove(this);
+            BombermanGame.listEnemies.remove(this);
         }
     }
 
