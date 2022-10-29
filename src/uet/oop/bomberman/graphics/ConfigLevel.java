@@ -75,6 +75,7 @@ public class ConfigLevel {
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == '3') {
                     Doll e = new Doll(j, i, Sprite.doll_left1.getFxImage());
+                    //e.setVelocity(1,1);
                     BombermanGame.entities.add(e);
                 } else if (config[i][j] == 'f') {
                     FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());

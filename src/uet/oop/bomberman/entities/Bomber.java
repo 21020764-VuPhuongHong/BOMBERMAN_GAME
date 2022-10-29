@@ -84,7 +84,7 @@ public class Bomber extends Entity {
         if (!isAlive) {
             this.killBomber();
         } else {
-            if (this.getHeart() <= 0) {
+            if (this.getHeart() < 0) {
                 this.setAliveState(false);
             }
             for (int i = BombermanGame.entities.size() - 1; i >= 0; --i) {

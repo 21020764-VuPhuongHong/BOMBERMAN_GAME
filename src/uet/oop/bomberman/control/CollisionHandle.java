@@ -8,6 +8,10 @@ public class CollisionHandle {
         return new Rectangle2D(e.getX(), e.getY(), e.getWidth(), e.getHeight());
     }
 
+    public static boolean intersects(Rectangle2D rec1, Rectangle2D rec2) {
+        return rec2.intersects(rec1);
+    }
+
     public static boolean intersects(Entity e, Rectangle2D rec) {
         Rectangle2D rec1 = getBoundary(e);
         Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth(), rec1.getHeight());
