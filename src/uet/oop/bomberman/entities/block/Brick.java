@@ -1,8 +1,9 @@
-package uet.oop.bomberman.entities.Block;
+package uet.oop.bomberman.entities.block;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.items.Items;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Brick extends Entity {
@@ -10,6 +11,8 @@ public class Brick extends Entity {
     private int countFrame = 0;
     private int swapExplodedImg = 1;
     private boolean isExploded = false;
+    public boolean isCovering = false;
+
     public Brick(int x, int y, Image img) {
         super(x, y, img);
     }
@@ -38,6 +41,10 @@ public class Brick extends Entity {
                 swapExplodedImg = 4;
             }
         } else {
+            if (isCovering) {
+                Items.isUncovered[this.getX() / Sprite.SCALED_SIZE][this.getY() / Sprite.SCALED_SIZE] = true;
+            }
+
             BombermanGame.entities.remove(this);
         }
     }

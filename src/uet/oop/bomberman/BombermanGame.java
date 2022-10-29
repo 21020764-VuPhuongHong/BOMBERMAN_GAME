@@ -10,13 +10,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import uet.oop.bomberman.control.FindSortestPath;
+import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.control.Sound;
 import uet.oop.bomberman.entities.*;
-import uet.oop.bomberman.entities.Enemies.Ballom;
-import uet.oop.bomberman.entities.Enemies.Doll;
-import uet.oop.bomberman.entities.Items.BombItem;
+import uet.oop.bomberman.entities.enemies.Enemy;
+import uet.oop.bomberman.entities.items.DetonatorItem;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.ui.InfoLevel;
 import uet.oop.bomberman.ui.Menu;
@@ -31,12 +30,14 @@ public class BombermanGame extends Application {
 
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
+    public static List<Bomb> listBombs = new ArrayList<>();
+    public static List<Enemy> listEnemies = new ArrayList<>();
 
     public static Bomber bomberman;
     public static int currentFigure_bomber = 0;
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
-    public static int bomberStep = 16;
+    public static int bomberStep = 8;
     public static Group root;
     public static Scene scene;
     public static Stage thisStage;
@@ -97,19 +98,18 @@ public class BombermanGame extends Application {
                         } else if (bomberman.getAliveState() && !e.isConsumed()) {
                             String code = e.getCode().toString();
                             if (code.equals("SPACE")) {
-                                System.out.println(Bomb.timeWaitForPutting2ndBomb);
-                                if (Bomb.numOfBombs > 0) {
-                                    if ((BombItem.hasBombItem && BombItem.numBomsPut < 2) || Bomb.timeWaitForPutting2ndBomb >= Bomb.TIME_BETWEEN_2_BOMBS) {
-                                        Bomb bomb = new Bomb((bomberman.getX() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, (bomberman.getY() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+                                if (Bomb.numOfBombs > 0 && !CollisionHandle.checkBrick(bomberman.getX(), bomberman.getY())) {
+                                    if (listBombs.size() < Bomb.numBombsPutAtATime) {
+                                        Bomb bomb = new Bomb((bomberman.getX() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE,
+                                                (bomberman.getY() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
                                         bomb.putBomb();
-                                        entities.add(bomb);
-                                        if (BombItem.hasBombItem) {
-                                            if (BombItem.numBomsPut < 2 && Bomb.timeWaitForPutting2ndBomb < Bomb.TIME_BETWEEN_2_BOMBS) {
-                                                BombItem.numBomsPut++;
-                                            } else {
-                                                BombItem.numBomsPut = 1;
-                                            }
-                                        }
+                                        listBombs.add(bomb);
+                                    }
+                                }
+                            } else if (code.equals("X")) {
+                                if (DetonatorItem.hasDetonator && listBombs.size() > 0) {
+                                    if (!listBombs.get(0).isExplosionTriggered) {
+                                        listBombs.get(0).isExplosionTriggered = true;
                                     }
                                 }
                             } else if (code.equals("LEFT")) {
@@ -174,20 +174,12 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-
-               /* for(Entity e: entities) {
-                    if(e instanceof Doll) {
-                        System.out.println("Dir:" + FindSortestPath.Find(e, bomberman));
-                        break;
-                    }
-                }*/
                 render();
                 update();
             }
         };
 
         timer.start();
-
 
         thisStage.show();
     }
@@ -196,6 +188,8 @@ public class BombermanGame extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+        listBombs.forEach(g -> g.render(gc));
+        listEnemies.forEach(g -> g.render(gc));
     }
 
     public void update() {
@@ -204,7 +198,12 @@ public class BombermanGame extends Application {
         for (Entity e : entities) {
             e.update();
         }
-        Bomb.timeWaitForPutting2ndBomb = System.currentTimeMillis() - Bomb.timePutBomb;
+        for (Entity e : listEnemies) {
+            e.update();
+        }
+        for (Entity e : listBombs) {
+            e.update();
+        }
     }
 
     public void countTimeLeft() {

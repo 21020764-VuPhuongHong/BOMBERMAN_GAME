@@ -8,10 +8,11 @@ import java.util.List;
 
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.control.CollisionHandle;
-import uet.oop.bomberman.entities.Block.Brick;
-import uet.oop.bomberman.entities.Block.Wall;
-import uet.oop.bomberman.entities.Enemies.Enemy;
-import uet.oop.bomberman.graphics.ConfigLevel;
+import uet.oop.bomberman.entities.block.Brick;
+import uet.oop.bomberman.entities.enemies.Enemy;
+import uet.oop.bomberman.entities.items.DetonatorItem;
+import uet.oop.bomberman.entities.items.FlamePassItem;
+import uet.oop.bomberman.level.ConfigLevel;
 import uet.oop.bomberman.graphics.Sprite;
 
 import static uet.oop.bomberman.graphics.Sprite.SCALED_SIZE;
@@ -23,25 +24,28 @@ public class Bomb extends Entity {
     private int countFrame = 0;
     private static final int MAX_NUM_FRAMES = 9;
     private int explosiveState = 1;
-    private List<Entity> middleHorizontalBombs = new ArrayList<>();
-    private List<Entity> middleVerticalBombs = new ArrayList<>();
+    private List<Entity> middleHorizontalExplosionList = new ArrayList<>();
+    private List<Entity> middleVerticalExplosionList = new ArrayList<>();
+    private boolean canAddUp = true;
+    private boolean canAddDown = true;
+    private boolean canAddRight = true;
+    private boolean canAddLeft = true;
     private Entity downEdge = null;
     private Entity upEdge = null;
     private Entity leftEdge = null;
     private Entity rightEdge = null;
-    private boolean isEdge = false;
-    private boolean isMiddle = false;
+    private boolean hasEdge = false;
+    private boolean hasMiddle = false;
     private int bombStatus = 0;
     public static int explodingLength = 1;
-    public static final long TIME_BETWEEN_2_BOMBS = 3000;
-    public static long timePutBomb;
-    public static long timeWaitForPutting2ndBomb = TIME_BETWEEN_2_BOMBS;
     public int timeBeforeExploding = 2000;
     private static final int TIME_EXPLODING = 700;
     public static boolean bomberFirstGoRightThroughBomb = true;
     public static boolean bomberFirstGoLeftThroughBomb = true;
     public static boolean bomberFirstGoUpThroughBomb = true;
     public static boolean bomberFirstGoDownThroughBomb = true;
+    public boolean isExplosionTriggered = false;
+    public static int numBombsPutAtATime = 1;
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
@@ -53,7 +57,6 @@ public class Bomb extends Entity {
             bombStatus = 1;
             numOfBombs--;
             timeOfBomb = System.currentTimeMillis();
-            timePutBomb = System.currentTimeMillis();
             bomberFirstGoRightThroughBomb = true;
             bomberFirstGoLeftThroughBomb = true;
             bomberFirstGoUpThroughBomb = true;
@@ -90,61 +93,101 @@ public class Bomb extends Entity {
     public void createExplodingEdge() {
         BombermanGame.soundControl.playSoundBomb();
 
-        if (this.getY() / SCALED_SIZE + explodingLength < ConfigLevel.height && !checkWallCollision(this.getX(), this.getY() + explodingLength * SCALED_SIZE)
-                && !checkBrickCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)
-                && !checkWallCollision(this.getX(), this.getY() + (explodingLength - 1) * SCALED_SIZE)) {
-            downEdge = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE + explodingLength, Sprite.transparent.getFxImage());
-            BombermanGame.entities.add(downEdge);
+        if (this.getY() / SCALED_SIZE + explodingLength < ConfigLevel.height && canAddDown) {
+            if (!CollisionHandle.checkWall(this.getX(), this.getY() + explodingLength * SCALED_SIZE)
+                    && !CollisionHandle.checkBrick(this.getX(), this.getY() + explodingLength * SCALED_SIZE)) {
+                downEdge = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE + explodingLength, Sprite.transparent.getFxImage());
+                BombermanGame.entities.add(downEdge);
+            } else {
+                handleBrickCollision(this.getX(), this.getY() + explodingLength * SCALED_SIZE);
+                canAddDown = false;
+            }
         }
 
-        if (this.getY() / SCALED_SIZE - explodingLength >= 0 && !checkWallCollision(this.getX(), this.getY() - explodingLength * SCALED_SIZE)
-                && !checkBrickCollision(this.getX(), this.getY() - (explodingLength - 1) * SCALED_SIZE)
-                && !checkWallCollision(this.getX(), this.getY() - (explodingLength - 1) * SCALED_SIZE)) {
-            upEdge = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE - explodingLength, Sprite.transparent.getFxImage());
-            BombermanGame.entities.add(upEdge);
+        if (this.getY() / SCALED_SIZE - explodingLength >= 0 && canAddUp) {
+            if (!CollisionHandle.checkWall(this.getX(), this.getY() - explodingLength * SCALED_SIZE)
+                    && !CollisionHandle.checkBrick(this.getX(), this.getY() - explodingLength * SCALED_SIZE)) {
+                upEdge = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE - explodingLength, Sprite.transparent.getFxImage());
+                BombermanGame.entities.add(upEdge);
+            } else {
+                handleBrickCollision(this.getX(), this.getY() - explodingLength * SCALED_SIZE);
+                canAddUp = false;
+            }
         }
 
-        if (this.getX() / SCALED_SIZE - explodingLength >= 0 && !checkWallCollision(this.getX() - explodingLength * SCALED_SIZE, this.getY())
-                && !checkBrickCollision(this.getX() - (explodingLength - 1) * SCALED_SIZE, this.getY())
-                && !checkWallCollision(this.getX() - (explodingLength - 1) * SCALED_SIZE, this.getY())) {
-            leftEdge = new Bomb(this.getX() / SCALED_SIZE - explodingLength, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
-            BombermanGame.entities.add(leftEdge);
+        if (this.getX() / SCALED_SIZE - explodingLength >= 0 && canAddLeft) {
+            if (!CollisionHandle.checkWall(this.getX() - explodingLength * SCALED_SIZE, this.getY())
+                    && !CollisionHandle.checkBrick(this.getX() - explodingLength * SCALED_SIZE, this.getY())) {
+                leftEdge = new Bomb(this.getX() / SCALED_SIZE - explodingLength, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
+                BombermanGame.entities.add(leftEdge);
+            } else {
+                handleBrickCollision(this.getX() - explodingLength * SCALED_SIZE, this.getY());
+                canAddLeft = false;
+            }
         }
 
-        if (this.getX() / SCALED_SIZE + explodingLength < ConfigLevel.width && !checkWallCollision(this.getX() + explodingLength * SCALED_SIZE, this.getY())
-                && !checkBrickCollision(this.getX() + (explodingLength - 1) * SCALED_SIZE, this.getY())
-                && !checkWallCollision(this.getX() + (explodingLength - 1) * SCALED_SIZE, this.getY())) {
-            rightEdge = new Bomb(this.getX() / SCALED_SIZE + explodingLength, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
-            BombermanGame.entities.add(rightEdge);
+        if (this.getX() / SCALED_SIZE + explodingLength < ConfigLevel.width && canAddRight) {
+            if (!CollisionHandle.checkWall(this.getX() + explodingLength * SCALED_SIZE, this.getY())
+                    && !CollisionHandle.checkBrick(this.getX() + explodingLength * SCALED_SIZE, this.getY())) {
+                rightEdge = new Bomb(this.getX() / SCALED_SIZE + explodingLength, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
+                BombermanGame.entities.add(rightEdge);
+            } else {
+                handleBrickCollision(this.getX() + explodingLength * SCALED_SIZE, this.getY());
+                canAddRight = false;
+            }
         }
     }
 
-    public void createMiddle() {
+    public void createMiddleExplosion() {
         Entity middle;
+        for (int i = 1; i < explodingLength; i++) {
+            if (canAddDown) {
+                if (!CollisionHandle.checkWall(this.getX(), this.getY() + i * SCALED_SIZE)
+                        && !CollisionHandle.checkBrick(this.getX(), this.getY() + i * SCALED_SIZE)) {
+                    middle = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE + i, Sprite.transparent.getFxImage());
+                    middleVerticalExplosionList.add(middle);
+                } else {
+                    handleBrickCollision(this.getX(), this.getY() + i * SCALED_SIZE);
+                    canAddDown = false;
+                }
+            }
 
-        if (!checkWallCollision(this.getX(), this.getY() + SCALED_SIZE)) {
-            middle = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE + 1, Sprite.transparent.getFxImage());
-            middleVerticalBombs.add(middle);
+            if (canAddUp) {
+                if (!CollisionHandle.checkWall(this.getX(), this.getY() - i * SCALED_SIZE)
+                        && !CollisionHandle.checkBrick(this.getX(), this.getY() - i * SCALED_SIZE)) {
+                    middle = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE - i, Sprite.transparent.getFxImage());
+                    middleVerticalExplosionList.add(middle);
+                } else {
+                    handleBrickCollision(this.getX(), this.getY() - i * SCALED_SIZE);
+                    canAddUp = false;
+                }
+            }
+
+            if (canAddLeft) {
+                if (!CollisionHandle.checkWall(this.getX() - i * SCALED_SIZE, this.getY())
+                        && !CollisionHandle.checkBrick(this.getX() - i * SCALED_SIZE, this.getY())) {
+                    middle = new Bomb(this.getX() / SCALED_SIZE - i, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
+                    middleHorizontalExplosionList.add(middle);
+                } else {
+                    handleBrickCollision(this.getX() - i * SCALED_SIZE, this.getY());
+                    canAddLeft = false;
+                }
+            }
+
+            if (canAddRight) {
+                if (!CollisionHandle.checkWall(this.getX() + i * SCALED_SIZE, this.getY())
+                        && !CollisionHandle.checkBrick(this.getX() + i * SCALED_SIZE, this.getY())) {
+                    middle = new Bomb(this.getX() / SCALED_SIZE + i, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
+                    middleHorizontalExplosionList.add(middle);
+                } else {
+                    handleBrickCollision(this.getX() + i * SCALED_SIZE, this.getY());
+                    canAddRight = false;
+                }
+            }
         }
 
-        if (!checkWallCollision(this.getX(), this.getY() - SCALED_SIZE)) {
-            middle = new Bomb(this.getX() / SCALED_SIZE, this.getY() / SCALED_SIZE - 1, Sprite.transparent.getFxImage());
-            middleVerticalBombs.add(middle);
-        }
-
-        if (!checkWallCollision(this.getX() - SCALED_SIZE, this.getY())) {
-            middle = new Bomb(this.getX() / SCALED_SIZE - 1, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
-            middleHorizontalBombs.add(middle);
-        }
-
-        if (!checkWallCollision(this.getX() + SCALED_SIZE, this.getY())) {
-            middle = new Bomb(this.getX() / SCALED_SIZE + 1, this.getY() / SCALED_SIZE, Sprite.transparent.getFxImage());
-            middleHorizontalBombs.add(middle);
-        }
-
-
-        BombermanGame.entities.addAll(middleHorizontalBombs);
-        BombermanGame.entities.addAll(middleVerticalBombs);
+        BombermanGame.entities.addAll(middleHorizontalExplosionList);
+        BombermanGame.entities.addAll(middleVerticalExplosionList);
     }
 
 
@@ -159,15 +202,15 @@ public class Bomb extends Entity {
             this.setImage(Sprite.bomb_exploded.getFxImage());
             handleCollision(this);
 
-            if (middleVerticalBombs.size() > 0) {
-                for (Entity e : middleVerticalBombs) {
+            if (middleVerticalExplosionList.size() > 0) {
+                for (Entity e : middleVerticalExplosionList) {
                     e.setImage(Sprite.explosion_vertical.getFxImage());
                     handleCollision(e);
                 }
             }
 
-            if (middleHorizontalBombs.size() > 0) {
-                for (Entity e : middleHorizontalBombs) {
+            if (middleHorizontalExplosionList.size() > 0) {
+                for (Entity e : middleHorizontalExplosionList) {
                     e.setImage(Sprite.explosion_horizontal.getFxImage());
                     handleCollision(e);
                 }
@@ -220,14 +263,14 @@ public class Bomb extends Entity {
                 rightEdge.setImage(Sprite.explosion_horizontal_right_last1.getFxImage());
             }
 
-            if (middleVerticalBombs.size() > 0) {
-                for (Entity e : middleVerticalBombs) {
+            if (middleVerticalExplosionList.size() > 0) {
+                for (Entity e : middleVerticalExplosionList) {
                     e.setImage(Sprite.explosion_vertical1.getFxImage());
                 }
             }
 
-            if (middleHorizontalBombs.size() > 0) {
-                for (Entity e : middleHorizontalBombs) {
+            if (middleHorizontalExplosionList.size() > 0) {
+                for (Entity e : middleHorizontalExplosionList) {
                     e.setImage(Sprite.explosion_horizontal1.getFxImage());
                 }
             }
@@ -240,14 +283,14 @@ public class Bomb extends Entity {
 
             this.setImage(Sprite.bomb_exploded2.getFxImage());
 
-            if (middleVerticalBombs.size() > 0) {
-                for (Entity e : middleVerticalBombs) {
+            if (middleVerticalExplosionList.size() > 0) {
+                for (Entity e : middleVerticalExplosionList) {
                     e.setImage(Sprite.explosion_vertical2.getFxImage());
                 }
             }
 
-            if (middleHorizontalBombs.size() > 0) {
-                for (Entity e : middleHorizontalBombs) {
+            if (middleHorizontalExplosionList.size() > 0) {
+                for (Entity e : middleHorizontalExplosionList) {
                     e.setImage(Sprite.explosion_horizontal2.getFxImage());
                 }
             }
@@ -276,14 +319,14 @@ public class Bomb extends Entity {
 
             this.setImage(Sprite.bomb_exploded.getFxImage());
 
-            if (middleVerticalBombs.size() > 0) {
-                for (Entity e : middleVerticalBombs) {
+            if (middleVerticalExplosionList.size() > 0) {
+                for (Entity e : middleVerticalExplosionList) {
                     e.setImage(Sprite.explosion_vertical.getFxImage());
                 }
             }
 
-            if (middleHorizontalBombs.size() > 0) {
-                for (Entity e : middleHorizontalBombs) {
+            if (middleHorizontalExplosionList.size() > 0) {
+                for (Entity e : middleHorizontalExplosionList) {
                     e.setImage(Sprite.explosion_horizontal.getFxImage());
                 }
             }
@@ -312,7 +355,7 @@ public class Bomb extends Entity {
 
     private void handleBombExplosion() {
         if (bombStatus == 1) {
-            if (System.currentTimeMillis() - timeOfBomb < timeBeforeExploding) {
+            if ((System.currentTimeMillis() - timeOfBomb < timeBeforeExploding || DetonatorItem.hasDetonator) && !isExplosionTriggered) {
                 swapBombImg();
             } else {
                 bombStatus = 2;
@@ -321,15 +364,16 @@ public class Bomb extends Entity {
         } else if (bombStatus == 2) {
             if (System.currentTimeMillis() - timeOfBomb < TIME_EXPLODING) {
 
-                if (explodingLength >= 2 && !isMiddle) {
-                    createMiddle();
-                    isMiddle = true;
+                if (explodingLength >= 2 && !hasMiddle) {
+                    createMiddleExplosion();
+                    hasMiddle = true;
                 }
 
-                if (!isEdge) {
+                if (!hasEdge) {
                     createExplodingEdge();
-                    isEdge = true;
+                    hasEdge = true;
                 }
+
 
                 explosion();
             } else {
@@ -351,75 +395,57 @@ public class Bomb extends Entity {
                     BombermanGame.entities.remove(rightEdge);
                 }
 
-                if (middleVerticalBombs.size() > 0) {
-                    BombermanGame.entities.removeAll(middleVerticalBombs);
+                if (middleVerticalExplosionList.size() > 0) {
+                    BombermanGame.entities.removeAll(middleVerticalExplosionList);
                 }
-                if (middleHorizontalBombs.size() > 0) {
-                    BombermanGame.entities.removeAll(middleHorizontalBombs);
+                if (middleHorizontalExplosionList.size() > 0) {
+                    BombermanGame.entities.removeAll(middleHorizontalExplosionList);
                 }
 
-                middleVerticalBombs.clear();
-                middleHorizontalBombs.clear();
-                BombermanGame.entities.remove(this);
+                middleVerticalExplosionList.clear();
+                middleHorizontalExplosionList.clear();
+
+                BombermanGame.listBombs.remove(this);
             }
         }
     }
 
-    public void handleEnemyCollision(Entity e, Entity other) {
-        if (other instanceof Enemy && CollisionHandle.intersects(e, other)) {
-            Enemy enemy = (Enemy) other;
-            enemy.setAliveState(false);
+    public void handleEnemyCollision(Entity e) {
+        for (Enemy enemy : BombermanGame.listEnemies) {
+            if (CollisionHandle.intersects(e, enemy)) {
+                enemy.setAliveState(false);
+            }
         }
     }
 
-    public void handleBomberCollision(Entity e, Entity other) {
-        if (other instanceof Bomber && CollisionHandle.intersects(e, other)) {
-            Bomber bomber = (Bomber) other;
-            bomber.loseHeart();
+    public void handleBomberCollision(Entity e) {
+        if (!FlamePassItem.isExplosionImmune && CollisionHandle.intersects(e, BombermanGame.bomberman)) {
+            BombermanGame.bomberman.loseHeart();
         }
     }
 
-    public void handleBrickCollision(Entity e, Entity other) {
-        if (other instanceof Brick && CollisionHandle.intersects(e, other)) {
-            Brick brick = (Brick) other;
-            brick.setIsExploded(true);
-        }
-    }
-
-    public void handleBombCollision(Entity e, Entity other) {
-        if (other instanceof Bomb && CollisionHandle.intersects(e, other)) {
-            Bomb otherBomb = (Bomb) other;
-            otherBomb.timeBeforeExploding = 0;
+    public void handleBombCollision(Entity e) {
+        for (Bomb otherBomb : BombermanGame.listBombs) {
+            if (CollisionHandle.intersects(e, otherBomb)) {
+                otherBomb.isExplosionTriggered = true;
+            }
         }
     }
 
     public void handleCollision(Entity e) {
-        for (Entity other : BombermanGame.entities) {
-            handleEnemyCollision(e, other);
-            handleBomberCollision(e, other);
-            handleBrickCollision(e, other);
-            handleBombCollision(e, other);
-        }
+        handleEnemyCollision(e);
+        handleBomberCollision(e);
+        handleBombCollision(e);
     }
 
-    public boolean checkBrickCollision(int x, int y) {
+    public void handleBrickCollision(int x, int y) {
         Rectangle2D rec = new Rectangle2D(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         for (Entity other : BombermanGame.entities) {
             if (other instanceof Brick && CollisionHandle.intersects(other, rec)) {
-                return true;
+                Brick brick = (Brick) other;
+                brick.setIsExploded(true);
             }
         }
-        return false;
-    }
-
-    public boolean checkWallCollision(int x, int y) {
-        Rectangle2D rec = new Rectangle2D(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
-        for (Entity other : BombermanGame.stillObjects) {
-            if (other instanceof Wall && CollisionHandle.intersects(other, rec)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void update() {

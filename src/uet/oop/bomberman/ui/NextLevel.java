@@ -66,6 +66,9 @@ public class NextLevel {
             case 3:
                 BombermanGame.entities.clear();
                 BombermanGame.stillObjects.clear();
+                BombermanGame.listBombs.clear();
+                BombermanGame.listEnemies.clear();
+
                 BombermanGame.soundControl.playSoundWinGame();
                 WinGame.createWinGameView();
         }
