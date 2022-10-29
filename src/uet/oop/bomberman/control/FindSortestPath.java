@@ -2,8 +2,8 @@ package uet.oop.bomberman.control;
 
 import javafx.geometry.Rectangle2D;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Block.Brick;
-import uet.oop.bomberman.entities.Block.Wall;
+import uet.oop.bomberman.entities.block.Brick;
+import uet.oop.bomberman.entities.block.Wall;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;

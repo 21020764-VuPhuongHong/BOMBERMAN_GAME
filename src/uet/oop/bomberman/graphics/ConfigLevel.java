@@ -1,18 +1,18 @@
 package uet.oop.bomberman.graphics;
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Block.Brick;
-import uet.oop.bomberman.entities.Block.Grass;
-import uet.oop.bomberman.entities.Block.Wall;
+import uet.oop.bomberman.entities.block.Brick;
+import uet.oop.bomberman.entities.block.Grass;
+import uet.oop.bomberman.entities.block.Wall;
 import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Enemies.Ballom;
-import uet.oop.bomberman.entities.Enemies.Oneal;
-import uet.oop.bomberman.entities.Enemies.Doll;
+import uet.oop.bomberman.entities.enemies.Ballom;
+import uet.oop.bomberman.entities.enemies.Oneal;
+import uet.oop.bomberman.entities.enemies.Doll;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Items.BombItem;
-import uet.oop.bomberman.entities.Items.FlameItem;
+import uet.oop.bomberman.entities.items.BombItem;
+import uet.oop.bomberman.entities.items.FlameItem;
 import uet.oop.bomberman.entities.Portal;
-import uet.oop.bomberman.entities.Items.SpeedItem;
+import uet.oop.bomberman.entities.items.SpeedItem;
 
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
