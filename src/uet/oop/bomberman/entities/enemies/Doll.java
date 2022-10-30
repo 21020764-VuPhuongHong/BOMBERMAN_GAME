@@ -2,14 +2,15 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.control.FindSortestPath;
 import uet.oop.bomberman.control.Move;
-import uet.oop.bomberman.find_path.FindPath1;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Doll extends Enemy {
     public static boolean spawn = false;
     public static int spawnPosX;
     public static int spawnPosY;
+
     public Doll(int x, int y, Image img) {
         super(x, y, img);
     }
@@ -17,170 +18,101 @@ public class Doll extends Enemy {
     private void moveDoll() {
         this.setVelocity(2, 2);
 
+        direction = FindSortestPath.Find(this, BombermanGame.bomberman);
+        System.out.println("direction: " + direction);
+
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
         }
 
-        FindPath1.findPath(this);
-
         switch (direction) {
-            case 0:
-                if (Move.canMoveUp(this)) {
-
-                    Move.moveUp(this);
-
-                    shouldMoveUp = true;
-                    shouldMoveLeft = true;
-                    shouldMoveRight = true;
-
-                    if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_left1.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 2;
-                        }
-                    } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_left2.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 3;
-                        }
-                    } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_left3.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 1;
-                        }
-                    }
-                } else if (Move.canMoveDown(this)) {
-                    shouldMoveUp = false;
-                    direction = 1;
-                } else if (Move.canMoveLeft(this)) {
-                    shouldMoveUp = false;
-                    direction = 2;
-                } else {
-                    shouldMoveUp = false;
-                    direction = 3;
-                }
-                break;
-
             case 1:
-                if (Move.canMoveDown(this)) {
-
-                    Move.moveDown(this);
-
-                    shouldMoveDown = true;
-                    shouldMoveLeft = true;
-                    shouldMoveRight = true;
-
-                    if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_right1.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 2;
-                        }
-                    } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_right2.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 3;
-                        }
-                    } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_right3.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 1;
-                        }
+                this.setY(this.getY() - this.getVelocityY());
+                //System.out.println("moveup");
+                if (this.swapMoveImg == 1) {
+                    this.setImage(Sprite.doll_left1.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 2;
                     }
-                } else if (Move.canMoveUp(this)) {
-                    shouldMoveDown = false;
-                    direction = 0;
-                } else if (Move.canMoveLeft(this)) {
-                    shouldMoveDown = false;
-                    direction = 2;
-                } else {
-                    shouldMoveDown = false;
-                    direction = 3;
+                } else if (this.swapMoveImg == 2) {
+                    this.setImage(Sprite.doll_left2.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 3;
+                    }
+                } else if (this.swapMoveImg == 3) {
+                    this.setImage(Sprite.doll_left3.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 1;
+                    }
                 }
                 break;
-
-            case 2:
-                if (Move.canMoveLeft(this)) {
-
-                    Move.moveLeft(this);
-
-                    shouldMoveLeft = true;
-                    shouldMoveUp = true;
-                    shouldMoveDown = true;
-
-                    if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_left1.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 2;
-                        }
-                    } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_left2.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 3;
-                        }
-                    } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_left3.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 1;
-                        }
-                    }
-                } else if (Move.canMoveRight(this)) {
-                    shouldMoveLeft = false;
-                    direction = 3;
-                } else if (Move.canMoveUp(this)) {
-                    shouldMoveLeft = false;
-                    direction = 0;
-                } else {
-                    shouldMoveLeft = false;
-                    direction = 1;
-                }
-                break;
-
             case 3:
-                if (Move.canMoveRight(this)) {
-
-                    Move.moveRight(this);
-
-                    shouldMoveRight = true;
-                    shouldMoveUp = true;
-                    shouldMoveDown = true;
-
-                    if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_right1.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 2;
-                        }
-                    } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_right2.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 3;
-                        }
-                    } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_right3.getFxImage());
-                        countFrame++;
-                        if (countFrame == MAX_NUM_FRAMES) {
-                            swapMoveImg = 1;
-                        }
+                this.setY(this.getY() + this.getVelocityY());
+                if (this.swapMoveImg == 1) {
+                    this.setImage(Sprite.doll_right1.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 2;
                     }
-                } else if (Move.canMoveLeft(this)) {
-                    shouldMoveRight = false;
-                    direction = 2;
-                } else if (Move.canMoveUp(this)) {
-                    shouldMoveRight = false;
-                    direction = 0;
-                } else {
-                    shouldMoveRight = false;
-                    direction = 1;
+                } else if (this.swapMoveImg == 2) {
+                    this.setImage(Sprite.doll_right2.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 3;
+                    }
+                } else if (this.swapMoveImg == 3) {
+                    this.setImage(Sprite.doll_right3.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 1;
+                    }
+                }
+                break;
+            case 2:
+                this.setX(this.getX() + this.getVelocityX()); // move right
+                if (this.swapMoveImg == 1) {
+                    this.setImage(Sprite.doll_right1.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 2;
+                    }
+                } else if (this.swapMoveImg == 2) {
+                    this.setImage(Sprite.doll_right2.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 3;
+                    }
+                } else if (this.swapMoveImg == 3) {
+                    this.setImage(Sprite.doll_right3.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 1;
+                    }
+                }
+                break;
+            case 4:
+                this.setX(this.getX() - this.getVelocityX()); // move left
+                if (this.swapMoveImg == 1) {
+                    this.setImage(Sprite.doll_left1.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 2;
+                    }
+                } else if (this.swapMoveImg == 2) {
+                    this.setImage(Sprite.doll_left2.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 3;
+                    }
+                } else if (this.swapMoveImg == 3) {
+                    this.setImage(Sprite.doll_left3.getFxImage());
+                    countFrame++;
+                    if (countFrame == MAX_NUM_FRAMES) {
+                        swapMoveImg = 1;
+                    }
                 }
                 break;
         }
