@@ -2,6 +2,7 @@ package uet.oop.bomberman.control;
 
 import javafx.geometry.Rectangle2D;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.entities.block.Brick;
 import uet.oop.bomberman.entities.block.Wall;
 import uet.oop.bomberman.entities.Bomber;
@@ -38,6 +39,13 @@ public class FindSortestPath extends CollisionHandle{
                     //++System.out.println(e.getX() + " " + e.getVelocityY() + " " + e.getWidth() + "Brick");
                     return false;
                 }
+            }
+        }
+
+        for(Bomb e: BombermanGame.listBombs) {
+            if(intersects(e, rect1)) {
+                //++System.out.println(e.getX() + " " + e.getVelocityY() + " " + e.getWidth() + "Brick");
+                return false;
             }
         }
 
