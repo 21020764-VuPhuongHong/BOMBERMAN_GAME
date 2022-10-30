@@ -6,21 +6,17 @@ import uet.oop.bomberman.control.FindSortestPath;
 import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.Random;
+public class Doll extends Enemy {
+    public static boolean spawn = false;
+    public static int spawnPosX;
+    public static int spawnPosY;
 
-public class Doll extends uet.oop.bomberman.entities.enemies.Enemy {
-    private int direction = 0;
     public Doll(int x, int y, Image img) {
         super(x, y, img);
     }
 
     private void moveDoll() {
         this.setVelocity(2, 2);
-        /*
-        Random seed = new Random();
-        if (this.getX() % Sprite.SCALED_SIZE == 0 && this.getY() % Sprite.SCALED_SIZE == 0) {
-            direction = seed.nextInt(4);
-        }*/
 
         direction = FindSortestPath.Find(this, BombermanGame.bomberman);
         System.out.println("direction: " + direction);
@@ -122,7 +118,7 @@ public class Doll extends uet.oop.bomberman.entities.enemies.Enemy {
         }
     }
 
-    private void killBallom() {
+    private void killDoll() {
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
         }
@@ -159,7 +155,7 @@ public class Doll extends uet.oop.bomberman.entities.enemies.Enemy {
 
     public void update() {
         if (!isAlive) {
-            this.killBallom();
+            this.killDoll();
         } else {
             this.moveDoll();
         }

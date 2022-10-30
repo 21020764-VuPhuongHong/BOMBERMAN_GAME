@@ -9,6 +9,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomb;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class InfoLevel {
@@ -29,7 +30,7 @@ public class InfoLevel {
         heartImgView.setScaleX(0.075);
         heartImgView.setScaleY(0.075);
 
-        numHeartsText = new Text(": " + BombermanGame.bomberman.getHeart());
+        numHeartsText = new Text(": " + Bomber.getHeart());
         numHeartsText.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 28));
         numHeartsText.setFill(Color.WHITE);
         numHeartsText.setX(475);
@@ -71,8 +72,8 @@ public class InfoLevel {
             if (BombermanGame.timeLeft >= 0) {
                 timeLeftText.setText("Time: " + BombermanGame.timeLeft);
             }
-            if (BombermanGame.bomberman.getHeart() >= 0) {
-                numHeartsText.setText(": " + BombermanGame.bomberman.getHeart());
+            if (Bomber.getHeart() >= 0) {
+                numHeartsText.setText(": " + Bomber.getHeart());
             }
         }
     }

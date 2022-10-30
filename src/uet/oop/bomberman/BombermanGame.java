@@ -106,7 +106,7 @@ public class BombermanGame extends Application {
                                         listBombs.add(bomb);
                                     }
                                 }
-                            } else if (code.equals("X")) {
+                            } else if (code.equals("B")) {
                                 if (DetonatorItem.hasDetonator && listBombs.size() > 0) {
                                     if (!listBombs.get(0).isExplosionTriggered) {
                                         listBombs.get(0).isExplosionTriggered = true;

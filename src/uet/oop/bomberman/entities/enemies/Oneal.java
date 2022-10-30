@@ -3,25 +3,24 @@ package uet.oop.bomberman.entities.enemies;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.control.Move;
-import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.Random;
-
 public class Oneal extends Enemy {
+    public static boolean spawn = false;
+    public static int spawnPosX;
+    public static int spawnPosY;
     public Oneal(int x, int y, Image img) {
         super(x, y, img);
     }
 
-    public void moveOneal(Bomber bomber) {
-        Random seed = new Random();
-        this.setVelocity(seed.nextInt(3), seed.nextInt(4));
+    public void moveOneal() {
+        this.setVelocity(1 + seed.nextInt(3), 1 + seed.nextInt(3));
 
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
         }
 
-        if (this.getX() > bomber.getX()) {
+        if (this.getX() > BombermanGame.bomberman.getX()) {
             Move.moveLeft(this);
             if (this.swapMoveImg == 1) {
                 this.setImage(Sprite.oneal_left1.getFxImage());
@@ -42,7 +41,7 @@ public class Oneal extends Enemy {
                     swapMoveImg = 1;
                 }
             }
-        } else if (this.getX() < bomber.getX()) {
+        } else if (this.getX() < BombermanGame.bomberman.getX()) {
             Move.moveRight(this);
             if (this.swapMoveImg == 1) {
                 this.setImage(Sprite.oneal_right1.getFxImage());
@@ -65,7 +64,7 @@ public class Oneal extends Enemy {
             }
         }
 
-        if (this.getY() > bomber.getY()) {
+        if (this.getY() > BombermanGame.bomberman.getY()) {
             Move.moveUp(this);
             if (this.swapMoveImg == 1) {
                 this.setImage(Sprite.oneal_left1.getFxImage());
@@ -86,7 +85,7 @@ public class Oneal extends Enemy {
                     swapMoveImg = 1;
                 }
             }
-        } else if (this.getY() < bomber.getY()) {
+        } else if (this.getY() < BombermanGame.bomberman.getY()) {
             Move.moveDown(this);
             if (this.swapMoveImg == 1) {
                 this.setImage(Sprite.oneal_right1.getFxImage());
@@ -149,7 +148,7 @@ public class Oneal extends Enemy {
         if (!isAlive) {
             this.killOneal();
         } else {
-            this.moveOneal(BombermanGame.bomberman);
+            this.moveOneal();
         }
     }
 }

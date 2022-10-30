@@ -19,7 +19,7 @@ public class Bomber extends Entity {
         heart = numHearts;
     }
 
-    public int getHeart() {
+    public static int getHeart() {
         return heart;
     }
 
@@ -84,7 +84,7 @@ public class Bomber extends Entity {
         if (!isAlive) {
             this.killBomber();
         } else {
-            if (this.getHeart() < 0) {
+            if (getHeart() <= 0) {
                 this.setAliveState(false);
             } else {
                 for (Enemy e : BombermanGame.listEnemies) {

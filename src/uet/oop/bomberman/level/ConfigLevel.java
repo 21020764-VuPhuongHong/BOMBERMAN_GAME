@@ -5,9 +5,7 @@ import uet.oop.bomberman.entities.block.Brick;
 import uet.oop.bomberman.entities.block.Grass;
 import uet.oop.bomberman.entities.block.Wall;
 import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.enemies.Ballom;
-import uet.oop.bomberman.entities.enemies.Oneal;
-import uet.oop.bomberman.entities.enemies.Doll;
+import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.items.*;
 import uet.oop.bomberman.entities.Portal;
@@ -82,6 +80,14 @@ public class ConfigLevel {
                     case '3':
                         Doll e3 = new Doll(j, i, Sprite.doll_left1.getFxImage());
                         BombermanGame.listEnemies.add(e3);
+                        break;
+                    case '4':
+                        Minvo e4 = new Minvo(j, i, Sprite.minvo_left1.getFxImage());
+                        BombermanGame.listEnemies.add(e4);
+                        break;
+                    case '5':
+                        Ovapi e5 = new Ovapi(j, i, Sprite.ovapi_left1.getFxImage());
+                        BombermanGame.listEnemies.add(e5);
                         break;
                     case 'f':
                         FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
