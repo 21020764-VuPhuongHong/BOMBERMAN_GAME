@@ -8,15 +8,15 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.Random;
 
 public class Ballom extends Enemy {
-    private int direction = 0;
-
+    public static boolean spawn = false;
+    public static int spawnPosX;
+    public static int spawnPosY;
     public Ballom(int x, int y, Image img) {
         super(x, y, img);
     }
 
     private void moveBallom() {
         this.setVelocity(1, 1);
-        Random seed = new Random();
         if (this.getX() % Sprite.SCALED_SIZE == 0 && this.getY() % Sprite.SCALED_SIZE == 0) {
             direction = seed.nextInt(4);
         }

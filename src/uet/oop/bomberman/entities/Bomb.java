@@ -9,9 +9,8 @@ import java.util.List;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.block.Brick;
-import uet.oop.bomberman.entities.enemies.Enemy;
-import uet.oop.bomberman.entities.items.DetonatorItem;
-import uet.oop.bomberman.entities.items.FlamePassItem;
+import uet.oop.bomberman.entities.enemies.*;
+import uet.oop.bomberman.entities.items.*;
 import uet.oop.bomberman.level.ConfigLevel;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -379,6 +378,8 @@ public class Bomb extends Entity {
             } else {
                 bombStatus = 0;
 
+                handleSpawning();
+
                 if (downEdge != null) {
                     BombermanGame.entities.remove(downEdge);
                 }
@@ -432,10 +433,56 @@ public class Bomb extends Entity {
         }
     }
 
+    public void handleItemsCollision(Entity e) {
+        for (Entity other : BombermanGame.entities) {
+            if (other instanceof FlameItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Oneal.spawn = true;
+                Oneal.spawnPosX = e.getX() / SCALED_SIZE;
+                Oneal.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof BombItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Ballom.spawn = true;
+                Ballom.spawnPosX = e.getX() / SCALED_SIZE;
+                Ballom.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof WallPassItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Minvo.spawn = true;
+                Minvo.spawnPosX = e.getX() / SCALED_SIZE;
+                Minvo.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof BombPassItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Ovapi.spawn = true;
+                Ovapi.spawnPosX = e.getX() / SCALED_SIZE;
+                Ovapi.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof SpeedItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Doll.spawn = true;
+                Doll.spawnPosX = e.getX() / SCALED_SIZE;
+                Doll.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof DetonatorItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Minvo.spawn = true;
+                Minvo.spawnPosX = e.getX() / SCALED_SIZE;
+                Minvo.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof FlamePassItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Ovapi.spawn = true;
+                Ovapi.spawnPosX = e.getX() / SCALED_SIZE;
+                Ovapi.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof Portal && CollisionHandle.intersects(e, other)) {
+                Ovapi.spawn = true;
+                Ovapi.spawnPosX = e.getX() / SCALED_SIZE;
+                Ovapi.spawnPosY = e.getY() / SCALED_SIZE;
+            }
+        }
+    }
+
     public void handleCollision(Entity e) {
         handleEnemyCollision(e);
         handleBomberCollision(e);
         handleBombCollision(e);
+        handleItemsCollision(e);
     }
 
     public void handleBrickCollision(int x, int y) {
@@ -445,6 +492,40 @@ public class Bomb extends Entity {
                 Brick brick = (Brick) other;
                 brick.setIsExploded(true);
             }
+        }
+
+        if (!FlamePassItem.isExplosionImmune && CollisionHandle.intersects(BombermanGame.bomberman, rec)) {
+            BombermanGame.bomberman.loseHeart();
+        }
+
+        for (Enemy enemy : BombermanGame.listEnemies) {
+            if (CollisionHandle.intersects(enemy, rec)) {
+                enemy.setAliveState(false);
+            }
+        }
+    }
+
+    public void handleSpawning() {
+        if (Oneal.spawn) {
+            Oneal oneal = new Oneal(Oneal.spawnPosX, Oneal.spawnPosY, Sprite.oneal_left1.getFxImage());
+            BombermanGame.listEnemies.add(oneal);
+            Oneal.spawn = false;
+        } else if (Doll.spawn) {
+            Doll doll = new Doll(Doll.spawnPosX, Doll.spawnPosY, Sprite.oneal_left1.getFxImage());
+            BombermanGame.listEnemies.add(doll);
+            Doll.spawn = false;
+        } else if (Ballom.spawn) {
+            Ballom ballom = new Ballom(Ballom.spawnPosX, Ballom.spawnPosY, Sprite.oneal_left1.getFxImage());
+            BombermanGame.listEnemies.add(ballom);
+            Ballom.spawn = false;
+        } else if (Minvo.spawn) {
+            Minvo minvo = new Minvo(Minvo.spawnPosX, Minvo.spawnPosY, Sprite.oneal_left1.getFxImage());
+            BombermanGame.listEnemies.add(minvo);
+            Minvo.spawn = false;
+        } else if (Ovapi.spawn) {
+            Ovapi ovapi = new Ovapi(Ovapi.spawnPosX, Ovapi.spawnPosY, Sprite.oneal_left1.getFxImage());
+            BombermanGame.listEnemies.add(ovapi);
+            Ovapi.spawn = false;
         }
     }
 

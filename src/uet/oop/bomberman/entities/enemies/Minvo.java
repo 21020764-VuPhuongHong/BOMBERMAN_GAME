@@ -6,16 +6,16 @@ import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.find_path.FindPath1;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Doll extends Enemy {
+public class Minvo extends Enemy {
     public static boolean spawn = false;
     public static int spawnPosX;
     public static int spawnPosY;
-    public Doll(int x, int y, Image img) {
+    public Minvo(int x, int y, Image img) {
         super(x, y, img);
     }
 
-    private void moveDoll() {
-        this.setVelocity(2, 2);
+    private void moveMinvo() {
+        this.setVelocity(2 + seed.nextInt(2), 2 + seed.nextInt(2));
 
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
@@ -34,19 +34,19 @@ public class Doll extends Enemy {
                     shouldMoveRight = true;
 
                     if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_left1.getFxImage());
+                        this.setImage(Sprite.minvo_left1.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 2;
                         }
                     } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_left2.getFxImage());
+                        this.setImage(Sprite.minvo_left2.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 3;
                         }
                     } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_left3.getFxImage());
+                        this.setImage(Sprite.minvo_left3.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 1;
@@ -74,19 +74,19 @@ public class Doll extends Enemy {
                     shouldMoveRight = true;
 
                     if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_right1.getFxImage());
+                        this.setImage(Sprite.minvo_right1.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 2;
                         }
                     } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_right2.getFxImage());
+                        this.setImage(Sprite.minvo_right2.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 3;
                         }
                     } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_right3.getFxImage());
+                        this.setImage(Sprite.minvo_right3.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 1;
@@ -114,19 +114,19 @@ public class Doll extends Enemy {
                     shouldMoveDown = true;
 
                     if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_left1.getFxImage());
+                        this.setImage(Sprite.minvo_left1.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 2;
                         }
                     } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_left2.getFxImage());
+                        this.setImage(Sprite.minvo_left2.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 3;
                         }
                     } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_left3.getFxImage());
+                        this.setImage(Sprite.minvo_left3.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 1;
@@ -154,19 +154,19 @@ public class Doll extends Enemy {
                     shouldMoveDown = true;
 
                     if (this.swapMoveImg == 1) {
-                        this.setImage(Sprite.doll_right1.getFxImage());
+                        this.setImage(Sprite.minvo_right1.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 2;
                         }
                     } else if (this.swapMoveImg == 2) {
-                        this.setImage(Sprite.doll_right2.getFxImage());
+                        this.setImage(Sprite.minvo_right2.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 3;
                         }
                     } else if (this.swapMoveImg == 3) {
-                        this.setImage(Sprite.doll_right3.getFxImage());
+                        this.setImage(Sprite.minvo_right3.getFxImage());
                         countFrame++;
                         if (countFrame == MAX_NUM_FRAMES) {
                             swapMoveImg = 1;
@@ -186,14 +186,14 @@ public class Doll extends Enemy {
         }
     }
 
-    private void killDoll() {
+    private void killMinvo() {
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
         }
 
         if (swapDeathImg == 1) {
             BombermanGame.soundControl.playSoundEnemyDie();
-            this.setImage(Sprite.doll_dead.getFxImage());
+            this.setImage(Sprite.minvo_dead.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {
                 swapDeathImg = 2;
@@ -223,9 +223,9 @@ public class Doll extends Enemy {
 
     public void update() {
         if (!isAlive) {
-            this.killDoll();
+            this.killMinvo();
         } else {
-            this.moveDoll();
+            this.moveMinvo();
         }
     }
 }
