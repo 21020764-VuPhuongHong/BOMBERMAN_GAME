@@ -218,6 +218,7 @@ public class Minvo extends Enemy {
             }
         } else {
             BombermanGame.listEnemies.remove(this);
+            BombermanGame.score += 400;
         }
     }
 

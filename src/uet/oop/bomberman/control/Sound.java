@@ -20,7 +20,7 @@ public class Sound {
 
     public void playSoundGame() {
         try {
-            String path_SG = "Sounds/SoundGame.wav";
+            String path_SG = "sounds/SoundGame.wav";
             URL url_SG = this.getClass().getClassLoader().getResource(path_SG);
 
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url_SG);
@@ -35,7 +35,7 @@ public class Sound {
 
     public void playSoundBomb() {
         try {
-            String path_SB = "Sounds/SoundBomb.wav";
+            String path_SB = "sounds/SoundBomb.wav";
             URL url_SB = this.getClass().getClassLoader().getResource(path_SB);
 
             AudioInputStream audioIn_SB = AudioSystem.getAudioInputStream(url_SB);
@@ -50,7 +50,7 @@ public class Sound {
 
     public void playSoundBomberDie() {
         try {
-            String path_click = "Sounds/SoundBomberDie.wav";
+            String path_click = "sounds/SoundBomberDie.wav";
             URL url_click = this.getClass().getClassLoader().getResource(path_click);
 
             AudioInputStream audioIn_click = AudioSystem.getAudioInputStream(url_click);
@@ -64,7 +64,7 @@ public class Sound {
 
     public void playSoundClick() {
         try {
-            String path_SC = "Sounds/sound_buttonClick.wav";
+            String path_SC = "sounds/sound_buttonClick.wav";
             URL url_SC = this.getClass().getClassLoader().getResource(path_SC);
 
             AudioInputStream audioIn_SC = AudioSystem.getAudioInputStream(url_SC);
@@ -79,7 +79,7 @@ public class Sound {
 
     public void playMoveItem() {
         try {
-            String path_MI = "Sounds/moveInItem.wav";
+            String path_MI = "sounds/moveInItem.wav";
             URL url_MI = this.getClass().getClassLoader().getResource(path_MI);
 
             AudioInputStream audioIn_MI = AudioSystem.getAudioInputStream(url_MI);
@@ -94,7 +94,7 @@ public class Sound {
 
     public void playSoundWinGame() {
         try {
-            String path_WG = "Sounds/win_game_sound.wav";
+            String path_WG = "sounds/win_game_sound.wav";
             URL url_WG = this.getClass().getClassLoader().getResource(path_WG);
 
             AudioInputStream audioIn_WG = AudioSystem.getAudioInputStream(url_WG);
@@ -109,7 +109,7 @@ public class Sound {
 
     public void playSoundNextLevel() {
         try {
-            String path_NL = "Sounds/next_level.wav";
+            String path_NL = "sounds/next_level.wav";
             URL url_NL = this.getClass().getClassLoader().getResource(path_NL);
 
             AudioInputStream audioIn_NL = AudioSystem.getAudioInputStream(url_NL);
@@ -124,7 +124,7 @@ public class Sound {
 
     public void playSoundGameOver() {
         try {
-            String path_GO = "Sounds/game_over.wav";
+            String path_GO = "sounds/game_over.wav";
             URL url_GO = this.getClass().getClassLoader().getResource(path_GO);
 
             AudioInputStream audioIn_GO = AudioSystem.getAudioInputStream(url_GO);
@@ -139,7 +139,7 @@ public class Sound {
 
     public void playSoundPutBomb() {
         try {
-            String path_PB = "Sounds/put_bomb_sound.wav";
+            String path_PB = "sounds/put_bomb_sound.wav";
             URL url_PB = this.getClass().getClassLoader().getResource(path_PB);
 
             AudioInputStream audioIn_PB = AudioSystem.getAudioInputStream(url_PB);
@@ -154,7 +154,7 @@ public class Sound {
 
     public void playSoundEnemyDie() {
         try {
-            String path_ED = "Sounds/enemy_die.wav";
+            String path_ED = "sounds/enemy_die.wav";
             URL url_ED = this.getClass().getClassLoader().getResource(path_ED);
 
             AudioInputStream audioIn_ED = AudioSystem.getAudioInputStream(url_ED);
@@ -169,7 +169,7 @@ public class Sound {
 
     public void playSoundLoseHeart() {
         try {
-            String path_LH = "Sounds/bomber_loses_heart.wav";
+            String path_LH = "sounds/bomber_loses_heart.wav";
             URL url_LH = this.getClass().getClassLoader().getResource(path_LH);
 
             AudioInputStream audioIn_LH = AudioSystem.getAudioInputStream(url_LH);

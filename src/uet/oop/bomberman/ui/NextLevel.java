@@ -1,7 +1,5 @@
 package uet.oop.bomberman.ui;
 
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import uet.oop.bomberman.BombermanGame;
@@ -11,14 +9,13 @@ import uet.oop.bomberman.level.Level3;
 public class NextLevel {
     private static Image levelImg;
     private static ImageView levelImgView;
-    private static Group root2 = new Group();
-    private static Scene scene2 = new Scene(root2);
     private static long startTime;
     public static long startLevelImgScene;
     public static final int TIME_SHOW_LEVEL_IMG = 2000;
 
     public static void createLevelImage() {
         startTime = System.currentTimeMillis();
+
         switch (BombermanGame.level) {
             case 1:
                 levelImg = new Image("textures/level1.png");
@@ -38,8 +35,8 @@ public class NextLevel {
         levelImgView.setScaleY(0.3728);
 
         startLevelImgScene = System.currentTimeMillis();
-        root2.getChildren().add(levelImgView);
-        BombermanGame.thisStage.setScene(scene2);
+        BombermanGame.root2.getChildren().add(levelImgView);
+        BombermanGame.thisStage.setScene(BombermanGame.scene2);
 
         while (System.currentTimeMillis() - startTime <= TIME_SHOW_LEVEL_IMG) {
 
@@ -47,6 +44,7 @@ public class NextLevel {
 
         BombermanGame.currentTime = System.currentTimeMillis();
         BombermanGame.thisStage.setScene(BombermanGame.scene);
+        BombermanGame.root2.getChildren().remove(levelImgView);
     }
 
     public static void nextLevel() {
@@ -70,7 +68,10 @@ public class NextLevel {
                 BombermanGame.listEnemies.clear();
 
                 BombermanGame.soundControl.playSoundWinGame();
+
+                HighScore.handleScore();
                 WinGame.createWinGameView();
+                HighScore.renderYourScoreView();
         }
     }
 }

@@ -14,13 +14,19 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class InfoLevel {
     private static ImageView bombImgView, heartImgView;
-    private static Text levelText, numBombsText, timeLeftText, numHeartsText;
+    private static Text levelText, numBombsText, timeLeftText, numHeartsText, scoreText;
 
     public static void createLevelInfo() {
+        scoreText = new Text("Score: 0");
+        scoreText.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 28));
+        scoreText.setFill(Color.WHITE);
+        scoreText.setX(75);
+        scoreText.setY(26);
+
         levelText = new Text("Level: 1");
         levelText.setFont(Font.font("Monotype Corsiva", FontWeight.BOLD, 28));
         levelText.setFill(Color.WHITE);
-        levelText.setX(260);
+        levelText.setX(275);
         levelText.setY(26);
 
         Image heartImg = new Image("textures/heart.png");
@@ -59,14 +65,15 @@ public class InfoLevel {
         pane.setMinSize(BombermanGame.WIDTH * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         pane.setMaxSize(BombermanGame.WIDTH * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         pane.setStyle("-fx-background-color: #000033");
-        pane.getChildren().addAll(levelText, bombImgView, numBombsText, timeLeftText, heartImgView, numHeartsText);
+        pane.getChildren().addAll(levelText, bombImgView, numBombsText, timeLeftText, heartImgView, numHeartsText, scoreText);
 
         BombermanGame.root.getChildren().add(pane);
     }
 
     public static void updateLevelInfo() {
         if (levelText != null && numBombsText != null
-                && timeLeftText != null && numHeartsText != null) {
+                && timeLeftText != null && numHeartsText != null && scoreText != null) {
+            scoreText.setText("Score: " + BombermanGame.score);
             levelText.setText("Level: " + BombermanGame.level);
             numBombsText.setText(": " + Bomb.numOfBombs);
             if (BombermanGame.timeLeft >= 0) {

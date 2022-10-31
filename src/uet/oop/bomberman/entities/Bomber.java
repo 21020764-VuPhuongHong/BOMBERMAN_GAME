@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.ui.HighScore;
 import uet.oop.bomberman.ui.GameOver;
 import uet.oop.bomberman.control.CollisionHandle;
 import uet.oop.bomberman.entities.enemies.Enemy;
@@ -72,9 +73,16 @@ public class Bomber extends Entity {
                 swapDeathImg = 4;
             }
         } else {
-            BombermanGame.entities.remove(this);
             BombermanGame.soundControl.playSoundGameOver();
+
+            BombermanGame.entities.clear();
+            BombermanGame.stillObjects.clear();
+            BombermanGame.listEnemies.clear();
+            BombermanGame.listBombs.clear();
+
+            HighScore.handleScore();
             GameOver.createGameOver();
+            HighScore.renderYourScoreView();
         }
     }
 

@@ -24,6 +24,8 @@ public class Level1 {
         FlamePassItem.isExplosionImmune = false;
         DetonatorItem.hasDetonator = false;
         Bomber.setHeart(3);
+        BombermanGame.score = 0;
+        BombermanGame.rank = 0;
 
         level1.buildConfig("res/levels/Level1.txt");
         Items.isUncovered = new boolean[ConfigLevel.width][ConfigLevel.height];

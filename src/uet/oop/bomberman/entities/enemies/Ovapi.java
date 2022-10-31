@@ -218,6 +218,7 @@ public class Ovapi extends Enemy {
             }
         } else {
             BombermanGame.listEnemies.remove(this);
+            BombermanGame.score += 1000;
         }
     }
 

@@ -5,8 +5,6 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.util.Random;
-
 public class Ballom extends Enemy {
     public static boolean spawn = false;
     public static int spawnPosX;
@@ -149,6 +147,7 @@ public class Ballom extends Enemy {
             }
         } else {
             BombermanGame.listEnemies.remove(this);
+            BombermanGame.score += 100;
         }
     }
 
