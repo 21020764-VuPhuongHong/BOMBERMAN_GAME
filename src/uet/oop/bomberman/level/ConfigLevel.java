@@ -1,9 +1,9 @@
 package uet.oop.bomberman.level;
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.block.Brick;
-import uet.oop.bomberman.entities.block.Grass;
-import uet.oop.bomberman.entities.block.Wall;
+import uet.oop.bomberman.entities.Brick;
+import uet.oop.bomberman.entities.still_block.Grass;
+import uet.oop.bomberman.entities.still_block.Wall;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.entities.Entity;
@@ -88,6 +88,18 @@ public class ConfigLevel {
                     case '5':
                         Ovapi e5 = new Ovapi(j, i, Sprite.ovapi_left1.getFxImage());
                         BombermanGame.listEnemies.add(e5);
+                        break;
+                    case '6':
+                        Kondoria e6 = new Kondoria(j, i, Sprite.kondoria_left1.getFxImage());
+                        BombermanGame.listEnemies.add(e6);
+                        break;
+                    case '7':
+                        Pass e7 = new Pass(j, i, Sprite.pass_left1.getFxImage());
+                        BombermanGame.listEnemies.add(e7);
+                        break;
+                    case '8':
+                        Pontan e8 = new Pontan(j, i, Sprite.pontan_left1.getFxImage());
+                        BombermanGame.listEnemies.add(e8);
                         break;
                     case 'f':
                         FlameItem flameItem = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());

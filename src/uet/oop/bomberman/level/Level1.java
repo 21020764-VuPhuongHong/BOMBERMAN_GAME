@@ -27,7 +27,7 @@ public class Level1 {
         BombermanGame.score = 0;
         BombermanGame.rank = 0;
 
-        level1.buildConfig("res/levels/Level1.txt");
+        level1.buildConfig("res/levels/Level1a.txt");
         Items.isUncovered = new boolean[ConfigLevel.width][ConfigLevel.height];
     }
 

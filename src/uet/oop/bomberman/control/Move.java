@@ -3,9 +3,13 @@ package uet.oop.bomberman.control;
 import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.enemies.Kondoria;
 import uet.oop.bomberman.entities.enemies.Ovapi;
+import uet.oop.bomberman.entities.enemies.Pontan;
 import uet.oop.bomberman.entities.items.BombPassItem;
 import uet.oop.bomberman.entities.items.WallPassItem;
+
+import java.security.Key;
 
 public class Move {
     public static void moveLeft(Entity e) {
@@ -38,18 +42,26 @@ public class Move {
         }
 
         if (CollisionHandle.checkBomb(e.getX() - e.getVelocityX(), e.getY())) {
-            if (e instanceof Bomber && BombPassItem.canPassBomb) {
-                return true;
-            }
+            if (!(e instanceof Bomber)) {
+                return false;
+            } else {
+                boolean bomberCanMove = false;
 
-            if (e instanceof Bomber && Bomb.bomberFirstGoLeftThroughBomb) {
-                Bomb.bomberFirstGoRightThroughBomb = false;
-                Bomb.bomberFirstGoUpThroughBomb = false;
-                Bomb.bomberFirstGoDownThroughBomb = false;
-                return true;
-            }
+                if (BombPassItem.canPassBomb) {
+                    bomberCanMove = true;
+                }
 
-            return false;
+                if (Bomb.bomberFirstGoLeftThroughBomb) {
+                    Bomb.bomberFirstGoRightThroughBomb = false;
+                    Bomb.bomberFirstGoUpThroughBomb = false;
+                    Bomb.bomberFirstGoDownThroughBomb = false;
+                    bomberCanMove = true;
+                }
+
+                if (!bomberCanMove) {
+                    return false;
+                }
+            }
         }
 
         if (CollisionHandle.checkBrick(e.getX() - e.getVelocityX(), e.getY())) {
@@ -57,7 +69,7 @@ public class Move {
                 return true;
             }
 
-            if (e instanceof Ovapi) {
+            if (e instanceof Ovapi || e instanceof Kondoria || e instanceof Pontan) {
                 return true;
             }
 
@@ -73,18 +85,26 @@ public class Move {
         }
 
         if (CollisionHandle.checkBomb(e.getX() + e.getVelocityX(), e.getY())) {
-            if (e instanceof Bomber && BombPassItem.canPassBomb) {
-                return true;
-            }
+            if (!(e instanceof Bomber)) {
+                return false;
+            } else {
+                boolean bomberCanMove = false;
 
-            if (e instanceof Bomber && Bomb.bomberFirstGoRightThroughBomb) {
-                Bomb.bomberFirstGoLeftThroughBomb = false;
-                Bomb.bomberFirstGoUpThroughBomb = false;
-                Bomb.bomberFirstGoDownThroughBomb = false;
-                return true;
-            }
+                if (BombPassItem.canPassBomb) {
+                    bomberCanMove = true;
+                }
 
-            return false;
+                if (Bomb.bomberFirstGoRightThroughBomb) {
+                    Bomb.bomberFirstGoLeftThroughBomb = false;
+                    Bomb.bomberFirstGoUpThroughBomb = false;
+                    Bomb.bomberFirstGoDownThroughBomb = false;
+                    bomberCanMove = true;
+                }
+
+                if (!bomberCanMove) {
+                    return false;
+                }
+            }
         }
 
         if (CollisionHandle.checkBrick(e.getX() + e.getVelocityX(), e.getY())) {
@@ -92,7 +112,7 @@ public class Move {
                 return true;
             }
 
-            if (e instanceof Ovapi) {
+            if (e instanceof Ovapi || e instanceof Kondoria || e instanceof Pontan) {
                 return true;
             }
 
@@ -108,18 +128,26 @@ public class Move {
         }
 
         if (CollisionHandle.checkBomb(e.getX(), e.getY() - e.getVelocityY())) {
-            if (e instanceof Bomber && BombPassItem.canPassBomb) {
-                return true;
-            }
+            if (!(e instanceof Bomber)) {
+                return false;
+            } else {
+                boolean bomberCanMove = false;
 
-            if (e instanceof Bomber && Bomb.bomberFirstGoUpThroughBomb) {
-                Bomb.bomberFirstGoLeftThroughBomb = false;
-                Bomb.bomberFirstGoRightThroughBomb = false;
-                Bomb.bomberFirstGoDownThroughBomb = false;
-                return true;
-            }
+                if (BombPassItem.canPassBomb) {
+                    bomberCanMove = true;
+                }
 
-            return false;
+                if (Bomb.bomberFirstGoUpThroughBomb) {
+                    Bomb.bomberFirstGoLeftThroughBomb = false;
+                    Bomb.bomberFirstGoRightThroughBomb = false;
+                    Bomb.bomberFirstGoDownThroughBomb = false;
+                    bomberCanMove = true;
+                }
+
+                if (!bomberCanMove) {
+                    return false;
+                }
+            }
         }
 
         if (CollisionHandle.checkBrick(e.getX(), e.getY() - e.getVelocityY())) {
@@ -127,7 +155,7 @@ public class Move {
                 return true;
             }
 
-            if (e instanceof Ovapi) {
+            if (e instanceof Ovapi || e instanceof Kondoria || e instanceof Pontan) {
                 return true;
             }
 
@@ -143,18 +171,26 @@ public class Move {
         }
 
         if (CollisionHandle.checkBomb(e.getX(), e.getY() + e.getVelocityY())) {
-            if (e instanceof Bomber && BombPassItem.canPassBomb) {
-                return true;
-            }
+            if (!(e instanceof Bomber)) {
+                return false;
+            } else {
+                boolean bomberCanMove = false;
 
-            if (e instanceof Bomber && Bomb.bomberFirstGoDownThroughBomb) {
-                Bomb.bomberFirstGoLeftThroughBomb = false;
-                Bomb.bomberFirstGoRightThroughBomb = false;
-                Bomb.bomberFirstGoUpThroughBomb = false;
-                return true;
-            }
+                if (BombPassItem.canPassBomb) {
+                    bomberCanMove = true;
+                }
 
-            return false;
+                if (Bomb.bomberFirstGoDownThroughBomb) {
+                    Bomb.bomberFirstGoLeftThroughBomb = false;
+                    Bomb.bomberFirstGoRightThroughBomb = false;
+                    Bomb.bomberFirstGoUpThroughBomb = false;
+                    bomberCanMove = true;
+                }
+
+                if (!bomberCanMove) {
+                    return false;
+                }
+            }
         }
 
         if (CollisionHandle.checkBrick(e.getX(), e.getY() + e.getVelocityY())) {
@@ -162,7 +198,7 @@ public class Move {
                 return true;
             }
 
-            if (e instanceof Ovapi) {
+            if (e instanceof Ovapi || e instanceof Kondoria || e instanceof Pontan) {
                 return true;
             }
 

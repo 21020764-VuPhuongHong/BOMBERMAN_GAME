@@ -12,10 +12,7 @@ public abstract class Enemy extends Entity {
     public static final int MAX_NUM_FRAMES = 25;
     protected int countFrame = 0;
     public int direction = 0;
-    public boolean shouldMoveUp = true;
-    public boolean shouldMoveDown = true;
-    public boolean shouldMoveRight = true;
-    public boolean shouldMoveLeft = true;
+    public boolean[] shouldMove = {true, true, true, true};
     protected Random seed = new Random();
 
     public Enemy(int x, int y, Image img) {

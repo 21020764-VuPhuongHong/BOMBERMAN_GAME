@@ -14,7 +14,7 @@ public class Level3 {
         BombermanGame.listEnemies.clear();
         BombermanGame.listBombs.clear();
         Bomb.numOfBombs = 25;
-        BombermanGame.timeLeft = BombermanGame.TIME_FOR_LEVEL;
+        BombermanGame.timeLeft = BombermanGame.TIME_FOR_LEVEL - 150;
         BombermanGame.isStart = false;
         Bomber.setHeart(Bomber.getHeart() + 1);
 

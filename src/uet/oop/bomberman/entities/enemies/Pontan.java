@@ -2,149 +2,120 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.find_path.FindShortestPath;
+import uet.oop.bomberman.control.Move;
+import uet.oop.bomberman.find_path.SmartFindPath;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Doll extends Enemy {
+public class Pontan extends Enemy {
     public static boolean spawn = false;
     public static int spawnPosX;
     public static int spawnPosY;
 
-    public Doll(int x, int y, Image img) {
+    public Pontan(int x, int y, Image img) {
         super(x, y, img);
     }
 
-    private void moveDoll() {
-        this.setVelocity(2, 2);
-
-        direction = FindShortestPath.find(this, BombermanGame.bomberman);
+    private void movePontan() {
+        this.setVelocity(2 + seed.nextInt(2), 2 + seed.nextInt(2));
 
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
         }
 
+        if (BombermanGame.bomberman.getAliveState()) {
+            SmartFindPath.findPath(this);
+        }
+
         switch (direction) {
-            case -1:                                    // can't move
+            case 0:
+                Move.moveUp(this);
+
                 if (this.swapMoveImg == 1) {
-                    this.setImage(Sprite.doll_left1.getFxImage());
+                    this.setImage(Sprite.pontan_left1.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 2;
                     }
                 } else if (this.swapMoveImg == 2) {
-                    this.setImage(Sprite.doll_left2.getFxImage());
+                    this.setImage(Sprite.pontan_left2.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 3;
                     }
                 } else if (this.swapMoveImg == 3) {
-                    this.setImage(Sprite.doll_left3.getFxImage());
-                    countFrame++;
-                    if (countFrame == MAX_NUM_FRAMES) {
-                        swapMoveImg = 4;
-                    }
-                } else if (this.swapMoveImg == 4) {
-                    this.setImage(Sprite.doll_right1.getFxImage());
-                    countFrame++;
-                    if (countFrame == MAX_NUM_FRAMES) {
-                        swapMoveImg = 5;
-                    }
-                } else if (this.swapMoveImg == 5) {
-                    this.setImage(Sprite.doll_right2.getFxImage());
-                    countFrame++;
-                    if (countFrame == MAX_NUM_FRAMES) {
-                        swapMoveImg = 6;
-                    }
-                } else if (this.swapMoveImg == 6) {
-                    this.setImage(Sprite.doll_right3.getFxImage());
+                    this.setImage(Sprite.pontan_left3.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 1;
                     }
                 }
                 break;
+
             case 1:
-                this.setY(this.getY() - this.getVelocityY()); //move up
+                Move.moveDown(this);
+
                 if (this.swapMoveImg == 1) {
-                    this.setImage(Sprite.doll_left1.getFxImage());
+                    this.setImage(Sprite.pontan_right1.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 2;
                     }
                 } else if (this.swapMoveImg == 2) {
-                    this.setImage(Sprite.doll_left2.getFxImage());
+                    this.setImage(Sprite.pontan_right2.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 3;
                     }
                 } else if (this.swapMoveImg == 3) {
-                    this.setImage(Sprite.doll_left3.getFxImage());
+                    this.setImage(Sprite.pontan_right3.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 1;
                     }
                 }
                 break;
-            case 3:
-                this.setY(this.getY() + this.getVelocityY()); //move down
-                if (this.swapMoveImg == 1) {
-                    this.setImage(Sprite.doll_right1.getFxImage());
-                    countFrame++;
-                    if (countFrame == MAX_NUM_FRAMES) {
-                        swapMoveImg = 2;
-                    }
-                } else if (this.swapMoveImg == 2) {
-                    this.setImage(Sprite.doll_right2.getFxImage());
-                    countFrame++;
-                    if (countFrame == MAX_NUM_FRAMES) {
-                        swapMoveImg = 3;
-                    }
-                } else if (this.swapMoveImg == 3) {
-                    this.setImage(Sprite.doll_right3.getFxImage());
-                    countFrame++;
-                    if (countFrame == MAX_NUM_FRAMES) {
-                        swapMoveImg = 1;
-                    }
-                }
-                break;
+
             case 2:
-                this.setX(this.getX() + this.getVelocityX()); // move right
+                Move.moveLeft(this);
+
                 if (this.swapMoveImg == 1) {
-                    this.setImage(Sprite.doll_right1.getFxImage());
+                    this.setImage(Sprite.pontan_left1.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 2;
                     }
                 } else if (this.swapMoveImg == 2) {
-                    this.setImage(Sprite.doll_right2.getFxImage());
+                    this.setImage(Sprite.pontan_left2.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 3;
                     }
                 } else if (this.swapMoveImg == 3) {
-                    this.setImage(Sprite.doll_right3.getFxImage());
+                    this.setImage(Sprite.pontan_left3.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 1;
                     }
                 }
                 break;
-            case 4:
-                this.setX(this.getX() - this.getVelocityX()); // move left
+
+            case 3:
+                Move.moveRight(this);
+
                 if (this.swapMoveImg == 1) {
-                    this.setImage(Sprite.doll_left1.getFxImage());
+                    this.setImage(Sprite.pontan_right1.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 2;
                     }
                 } else if (this.swapMoveImg == 2) {
-                    this.setImage(Sprite.doll_left2.getFxImage());
+                    this.setImage(Sprite.pontan_right2.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 3;
                     }
                 } else if (this.swapMoveImg == 3) {
-                    this.setImage(Sprite.doll_left3.getFxImage());
+                    this.setImage(Sprite.pontan_right3.getFxImage());
                     countFrame++;
                     if (countFrame == MAX_NUM_FRAMES) {
                         swapMoveImg = 1;
@@ -154,14 +125,14 @@ public class Doll extends Enemy {
         }
     }
 
-    private void killDoll() {
+    private void killPontan() {
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
         }
 
         if (swapDeathImg == 1) {
             BombermanGame.soundControl.playSoundEnemyDie();
-            this.setImage(Sprite.doll_dead.getFxImage());
+            this.setImage(Sprite.pontan_dead.getFxImage());
             countFrame++;
             if (countFrame == MAX_NUM_FRAMES) {
                 swapDeathImg = 2;
@@ -186,15 +157,15 @@ public class Doll extends Enemy {
             }
         } else {
             BombermanGame.listEnemies.remove(this);
-            BombermanGame.score += 800;
+            BombermanGame.score += 2000;
         }
     }
 
     public void update() {
         if (!isAlive) {
-            this.killDoll();
+            this.killPontan();
         } else {
-            this.moveDoll();
+            this.movePontan();
         }
     }
 }

@@ -1,6 +1,5 @@
 package uet.oop.bomberman.entities;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.ui.HighScore;
@@ -96,9 +95,7 @@ public class Bomber extends Entity {
                 this.setAliveState(false);
             } else {
                 for (Enemy e : BombermanGame.listEnemies) {
-                    javafx.geometry.Rectangle2D rec1 = CollisionHandle.getBoundary(this);
-                    javafx.geometry.Rectangle2D rec2 = new Rectangle2D(rec1.getMinX(), rec1.getMinY(), rec1.getWidth() * 5 / 6, rec1.getHeight());
-                    if (CollisionHandle.intersects(e, rec2)) {
+                    if (CollisionHandle.intersects(e, this)) {
                         this.loseHeart();
                     }
                 }

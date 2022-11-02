@@ -3,7 +3,7 @@ package uet.oop.bomberman.entities.enemies;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.control.Move;
-import uet.oop.bomberman.find_path.FindPath1;
+import uet.oop.bomberman.find_path.SimpleFindPath;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Minvo extends Enemy {
@@ -21,17 +21,17 @@ public class Minvo extends Enemy {
             countFrame = 1;
         }
 
-        FindPath1.findPath(this);
+        SimpleFindPath.findPath(this);
 
         switch (direction) {
             case 0:
                 if (Move.canMoveUp(this)) {
 
-                    Move.moveUp(this);
+                    this.setY(this.getY() - this.getVelocityY());
 
-                    shouldMoveUp = true;
-                    shouldMoveLeft = true;
-                    shouldMoveRight = true;
+                    shouldMove[0] = true;
+                    shouldMove[2] = true;
+                    shouldMove[3] = true;
 
                     if (this.swapMoveImg == 1) {
                         this.setImage(Sprite.minvo_left1.getFxImage());
@@ -53,13 +53,13 @@ public class Minvo extends Enemy {
                         }
                     }
                 } else if (Move.canMoveDown(this)) {
-                    shouldMoveUp = false;
+                    shouldMove[0] = false;
                     direction = 1;
                 } else if (Move.canMoveLeft(this)) {
-                    shouldMoveUp = false;
+                    shouldMove[0] = false;
                     direction = 2;
                 } else {
-                    shouldMoveUp = false;
+                    shouldMove[0] = false;
                     direction = 3;
                 }
                 break;
@@ -67,11 +67,11 @@ public class Minvo extends Enemy {
             case 1:
                 if (Move.canMoveDown(this)) {
 
-                    Move.moveDown(this);
+                    this.setY(this.getY() + this.getVelocityY());
 
-                    shouldMoveDown = true;
-                    shouldMoveLeft = true;
-                    shouldMoveRight = true;
+                    shouldMove[1] = true;
+                    shouldMove[2] = true;
+                    shouldMove[3] = true;
 
                     if (this.swapMoveImg == 1) {
                         this.setImage(Sprite.minvo_right1.getFxImage());
@@ -93,13 +93,13 @@ public class Minvo extends Enemy {
                         }
                     }
                 } else if (Move.canMoveUp(this)) {
-                    shouldMoveDown = false;
+                    shouldMove[1] = false;
                     direction = 0;
                 } else if (Move.canMoveLeft(this)) {
-                    shouldMoveDown = false;
+                    shouldMove[1] = false;
                     direction = 2;
                 } else {
-                    shouldMoveDown = false;
+                    shouldMove[1] = false;
                     direction = 3;
                 }
                 break;
@@ -107,11 +107,11 @@ public class Minvo extends Enemy {
             case 2:
                 if (Move.canMoveLeft(this)) {
 
-                    Move.moveLeft(this);
+                    this.setX(this.getX() - this.getVelocityX());
 
-                    shouldMoveLeft = true;
-                    shouldMoveUp = true;
-                    shouldMoveDown = true;
+                    shouldMove[2] = true;
+                    shouldMove[0] = true;
+                    shouldMove[1] = true;
 
                     if (this.swapMoveImg == 1) {
                         this.setImage(Sprite.minvo_left1.getFxImage());
@@ -133,13 +133,13 @@ public class Minvo extends Enemy {
                         }
                     }
                 } else if (Move.canMoveRight(this)) {
-                    shouldMoveLeft = false;
+                    shouldMove[2] = false;
                     direction = 3;
                 } else if (Move.canMoveUp(this)) {
-                    shouldMoveLeft = false;
+                    shouldMove[2] = false;
                     direction = 0;
                 } else {
-                    shouldMoveLeft = false;
+                    shouldMove[2] = false;
                     direction = 1;
                 }
                 break;
@@ -147,11 +147,11 @@ public class Minvo extends Enemy {
             case 3:
                 if (Move.canMoveRight(this)) {
 
-                    Move.moveRight(this);
+                    this.setX(this.getX() + this.getVelocityX());
 
-                    shouldMoveRight = true;
-                    shouldMoveUp = true;
-                    shouldMoveDown = true;
+                    shouldMove[3] = true;
+                    shouldMove[0] = true;
+                    shouldMove[1] = true;
 
                     if (this.swapMoveImg == 1) {
                         this.setImage(Sprite.minvo_right1.getFxImage());
@@ -173,13 +173,13 @@ public class Minvo extends Enemy {
                         }
                     }
                 } else if (Move.canMoveLeft(this)) {
-                    shouldMoveRight = false;
+                    shouldMove[3] = false;
                     direction = 2;
                 } else if (Move.canMoveUp(this)) {
-                    shouldMoveRight = false;
+                    shouldMove[3] = false;
                     direction = 0;
                 } else {
-                    shouldMoveRight = false;
+                    shouldMove[3] = false;
                     direction = 1;
                 }
                 break;
