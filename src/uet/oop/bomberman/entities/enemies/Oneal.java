@@ -141,6 +141,7 @@ public class Oneal extends Enemy {
             }
         } else {
             BombermanGame.listEnemies.remove(this);
+            BombermanGame.score += 200;
         }
     }
 

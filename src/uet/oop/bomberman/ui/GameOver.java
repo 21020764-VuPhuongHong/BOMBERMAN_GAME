@@ -3,44 +3,27 @@ package uet.oop.bomberman.ui;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.level.Level1;
 
 public class GameOver {
+    private static long startTime;
+    private static final int TIME_SHOW_GAME_OVER_IMG = 5000;
+    private static ImageView gameOverView;
     public static void createGameOver() {
+        startTime = System.currentTimeMillis();
+
         Image gameOver = new Image("textures/game_over.png");
-        ImageView gameOverView = new ImageView(gameOver);
+        gameOverView = new ImageView(gameOver);
         gameOverView.setX(96);
-        gameOverView.setY(0);
+        gameOverView.setY(1);
         gameOverView.setScaleX(1.24);
 
-        Image replay = new Image("textures/replay_button1.png");
-        ImageView replayButtonView = new ImageView(replay);
-        replayButtonView.setX(88);
-        replayButtonView.setY(270);
-        replayButtonView.setScaleX(0.4);
-        replayButtonView.setScaleY(0.4);
+        BombermanGame.root2.getChildren().add(gameOverView);
+        BombermanGame.thisStage.setScene(BombermanGame.scene2);
 
-        BombermanGame.root.getChildren().add(gameOverView);
-        BombermanGame.root.getChildren().add(replayButtonView);
+        while (System.currentTimeMillis() - startTime <= TIME_SHOW_GAME_OVER_IMG) {
 
-        replayButtonView.setOnMouseEntered(mouseEvent -> {
-            BombermanGame.soundControl.playSoundClick();
-            replayButtonView.setImage(new Image("textures/replay_button2.png"));
-        });
-        replayButtonView.setOnMouseExited(mouseEvent -> {
-            BombermanGame.soundControl.playSoundClick();
-            replayButtonView.setImage(new Image("textures/replay_button1.png"));
-        });
-        replayButtonView.setOnMouseClicked(mouseEvent -> {
-            BombermanGame.soundControl.playSoundClick();
-
-            BombermanGame.root.getChildren().remove(gameOverView);
-            BombermanGame.root.getChildren().remove(replayButtonView);
-
-            Level1 level1 = new Level1();
-            level1.build();
-
-            NextLevel.createLevelImage();
-        });
+        }
+        BombermanGame.thisStage.setScene(BombermanGame.scene);
+        BombermanGame.root2.getChildren().remove(gameOverView);
     }
 }

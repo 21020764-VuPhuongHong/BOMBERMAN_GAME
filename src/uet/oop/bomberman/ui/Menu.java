@@ -11,6 +11,7 @@ public class Menu {
     private static ImageView playButtonView;
     private static ImageView exitButtonView;
     private static ImageView instructionButtonView;
+    private static ImageView highScoreButtonView;
 
     public static void createMenuBackground() {
         Image menuBg = new Image("textures/menuBg.png");
@@ -59,12 +60,23 @@ public class Menu {
         BombermanGame.root.getChildren().add(instructionButtonView);
     }
 
+    public static void createHighScoreButton() {
+        Image highScoreButton = new Image("textures/high_score_button1.png");
+        highScoreButtonView = new ImageView(highScoreButton);
+        highScoreButtonView.setX(421);
+        highScoreButtonView.setY(236);
+        highScoreButtonView.setScaleX(0.43);
+        highScoreButtonView.setScaleY(0.43);
+        BombermanGame.root.getChildren().add(highScoreButtonView);
+    }
+
     public static void createMenu() {
         createMenuBackground();
         createBbmText();
         createPlayButton();
         createExitButton();
         createInstructionButton();
+        createHighScoreButton();
     }
 
     public static void handleInsSubmenu() {
@@ -110,7 +122,8 @@ public class Menu {
         playButtonView.setOnMouseClicked(mouseEvent -> {
             BombermanGame.soundControl.playSoundClick();
 
-            BombermanGame.root.getChildren().removeAll(menuBgView, nameView, playButtonView, exitButtonView, instructionButtonView);
+            BombermanGame.root.getChildren().removeAll(menuBgView, nameView);
+            BombermanGame.root.getChildren().removeAll(playButtonView, exitButtonView, instructionButtonView, highScoreButtonView);
 
             Level1 level1 = new Level1();
             level1.build();
@@ -142,6 +155,19 @@ public class Menu {
         instructionButtonView.setOnMouseClicked(mouseEvent -> {
             BombermanGame.soundControl.playSoundClick();
             handleInsSubmenu();
+        });
+
+        highScoreButtonView.setOnMouseEntered(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
+            highScoreButtonView.setImage(new Image("textures/high_score_button2.png"));
+        });
+        highScoreButtonView.setOnMouseExited(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
+            highScoreButtonView.setImage(new Image("textures/high_score_button1.png"));
+        });
+        highScoreButtonView.setOnMouseClicked(mouseEvent -> {
+            BombermanGame.soundControl.playSoundClick();
+            HighScore.renderHighScoreView();
         });
     }
 }

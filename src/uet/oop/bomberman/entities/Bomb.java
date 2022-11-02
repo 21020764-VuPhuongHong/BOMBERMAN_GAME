@@ -8,7 +8,6 @@ import java.util.List;
 
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.control.CollisionHandle;
-import uet.oop.bomberman.entities.block.Brick;
 import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.entities.items.*;
 import uet.oop.bomberman.level.ConfigLevel;
@@ -447,14 +446,14 @@ public class Bomb extends Entity {
                 Ballom.spawnPosY = e.getY() / SCALED_SIZE;
             } else if (other instanceof WallPassItem && CollisionHandle.intersects(e, other)) {
                 BombermanGame.entities.remove(other);
-                Minvo.spawn = true;
-                Minvo.spawnPosX = e.getX() / SCALED_SIZE;
-                Minvo.spawnPosY = e.getY() / SCALED_SIZE;
-            } else if (other instanceof BombPassItem && CollisionHandle.intersects(e, other)) {
-                BombermanGame.entities.remove(other);
                 Ovapi.spawn = true;
                 Ovapi.spawnPosX = e.getX() / SCALED_SIZE;
                 Ovapi.spawnPosY = e.getY() / SCALED_SIZE;
+            } else if (other instanceof BombPassItem && CollisionHandle.intersects(e, other)) {
+                BombermanGame.entities.remove(other);
+                Minvo.spawn = true;
+                Minvo.spawnPosX = e.getX() / SCALED_SIZE;
+                Minvo.spawnPosY = e.getY() / SCALED_SIZE;
             } else if (other instanceof SpeedItem && CollisionHandle.intersects(e, other)) {
                 BombermanGame.entities.remove(other);
                 Doll.spawn = true;
@@ -462,18 +461,18 @@ public class Bomb extends Entity {
                 Doll.spawnPosY = e.getY() / SCALED_SIZE;
             } else if (other instanceof DetonatorItem && CollisionHandle.intersects(e, other)) {
                 BombermanGame.entities.remove(other);
-                Minvo.spawn = true;
-                Minvo.spawnPosX = e.getX() / SCALED_SIZE;
-                Minvo.spawnPosY = e.getY() / SCALED_SIZE;
+                Kondoria.spawn = true;
+                Kondoria.spawnPosX = e.getX() / SCALED_SIZE;
+                Kondoria.spawnPosY = e.getY() / SCALED_SIZE;
             } else if (other instanceof FlamePassItem && CollisionHandle.intersects(e, other)) {
                 BombermanGame.entities.remove(other);
-                Ovapi.spawn = true;
-                Ovapi.spawnPosX = e.getX() / SCALED_SIZE;
-                Ovapi.spawnPosY = e.getY() / SCALED_SIZE;
+                Pass.spawn = true;
+                Pass.spawnPosX = e.getX() / SCALED_SIZE;
+                Pass.spawnPosY = e.getY() / SCALED_SIZE;
             } else if (other instanceof Portal && CollisionHandle.intersects(e, other)) {
-                Ovapi.spawn = true;
-                Ovapi.spawnPosX = e.getX() / SCALED_SIZE;
-                Ovapi.spawnPosY = e.getY() / SCALED_SIZE;
+                Pontan.spawn = true;
+                Pontan.spawnPosX = e.getX() / SCALED_SIZE;
+                Pontan.spawnPosY = e.getY() / SCALED_SIZE;
             }
         }
     }
@@ -526,6 +525,18 @@ public class Bomb extends Entity {
             Ovapi ovapi = new Ovapi(Ovapi.spawnPosX, Ovapi.spawnPosY, Sprite.oneal_left1.getFxImage());
             BombermanGame.listEnemies.add(ovapi);
             Ovapi.spawn = false;
+        } else if (Kondoria.spawn) {
+            Kondoria kondoria = new Kondoria(Kondoria.spawnPosX, Kondoria.spawnPosY, Sprite.kondoria_left1.getFxImage());
+            BombermanGame.listEnemies.add(kondoria);
+            Kondoria.spawn = false;
+        } else if (Pass.spawn) {
+            Pass pass = new Pass(Pass.spawnPosX, Pass.spawnPosY, Sprite.pass_left1.getFxImage());
+            BombermanGame.listEnemies.add(pass);
+            Pass.spawn = false;
+        } else if (Pontan.spawn) {
+            Pontan pontan = new Pontan(Pontan.spawnPosX, Pontan.spawnPosY, Sprite.pontan_left1.getFxImage());
+            BombermanGame.listEnemies.add(pontan);
+            Pontan.spawn = false;
         }
     }
 

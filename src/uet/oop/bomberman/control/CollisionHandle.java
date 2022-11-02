@@ -4,17 +4,13 @@ import javafx.geometry.Rectangle2D;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomb;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.block.Brick;
-import uet.oop.bomberman.entities.block.Wall;
+import uet.oop.bomberman.entities.Brick;
+import uet.oop.bomberman.entities.still_block.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class CollisionHandle {
     public static Rectangle2D getBoundary(Entity e) {
         return new Rectangle2D(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-    }
-
-    public static boolean intersects(Rectangle2D rec1, Rectangle2D rec2) {
-        return rec2.intersects(rec1);
     }
 
     public static boolean intersects(Entity e, Rectangle2D rec) {

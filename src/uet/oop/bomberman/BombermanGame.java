@@ -21,8 +21,11 @@ import uet.oop.bomberman.ui.InfoLevel;
 import uet.oop.bomberman.ui.Menu;
 import uet.oop.bomberman.ui.NextLevel;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BombermanGame extends Application {
     private GraphicsContext gc;
@@ -41,6 +44,8 @@ public class BombermanGame extends Application {
     public static Group root;
     public static Scene scene;
     public static Stage thisStage;
+    public static Group root2 = new Group();
+    public static Scene scene2 = new Scene(root2);
     public static final int TIME_FOR_LEVEL = 300;
     public static int timeLeft = TIME_FOR_LEVEL;
     public static long currentTime;
@@ -48,13 +53,18 @@ public class BombermanGame extends Application {
     public static boolean isStart = false;
 
     public static Sound soundControl;
+    public static boolean isPaused = false;
+    public static int score = 0;
+    public static final int NUM_HIGH_SCORES = 3;
+    public static int[] highScore = new int[NUM_HIGH_SCORES];
+    public static int rank = 0;
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
         thisStage = stage;
 
         // Tao Canvas
@@ -66,6 +76,14 @@ public class BombermanGame extends Application {
         // Tao root container
         root = new Group();
         root.getChildren().add(canvas);
+
+        FileInputStream file = new FileInputStream("res/high_score/HighScore.txt");
+        Scanner sc = new Scanner(file);
+        for (int i = 0; i < NUM_HIGH_SCORES; i++) {
+            highScore[i] = sc.nextInt();
+        }
+        sc.close();
+        file.close();
 
         soundControl = new Sound();
         soundControl.playSoundGame();
@@ -83,7 +101,6 @@ public class BombermanGame extends Application {
         thisStage.getIcons().add(logo);
         thisStage.setResizable(false);
 
-
         // listen event of entity bomber
         scene.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
@@ -95,75 +112,87 @@ public class BombermanGame extends Application {
                             if (System.currentTimeMillis() - NextLevel.startLevelImgScene >= NextLevel.TIME_SHOW_LEVEL_IMG) {
                                 isStart = true;
                             }
-                        } else if (bomberman.getAliveState() && !e.isConsumed()) {
+                        } else if (bomberman != null && bomberman.getAliveState() && !e.isConsumed()) {
                             String code = e.getCode().toString();
-                            if (code.equals("SPACE")) {
-                                if (Bomb.numOfBombs > 0 && !CollisionHandle.checkBrick(bomberman.getX(), bomberman.getY())) {
-                                    if (listBombs.size() < Bomb.numBombsPutAtATime) {
-                                        Bomb bomb = new Bomb((bomberman.getX() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE,
-                                                (bomberman.getY() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
-                                        bomb.putBomb();
-                                        listBombs.add(bomb);
-                                    }
-                                }
-                            } else if (code.equals("B")) {
-                                if (DetonatorItem.hasDetonator && listBombs.size() > 0) {
-                                    if (!listBombs.get(0).isExplosionTriggered) {
-                                        listBombs.get(0).isExplosionTriggered = true;
-                                    }
-                                }
-                            } else if (code.equals("LEFT")) {
-                                currentFigure_bomber++;
-                                currentFigure_bomber %= 3;
+                            if (code.equals("P")) {
+                                isPaused = !isPaused;
+                            }
+                            if (!isPaused) {
+                                switch (code) {
+                                    case "SPACE":
+                                        if (Bomb.numOfBombs > 0 && !CollisionHandle.checkBrick(bomberman.getX(), bomberman.getY())) {
+                                            if (listBombs.size() < Bomb.numBombsPutAtATime) {
+                                                Bomb bomb = new Bomb((bomberman.getX() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE,
+                                                        (bomberman.getY() + Sprite.DEFAULT_SIZE) / Sprite.SCALED_SIZE, Sprite.bomb.getFxImage());
+                                                bomb.putBomb();
+                                                listBombs.add(bomb);
+                                            }
+                                        }
+                                        break;
+                                    case "B":
+                                        if (DetonatorItem.hasDetonator && listBombs.size() > 0) {
+                                            if (!listBombs.get(0).isExplosionTriggered) {
+                                                listBombs.get(0).isExplosionTriggered = true;
+                                            }
+                                        }
+                                        break;
+                                    case "LEFT":
+                                        currentFigure_bomber++;
+                                        currentFigure_bomber %= 3;
 
-                                Move.moveLeft(bomberman);
+                                        Move.moveLeft(bomberman);
 
-                                if (currentFigure_bomber == 0) {
-                                    bomberman.setImage(Sprite.player_left.getFxImage());
-                                } else if (currentFigure_bomber == 1) {
-                                    bomberman.setImage(Sprite.player_left_1.getFxImage());
-                                } else {
-                                    bomberman.setImage(Sprite.player_left_2.getFxImage());
-                                }
-                            } else if (code.equals("RIGHT")) {
-                                currentFigure_bomber++;
-                                currentFigure_bomber %= 3;
+                                        if (currentFigure_bomber == 0) {
+                                            bomberman.setImage(Sprite.player_left.getFxImage());
+                                        } else if (currentFigure_bomber == 1) {
+                                            bomberman.setImage(Sprite.player_left_1.getFxImage());
+                                        } else {
+                                            bomberman.setImage(Sprite.player_left_2.getFxImage());
+                                        }
+                                        break;
+                                    case "RIGHT":
+                                        currentFigure_bomber++;
+                                        currentFigure_bomber %= 3;
 
-                                Move.moveRight(bomberman);
+                                        Move.moveRight(bomberman);
 
-                                if (currentFigure_bomber == 0) {
-                                    bomberman.setImage(Sprite.player_right.getFxImage());
-                                } else if (currentFigure_bomber == 1) {
-                                    bomberman.setImage(Sprite.player_right_1.getFxImage());
-                                } else {
-                                    bomberman.setImage(Sprite.player_right_2.getFxImage());
-                                }
+                                        if (currentFigure_bomber == 0) {
+                                            bomberman.setImage(Sprite.player_right.getFxImage());
+                                        } else if (currentFigure_bomber == 1) {
+                                            bomberman.setImage(Sprite.player_right_1.getFxImage());
+                                        } else {
+                                            bomberman.setImage(Sprite.player_right_2.getFxImage());
+                                        }
 
-                            } else if (code.equals("UP")) {
-                                currentFigure_bomber++;
-                                currentFigure_bomber %= 3;
+                                        break;
+                                    case "UP":
+                                        currentFigure_bomber++;
+                                        currentFigure_bomber %= 3;
 
-                                Move.moveUp(bomberman);
+                                        Move.moveUp(bomberman);
 
-                                if (currentFigure_bomber == 0) {
-                                    bomberman.setImage(Sprite.player_up.getFxImage());
-                                } else if (currentFigure_bomber == 1) {
-                                    bomberman.setImage(Sprite.player_up_1.getFxImage());
-                                } else {
-                                    bomberman.setImage(Sprite.player_up_2.getFxImage());
-                                }
-                            } else if (code.equals("DOWN")) {
-                                currentFigure_bomber++;
-                                currentFigure_bomber %= 3;
+                                        if (currentFigure_bomber == 0) {
+                                            bomberman.setImage(Sprite.player_up.getFxImage());
+                                        } else if (currentFigure_bomber == 1) {
+                                            bomberman.setImage(Sprite.player_up_1.getFxImage());
+                                        } else {
+                                            bomberman.setImage(Sprite.player_up_2.getFxImage());
+                                        }
+                                        break;
+                                    case "DOWN":
+                                        currentFigure_bomber++;
+                                        currentFigure_bomber %= 3;
 
-                                Move.moveDown(bomberman);
+                                        Move.moveDown(bomberman);
 
-                                if (currentFigure_bomber == 0) {
-                                    bomberman.setImage(Sprite.player_down.getFxImage());
-                                } else if (currentFigure_bomber == 1) {
-                                    bomberman.setImage(Sprite.player_down_1.getFxImage());
-                                } else {
-                                    bomberman.setImage(Sprite.player_down_2.getFxImage());
+                                        if (currentFigure_bomber == 0) {
+                                            bomberman.setImage(Sprite.player_down.getFxImage());
+                                        } else if (currentFigure_bomber == 1) {
+                                            bomberman.setImage(Sprite.player_down_1.getFxImage());
+                                        } else {
+                                            bomberman.setImage(Sprite.player_down_2.getFxImage());
+                                        }
+                                        break;
                                 }
                             }
                         }
@@ -193,16 +222,18 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        countTimeLeft();
-        InfoLevel.updateLevelInfo();
-        for (Entity e : entities) {
-            e.update();
-        }
-        for (Entity e : listEnemies) {
-            e.update();
-        }
-        for (Entity e : listBombs) {
-            e.update();
+        if (!isPaused) {
+            countTimeLeft();
+            InfoLevel.updateLevelInfo();
+            for (Entity e : entities) {
+                e.update();
+            }
+            for (Entity e : listEnemies) {
+                e.update();
+            }
+            for (Entity e : listBombs) {
+                e.update();
+            }
         }
     }
 
