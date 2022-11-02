@@ -2,8 +2,7 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.control.FindShortestPath;
-import uet.oop.bomberman.control.Move;
+import uet.oop.bomberman.find_path.FindShortestPath;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Doll extends Enemy {
@@ -18,8 +17,7 @@ public class Doll extends Enemy {
     private void moveDoll() {
         this.setVelocity(2, 2);
 
-        direction = FindShortestPath.Find(this, BombermanGame.bomberman);
-        System.out.println("direction: " + direction);
+        direction = FindShortestPath.find(this, BombermanGame.bomberman);
 
         if (countFrame > MAX_NUM_FRAMES) {
             countFrame = 1;
@@ -28,7 +26,6 @@ public class Doll extends Enemy {
         switch (direction) {
             case 1:
                 this.setY(this.getY() - this.getVelocityY());
-                //System.out.println("moveup");
                 if (this.swapMoveImg == 1) {
                     this.setImage(Sprite.doll_left1.getFxImage());
                     countFrame++;
