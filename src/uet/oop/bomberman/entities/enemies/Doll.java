@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.control.FindSortestPath;
+import uet.oop.bomberman.control.FindShortestPath;
 import uet.oop.bomberman.control.Move;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -18,7 +18,7 @@ public class Doll extends Enemy {
     private void moveDoll() {
         this.setVelocity(2, 2);
 
-        direction = FindSortestPath.Find(this, BombermanGame.bomberman);
+        direction = FindShortestPath.Find(this, BombermanGame.bomberman);
         System.out.println("direction: " + direction);
 
         if (countFrame > MAX_NUM_FRAMES) {

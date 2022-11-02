@@ -11,7 +11,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
 
-public class FindSortestPath extends CollisionHandle{
+public class FindShortestPath extends CollisionHandle{
     public static int mod = 99999;
     public static String hash(Rectangle2D rect) {
         Integer x = (int)rect.getMinX();
@@ -68,7 +68,7 @@ public class FindSortestPath extends CollisionHandle{
             int[] direct_x = {0, velocityX, 0, -velocityX};
             int[] direct_y = {-velocityY, 0, velocityY, 0};
 
-            int max_cell = 100000;
+            int max_cell = 9999;
 
             ArrayList <String> color = new ArrayList<>();
             int[] pre = new int[max_cell];
@@ -86,7 +86,7 @@ public class FindSortestPath extends CollisionHandle{
             /**color.add(getBoundary(s).hashCode());*/
             color.add(hash(getBoundary(s)));
 
-            System.out.println("s: " + hash(getBoundary(s)));
+            //System.out.println("s: " + hash(getBoundary(s)));
             int stop_point = R;
             boolean flag = false;
 
@@ -118,7 +118,7 @@ public class FindSortestPath extends CollisionHandle{
 
                     if(intersects(t, rect_move)) {
                         stop_point = R;
-                        System.out.println("stop_point" + stop_point);
+                        //System.out.println("stop_point" + stop_point);
                         flag = true;
                         break;
                     }
@@ -138,14 +138,14 @@ public class FindSortestPath extends CollisionHandle{
                 stop_point = pre[stop_point];
             }
 
-            System.out.println("right: " + R);
+            //System.out.println("right: " + R);
         }
         catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
 
-        System.out.println("trace: " + direct_res);
+        //System.out.println("trace: " + direct_res);
         return direct_res;
     }
 }
