@@ -40,7 +40,7 @@ Có nhiều loại Enemy trong Bomberman, tuy nhiên trong phiên bản này ch�
 - Khi các Flame xuất hiện, nếu có một đối tượng thuộc loại Brick/Wall nằm trên vị trí một trong các Flame thì độ dài Flame đó sẽ được giảm đi để sao cho Flame chỉ xuất hiện đến vị trí đối tượng Brick/Wall theo hướng xuất hiện. Lúc đó chỉ có đối tượng Brick/Wall bị ảnh hưởng bởi Flame, các đối tượng tiếp theo không bị ảnh hưởng. Còn nếu vật cản Flame là một đối tượng Bomb khác thì đối tượng Bomb đó cũng sẽ nổ ngay lập tức.
 
 ## Yêu cầu chung
-- <img src="res/done.png" alt="drawing" width="27"/> Có thể chơi được ít nhất cho một màn chơi (chiến thắng một màn chơi)
+- <img src="res/done.png" alt="drawing" width="27"/> Có thể chơi được ít nhất cho một màn chơi (chiến thắng một màn chơi): 3 level
 - <img src="res/done.png" alt="drawing" width="27"/> Có thể thay đổi được tệp cấu hình khác cho màn chơi (tương tự mẫu cho trước)
 
 ## Nhiệm vụ của bạn
@@ -57,4 +57,5 @@ Có nhiều loại Enemy trong Bomberman, tuy nhiên trong phiên bản này ch�
 - <img src="res/done.png" alt="drawing" width="27"/> Nâng cấp thuật toán tìm đường cho Enemy +0.5đ: SimpleFindPath, SmartFindPath và FindShortestPath
 - <img src="res/done.png" alt="drawing" width="27"/> Cài đặt thêm các loại Enemy khác: +0.25đ cho mỗi loại enemy: 6 loại: Doll, Minvo, Ovapi, Kondoria, Pass, Pontan.
 - <img src="res/done.png" alt="drawing" width="27"/> Xử lý hiệu ứng âm thanh (thêm music & sound effects) +1đ
+- <img src="res/done.png" alt="drawing" width="27"/> Tạo thêm các items: FlamePass, BombPass, WallPass, Detonator Item
 
